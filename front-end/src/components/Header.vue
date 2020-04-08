@@ -1,13 +1,16 @@
 <template>
   <div id="header">
-    <mdb-navbar color="black" position="top" dark>
+    <mdb-navbar color="mdb-color lighten-1" position="top" dark>
+      <!-- MAIN TITLE -->
       <mdb-navbar-brand>
         Nethackers
       </mdb-navbar-brand>
       <mdb-navbar-toggler>
         <mdb-navbar-nav right>
+          <!-- HOME ICON -->
           <mdb-nav-item to="/" active><mdb-icon icon="home"/></mdb-nav-item>
         </mdb-navbar-nav>
+        <!--SEARCH FORM -->
         <form>
           <mdb-input
             type="text"
