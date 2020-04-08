@@ -1,6 +1,7 @@
 <template>
   <div id="main-page">
     <mdb-container>
+      <!-- ENTRY CONTENT -->
       <mdb-row>
         <mdb-col col="12"
           ><h1>Nethackers</h1>
@@ -12,18 +13,28 @@
           ></mdb-col
         >
       </mdb-row>
+
+      <!-- OFFERS LIST -->
+      <mdb-row>
+        <mdb-col col="12">
+          <OffersList></OffersList>
+        </mdb-col>
+      </mdb-row>
     </mdb-container>
   </div>
 </template>
 
 <script>
 import { mdbContainer, mdbRow, mdbCol, mdbBtn } from "mdbvue";
+import OffersList from "./OffersList";
+
 export default {
   components: {
     mdbContainer,
     mdbRow,
     mdbCol,
     mdbBtn,
+    OffersList,
   },
 };
 </script>
@@ -32,6 +43,7 @@ export default {
 #main-page {
   .row {
     text-align: justify;
+    margin-bottom: 50px;
     #new {
       margin-left: 0;
     }

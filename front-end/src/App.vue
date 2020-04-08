@@ -20,7 +20,7 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
 
 #app {
-  font-family: "Lato", "Montserrat", Helvetica, Arial, sans-serif;
+  font-family: "Roboto", "Lato", "Montserrat", Helvetica, Arial, sans-serif;
   color: black;
 }
 </style>

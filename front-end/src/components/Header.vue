@@ -6,9 +6,7 @@
       </mdb-navbar-brand>
       <mdb-navbar-toggler>
         <mdb-navbar-nav right>
-          <mdb-nav-item to="/" active
-            ><mdb-btn><mdb-icon icon="home"/></mdb-btn
-          ></mdb-nav-item>
+          <mdb-nav-item to="/" active><mdb-icon icon="home"/></mdb-nav-item>
         </mdb-navbar-nav>
         <form>
           <mdb-input
