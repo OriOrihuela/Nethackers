@@ -1,22 +1,27 @@
 <template>
   <div id="offers-list">
     <hr />
+    <!-- MAIN TITLE -->
     <h2>Lista de ofertas</h2>
     <mdb-row class="oferta">
+      <!-- COMPANY AND JOB -->
       <mdb-col col="6" sm="3">
         <h3>Facebook</h3>
         <p class="puesto">React Developer</p>
       </mdb-col>
+      <!-- JOB LOCATION -->
       <mdb-col col="6" sm="3">
         <p class="etiqueta">Ubicación</p>
         <p class="nombre">Remoto</p>
       </mdb-col>
+      <!-- CONTRACT TYPE -->
       <mdb-col col="6" sm="3">
         <p class="etiqueta">Contrato</p>
         <p class="nombre">Tiempo Completo</p>
       </mdb-col>
+      <!-- MORE INFO ABOUT THE OFFER -->
       <mdb-col col="6" sm="3">
-        <mdb-btn color="green">Más info</mdb-btn>
+        <mdb-btn color="info">Más info</mdb-btn>
       </mdb-col>
     </mdb-row>
   </div>

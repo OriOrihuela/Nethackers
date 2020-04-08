@@ -8,12 +8,11 @@
           <h5>
             Encuentra y publica trabajos para Desarrolladores Web
           </h5>
-          <mdb-btn color="default" id="new"
+          <mdb-btn outline="green" id="new"
             >Pulsar para crear nueva oferta</mdb-btn
           ></mdb-col
         >
       </mdb-row>
-
       <!-- OFFERS LIST -->
       <mdb-row>
         <mdb-col col="12">
