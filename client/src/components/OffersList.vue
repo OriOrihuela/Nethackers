@@ -3,21 +3,21 @@
     <hr />
     <!-- MAIN TITLE -->
     <h2>Lista de ofertas</h2>
-    <mdb-row class="oferta">
+    <mdb-row class="offer">
       <!-- COMPANY AND JOB -->
       <mdb-col col="6" sm="3">
         <h3>Facebook</h3>
-        <p class="puesto">React Developer</p>
+        <p class="job">React Developer</p>
       </mdb-col>
       <!-- JOB LOCATION -->
       <mdb-col col="6" sm="3">
-        <p class="etiqueta">Ubicación</p>
-        <p class="nombre">Remoto</p>
+        <p class="tag">Ubicación</p>
+        <p class="location-type">Remoto</p>
       </mdb-col>
       <!-- CONTRACT TYPE -->
       <mdb-col col="6" sm="3">
-        <p class="etiqueta">Contrato</p>
-        <p class="nombre">Tiempo Completo</p>
+        <p class="tag">Contrato</p>
+        <p class="name">Tiempo Completo</p>
       </mdb-col>
       <!-- MORE INFO ABOUT THE OFFER -->
       <mdb-col col="6" sm="3">
