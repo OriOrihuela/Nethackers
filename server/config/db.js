@@ -10,9 +10,7 @@ require("dotenv").config({
 
 // Deactivating old and deprecated behaviours.
 MONGOOSE.set("useFindAndModify", false);
-
-// Promises with MongoDB.
-MONGOOSE.Promise = global.Promise;
+MONGOOSE.set("useCreateIndex", true);
 
 // MongoDB Atlas or localhost Mongodb.
 const MONGO_DB = process.env.MONGODB_ATLAS || process.env.LOCALHOST_MONGODB;

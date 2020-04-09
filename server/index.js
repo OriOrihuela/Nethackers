@@ -1,7 +1,9 @@
 "use strict";
 
-// Import some Node modules.
+// Import the App.
 const APP = require("./app");
+
+// Import the DB config file.
 require("./config/db");
 
 // Importing the "variables.env" file.
