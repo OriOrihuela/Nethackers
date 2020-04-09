@@ -11,7 +11,7 @@ MONGOOSE.set("useFindAndModify", false);
 MONGOOSE.Promise = global.Promise;
 
 // MongoDB Atlas and Heroku connection variables.
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 1212;
 const MONGO_DB = process.env.MONGODB_URI || "mongodb://localhost:27017/nethackers";
 
 // The connection to the local DB.
