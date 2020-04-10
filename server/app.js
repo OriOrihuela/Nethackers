@@ -7,6 +7,7 @@ const CORS = require("cors");
 const COOKIE_PARSER = require("cookie-parser");
 const SESSION = require("express-session");
 const MONGOOSE = require("mongoose");
+const REQUIRE_DIR = require("require-dir");
 const MongoStore = require("connect-mongo")(SESSION); // Passing the SESSION variable to the package.
 
 // Importing the "variables.env" file.
@@ -18,6 +19,10 @@ require("dotenv").config({
 const APP = EXPRESS();
 
 // Upload route files.
+const ROUTES = REQUIRE_DIR("./routes");
+
+// Add prefixes to the routes (if necessary).
+APP.use("/api", ROUTES.Offer);
 
 // Middlewares to process certain information before uploading some routes.
 APP.use(BODY_PARSER.urlencoded({ extended: false }));
@@ -27,7 +32,7 @@ APP.use(BODY_PARSER.json());
 APP.use(CORS());
 
 /**
- * With this we will have the variable "req.session" available in our controllers, 
+ * With this we will have the variable "req.session" available in our controllers,
  * and also a unique id for a user's session that we can access through the variable "req.sessionID".
  */
 APP.use(COOKIE_PARSER());
@@ -47,8 +52,6 @@ APP.use(
     }),
   })
 );
-
-// Add prefixes or upload the routes.
 
 // Handle production.
 if (process.env.NODE_ENV === "production") {

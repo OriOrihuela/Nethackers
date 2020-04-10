@@ -7,7 +7,7 @@
       <!-- COMPANY AND JOB -->
       <mdb-col col="6" sm="3">
         <h3>Facebook</h3>
-        <p class="job">React Developer</p>
+        <p class="tag">React Developer</p>
       </mdb-col>
       <!-- JOB LOCATION -->
       <mdb-col col="6" sm="3">
@@ -44,6 +44,12 @@ export default {
 #offers-list {
   h2 {
     margin-bottom: 50px;
+  }
+  .offer {
+    .tag {
+      font-family: "Verdana";
+      font-weight: bold;
+    }
   }
 }
 </style>

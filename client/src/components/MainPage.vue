@@ -1,26 +1,23 @@
-<template>
-  <div id="main-page">
-    <mdb-container>
-      <!-- ENTRY CONTENT -->
-      <mdb-row>
-        <mdb-col col="12"
-          ><h1>Nethackers</h1>
-          <h5>
-            Encuentra y publica trabajos para Desarrolladores Web
-          </h5>
-          <mdb-btn outline="green" id="new"
-            >Pulsar para crear nueva oferta</mdb-btn
-          ></mdb-col
-        >
-      </mdb-row>
-      <!-- OFFERS LIST -->
-      <mdb-row>
-        <mdb-col col="12">
-          <OffersList></OffersList>
-        </mdb-col>
-      </mdb-row>
-    </mdb-container>
-  </div>
+<template
+  ><mdb-container id="main-page">
+    <!-- ENTRY CONTENT -->
+    <mdb-row>
+      <mdb-col col="12"
+        ><h1>Nethackers</h1>
+        <h5>
+          Encuentra y publica trabajos para Desarrolladores Web
+        </h5>
+        <mdb-btn color="green" id="new" @click="createNewOffer"
+          >Crear nueva oferta</mdb-btn
+        ></mdb-col
+      >
+    </mdb-row>
+    <!-- OFFERS LIST -->
+    <mdb-row>
+      <mdb-col col="12">
+        <OffersList></OffersList>
+      </mdb-col> </mdb-row
+  ></mdb-container>
 </template>
 
 <script>
@@ -34,6 +31,11 @@ export default {
     mdbCol,
     mdbBtn,
     OffersList,
+  },
+  methods: {
+    createNewOffer() {
+      this.$router.push("/new-offer");
+    },
   },
 };
 </script>
