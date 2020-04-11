@@ -19,7 +19,8 @@
     "express-session": "^1.17.0",
     "mongoose": "^5.9.7",
     "require-dir": "^1.2.0",
-    "slug": "^2.1.1"
+    "slug": "^2.1.1",
+    "validator": "^13.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

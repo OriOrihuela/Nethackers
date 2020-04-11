@@ -21,11 +21,8 @@ const APP = EXPRESS();
 // Upload route files.
 const ROUTES = REQUIRE_DIR("./routes");
 
-// Add prefixes to the routes (if necessary).
-APP.use("/api", ROUTES.Offer);
-
 // Middlewares to process certain information before uploading some routes.
-APP.use(BODY_PARSER.urlencoded({ extended: false }));
+APP.use(BODY_PARSER.urlencoded({ extended: true }));
 APP.use(BODY_PARSER.json());
 
 // CORS (crossing access between domains -> allow HTTP / AJAX / Asynchronous requests).
@@ -62,6 +59,9 @@ if (process.env.NODE_ENV === "production") {
     response.sendFile(__dirname + "/public/index.html");
   });
 }
+
+// Add prefixes to the routes (if necessary).
+APP.use("/api", ROUTES.Offer);
 
 // Export of this modules to be used in "index.js".
 module.exports = APP;

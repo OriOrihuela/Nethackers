@@ -47,6 +47,10 @@ let OfferSchema = SCHEMA(
         cv: String,
       },
     ],
+    date: {
+      type: Date,
+      default: Date.now,
+    },
   },
   // With this option, we avoid the property "__v" that MongoDB sets to every document by default.
   {
@@ -55,7 +59,7 @@ let OfferSchema = SCHEMA(
 );
 
 // Using a Middleware before the model gets saved...
-OfferSchema.pre("save", (next) => {
+OfferSchema.pre("save", function (next) {
   // We create the URL of the offer.
   const URL = SLUG(this.title);
   this.url = `${URL}-${this._id}`; // offer-title-12333243...

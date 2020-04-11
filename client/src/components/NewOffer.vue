@@ -22,7 +22,7 @@
               icon="user"
               type="text"
               name="title"
-              required
+              v-model="offer.title"
             />
             <!-- COMPANY -->
             <mdb-input
@@ -30,7 +30,7 @@
               icon="building"
               type="text"
               name="company"
-              required
+              v-model="offer.company"
             />
             <!-- LOCATION -->
             <mdb-input
@@ -38,7 +38,7 @@
               icon="compass"
               type="text"
               name="location"
-              required
+              v-model="offer.location"
             />
             <!-- SALARY -->
             <mdb-input
@@ -46,12 +46,17 @@
               icon="dollar-sign"
               type="text"
               name="salary"
+              v-model="offer.salary"
             />
             <!-- CONTRACT -->
+            <label for="contract">Tipo de contrato</label>
             <div id="select">
               <mdb-icon icon="file-contract"></mdb-icon>
-              <select class="browser-default custom-select" name="contract">
-                <option selected disabled>Tipo de contrato</option>
+              <select
+                class="browser-default custom-select"
+                name="contract"
+                v-model="offer.contract"
+              >
                 <option value="Freelance">Freelance</option>
                 <option value="Tiempo Completo">Tiempo Completo</option>
                 <option value="Tiempo Parcial">Tiempo Parcial</option>
@@ -63,6 +68,7 @@
             <VueTrix
               inputName="description"
               placeholder="Escriba una breve descripción..."
+              v-model="offer.description"
             />
             <!-- SKILLS -->
             <h4 class="mt-5">Skills</h4>
@@ -72,8 +78,8 @@
               </li>
             </ul>
           </div>
+          <!-- SUBMIT -->
           <div class="text-center my-5">
-            <mdb-input id="skills" type="hidden" name="skills" />
             <mdb-btn outline="secondary" type="submit"
               >Enviar <mdb-icon far icon="paper-plane" class="ml-1"
             /></mdb-btn>
@@ -89,13 +95,16 @@ import {
   mdbContainer,
   mdbInput,
   mdbBtn,
-  mdbIcon,
+  mdbIcon
 } from "mdbvue";
 import VueTrix from "vue-trix";
 import json from "../assets/json/skills";
+import swal from "sweetalert";
+import axios from "axios";
+import { required } from "vuelidate/lib/validators";
 
 export default {
-  name: "NewOfferForm",
+  name: "NewOffer",
   components: {
     mdbRow,
     mdbCol,
@@ -103,42 +112,102 @@ export default {
     mdbInput,
     mdbBtn,
     mdbIcon,
-    VueTrix,
+    VueTrix
   },
   data() {
     return {
       skills: json.skills,
       selectedSkills: new Set(),
+      offer: {
+        title: null,
+        company: null,
+        location: null,
+        salary: null,
+        contract: null,
+        description: null,
+        skills: null
+      },
+      formSubmitted: false
     };
   },
   methods: {
     // Whenever the form is submitted...
     onSubmit() {
-      alert("juas");
+      this.formSubmitted = true;
+      // The validations have been touched...
+      this.$v.$touch();
+      // If the form is invalid...
+      if (this.$v.$invalid) {
+        swal(
+          "Woops! Faltan datos",
+          "Introduzca el titulo, compañía y/o localización",
+          "warning",
+          {
+            button: {
+              text: "¡Vooy!"
+            }
+          }
+        );
+        // Fails silently.
+        return false;
+      } else {
+        // Save the offer in DB.
+        axios.post("/api/offers/new", this.offer).then(response => {
+          // If everything works fine...
+          if (response.data.status === "success") {
+            // Tell the user OK.
+            swal(
+              "Oferta creada",
+              "¡La oferta se ha creado correctamente!",
+              "success"
+            );
+            // Redirect to home page.
+            this.$router.push("/");
+          } else {
+            // Tell the user ERROR.
+            swal(
+              "Creación fallida",
+              "La oferta no se ha guardado bien",
+              "error"
+            );
+          }
+        });
+      }
     },
+
     // This method add the selected skill to the set of skills and changes its style.
     addSkill(event) {
       // If the selected skill is already in the "selectedSkills" property...
       if (event.target.classList.contains("active")) {
         // Remove it from the Set.
-        this.selectedSkills.delete(event.target.textContent);
+        this.selectedSkills.delete(event.target.textContent.trim());
         // Remove the CSS class "active"
         event.target.classList.remove("active");
       } else {
         // The opposite: add it to the Set and add the "active" class.
-        this.selectedSkills.add(event.target.textContent);
+        this.selectedSkills.add(event.target.textContent.trim());
         event.target.classList.add("active");
       }
       this.updateSkillsInput();
     },
+
     // Whenever a skill is selected, the input hidden value must be updated.
     updateSkillsInput() {
       // Make an array from the Set of selected skills and...
       const SKILLS_ARRAY = [...this.selectedSkills];
       // Put it to the value of the input hidden with name "skills".
-      document.getElementById("skills").value = SKILLS_ARRAY;
-    },
+      this.offer.skills = SKILLS_ARRAY;
+    }
   },
+
+  // Form validatios.
+  validations: {
+    offer: {
+      title: { required },
+      company: { required },
+      location: { required }
+    }
+  }
 };
 </script>
 

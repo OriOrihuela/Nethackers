@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     createNewOffer() {
-      this.$router.push("/new-offer");
+      this.$router.push("/offers/new");
     },
   },
 };

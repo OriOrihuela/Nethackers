@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import MainPage from "./components/MainPage";
-import NewOfferForm from "./components/NewOfferForm";
+import NewOffer from "./components/NewOffer";
 
 Vue.use(Router);
 
@@ -14,8 +14,8 @@ export default new Router({
       component: MainPage,
     },
     {
-      path: "/new-offer",
-      component: NewOfferForm,
+      path: "/offers/new",
+      component: NewOffer,
     },
     // Redirection performed whenever the user enters a wrong URL.
     // { path: "*", component: ErrorComponent },
