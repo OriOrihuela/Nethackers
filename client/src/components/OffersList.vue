@@ -1,27 +1,33 @@
 <template>
   <div id="offers-list">
-    <hr />
     <!-- MAIN TITLE -->
-    <h2>Lista de ofertas</h2>
-    <mdb-row class="offer">
+    <h2 class="text-center">Lista de ofertas</h2>
+    <mdb-row
+      class="my-5 text-center"
+      v-for="(offer, index) in offers"
+      :key="offer._id"
+      :class="{ oddOffer: index % 2 === 0 }"
+    >
       <!-- COMPANY AND JOB -->
-      <mdb-col col="6" sm="3">
-        <h3>Facebook</h3>
-        <p class="tag">React Developer</p>
+      <mdb-col col="12" sm="3">
+        <h3>{{ offer.company }}</h3>
+        <p id="offer-title" class="tag">{{ offer.title }}</p>
       </mdb-col>
       <!-- JOB LOCATION -->
-      <mdb-col col="6" sm="3">
+      <mdb-col col="12" sm="3">
         <p class="tag">Ubicación</p>
-        <p class="location-type">Remoto</p>
+        <p class="location-type">{{ offer.location }}</p>
       </mdb-col>
       <!-- CONTRACT TYPE -->
-      <mdb-col col="6" sm="3">
+      <mdb-col col="12" sm="3">
         <p class="tag">Contrato</p>
-        <p class="name">Tiempo Completo</p>
+        <p class="name">{{ offer.contract }}</p>
       </mdb-col>
       <!-- MORE INFO ABOUT THE OFFER -->
-      <mdb-col col="6" sm="3">
-        <mdb-btn color="info">Más info</mdb-btn>
+      <mdb-col col="12" sm="3">
+        <mdb-btn color="info" @click="getOfferInfo(offer.url)"
+          >Más info</mdb-btn
+        >
       </mdb-col>
     </mdb-row>
   </div>
@@ -29,14 +35,38 @@
 
 <script>
 import { mdbBtn, mdbRow, mdbCol } from "mdbvue";
+import axios from "axios";
 
 export default {
   name: "OffersList",
   components: {
     mdbBtn,
     mdbRow,
-    mdbCol,
+    mdbCol
   },
+  data() {
+    return {
+      offers: null
+    };
+  },
+  // Whenever the component is built...
+  mounted() {
+    this.getOffers();
+  },
+  methods: {
+    // Retrieve all the offers from DB.
+    getOffers() {
+      axios.get("/api").then(response => {
+        if (response.data.status === "success") {
+          this.offers = response.data.offers;
+        }
+      });
+    },
+    // Redirect to the view of a single offer.
+    getOfferInfo(url) {
+      this.$router.push(`/offers/${url}`);
+    }
+  }
 };
 </script>
 
@@ -45,11 +75,23 @@ export default {
   h2 {
     margin-bottom: 50px;
   }
-  .offer {
-    .tag {
-      font-family: "Verdana";
+  .row {
+    padding: 15px;
+    margin-right: 0;
+    margin-left: 0;
+    align-items: center;
+    #offer-title {
       font-weight: bold;
     }
+
+    .tag {
+      font-family: "Verdana";
+      font-weight: bolder;
+    }
+  }
+  .oddOffer {
+    background-color: rgb(245, 245, 245);
+    border-radius: 15px;
   }
 }
 </style>

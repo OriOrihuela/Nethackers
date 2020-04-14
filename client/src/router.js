@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import MainPage from "./components/MainPage";
 import NewOffer from "./components/NewOffer";
+import Offer from "./components/Offer";
 
 Vue.use(Router);
 
@@ -11,13 +12,17 @@ export default new Router({
   routes: [
     {
       path: "/",
-      component: MainPage,
+      component: MainPage
     },
     {
       path: "/offers/new",
-      component: NewOffer,
+      component: NewOffer
     },
+    {
+      path: "/offers/:url",
+      component: Offer
+    }
     // Redirection performed whenever the user enters a wrong URL.
     // { path: "*", component: ErrorComponent },
-  ],
+  ]
 });

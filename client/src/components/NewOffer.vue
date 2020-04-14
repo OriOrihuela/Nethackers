@@ -188,11 +188,11 @@ export default {
         this.selectedSkills.add(event.target.textContent.trim());
         event.target.classList.add("active");
       }
-      this.updateSkillsInput();
+      this.updateSkills();
     },
 
-    // Whenever a skill is selected, the input hidden value must be updated.
-    updateSkillsInput() {
+    // Whenever a skill is selected, the total of skills selected must be updated.
+    updateSkills() {
       // Make an array from the Set of selected skills and...
       const SKILLS_ARRAY = [...this.selectedSkills];
       // Put it to the value of the input hidden with name "skills".
@@ -200,7 +200,7 @@ export default {
     }
   },
 
-  // Form validatios.
+  // Form validations.
   validations: {
     offer: {
       title: { required },

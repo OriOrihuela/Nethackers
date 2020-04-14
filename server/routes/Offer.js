@@ -12,6 +12,8 @@ const ROUTER = EXPRESS.Router();
 /**
  * GET routes.
  */
+ROUTER.get("/", OFFER_CONTROLLER.getOffers);
+ROUTER.get("/offers/:url", OFFER_CONTROLLER.getOffer);
 
 /**
  * POST routes.

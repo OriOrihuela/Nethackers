@@ -4,7 +4,7 @@
     <mdb-row>
       <mdb-col col="12"
         ><h1>Nethackers</h1>
-        <h5>
+        <h5 class="my-3">
           Encuentra y publica trabajos para Desarrolladores Web
         </h5>
         <mdb-btn color="green" id="new" @click="createNewOffer"
@@ -12,11 +12,9 @@
         ></mdb-col
       >
     </mdb-row>
+    <hr class="mb-5"/>
     <!-- OFFERS LIST -->
-    <mdb-row>
-      <mdb-col col="12">
-        <OffersList></OffersList>
-      </mdb-col> </mdb-row
+    <OffersList></OffersList
   ></mdb-container>
 </template>
 
@@ -30,13 +28,13 @@ export default {
     mdbRow,
     mdbCol,
     mdbBtn,
-    OffersList,
+    OffersList
   },
   methods: {
     createNewOffer() {
       this.$router.push("/offers/new");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -44,9 +42,16 @@ export default {
 #main-page {
   .row {
     text-align: justify;
-    margin-bottom: 50px;
     #new {
       margin-left: 0;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  #main-page {
+    .row {
+      text-align: center;
     }
   }
 }
