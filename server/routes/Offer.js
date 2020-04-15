@@ -18,11 +18,12 @@ ROUTER.get("/offers/:url", OFFER_CONTROLLER.getOffer);
 /**
  * POST routes.
  */
-ROUTER.post("/offers/new", OFFER_CONTROLLER.createNewOffer);
+ROUTER.post("/offers/new", OFFER_CONTROLLER.createOffer);
 
 /**
  * PUT routes.
  */
+ROUTER.put("/offers/edit/:url", OFFER_CONTROLLER.updateOffer);
 
 /**
  * DELETE routes.

@@ -46,7 +46,13 @@
         </mdb-col>
       </mdb-row>
       <!-- EDIT OFFER BUTTONS -->
-      <mdb-row> </mdb-row>
+      <mdb-row class="my-5"
+        ><mdb-col col="12" sm="4"
+          ><mdb-btn @click="editOffer(offer.url)"
+            ><mdb-icon icon="fas fa-edit" /> Editar</mdb-btn
+          ></mdb-col
+        ><mdb-col col="12" sm="4"></mdb-col><mdb-col col="12" sm="4"></mdb-col
+      ></mdb-row>
     </div>
     <div v-else class="text-center">
       <!-- LOADING CONTENT -->
@@ -65,7 +71,7 @@
 </template>
 
 <script>
-import { mdbContainer, mdbRow, mdbCol } from "mdbvue";
+import { mdbContainer, mdbRow, mdbCol, mdbBtn, mdbIcon } from "mdbvue";
 import axios from "axios";
 export default {
   name: "Offer",
@@ -73,7 +79,8 @@ export default {
     mdbContainer,
     mdbRow,
     mdbCol,
-    // mdbBtn
+    mdbBtn,
+    mdbIcon,
   },
   data() {
     return {
@@ -81,17 +88,22 @@ export default {
     };
   },
   // Whenever the component is built...
-  created() {
-    const OFFER_URL = this.$route.params.url;
-    this.getOffer(OFFER_URL);
+  mounted() {
+    this.getOffer(this.$route.params.url);
   },
   methods: {
+    // Behaviour to retrieve a single offer from the DB.
     getOffer(offerUrl) {
       axios.get("/api/offers/" + offerUrl).then((response) => {
         if (response.data.status === "success") {
           this.offer = response.data.offer;
         }
       });
+    },
+
+    // Behaviour to redirect to the edit mode of an offer.
+    editOffer(url) {
+      this.$router.push(`/offers/edit/${url}`);
     },
   },
 };
@@ -128,7 +140,7 @@ export default {
   #offer {
     .row {
       #skills-col {
-        margin-top: 20px;
+        margin-top: 25px;
       }
     }
   }

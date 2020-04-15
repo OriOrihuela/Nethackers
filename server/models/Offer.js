@@ -61,8 +61,7 @@ let OfferSchema = SCHEMA(
 // Using a Middleware before the model gets saved...
 OfferSchema.pre("save", function (next) {
   // We create the URL of the offer.
-  const URL = SLUG(this.title);
-  this.url = `${URL}-${this._id}`; // offer-title-12333243...
+  this.url = `${SLUG(this.title)}-${this._id}`; // offer-title-12333243...
   next();
 });
 

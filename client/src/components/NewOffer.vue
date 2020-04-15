@@ -95,7 +95,7 @@ import {
   mdbContainer,
   mdbInput,
   mdbBtn,
-  mdbIcon
+  mdbIcon,
 } from "mdbvue";
 import VueTrix from "vue-trix";
 import json from "../assets/json/skills";
@@ -112,7 +112,7 @@ export default {
     mdbInput,
     mdbBtn,
     mdbIcon,
-    VueTrix
+    VueTrix,
   },
   data() {
     return {
@@ -125,9 +125,9 @@ export default {
         salary: null,
         contract: null,
         description: null,
-        skills: null
+        skills: null,
       },
-      formSubmitted: false
+      formSubmitted: false,
     };
   },
   methods: {
@@ -140,19 +140,19 @@ export default {
       if (this.$v.$invalid) {
         swal(
           "Woops! Faltan datos",
-          "Introduzca el titulo, compañía y/o localización",
+          `Introduzca el titulo, compañía, localización y/o tipo de contrato`,
           "warning",
           {
             button: {
-              text: "¡Vooy!"
-            }
+              text: "¡Vooy!",
+            },
           }
         );
         // Fails silently.
         return false;
       } else {
         // Save the offer in DB.
-        axios.post("/api/offers/new", this.offer).then(response => {
+        axios.post("/api/offers/new", this.offer).then((response) => {
           // If everything works fine...
           if (response.data.status === "success") {
             // Tell the user OK.
@@ -197,7 +197,7 @@ export default {
       const SKILLS_ARRAY = [...this.selectedSkills];
       // Put it to the value of the input hidden with name "skills".
       this.offer.skills = SKILLS_ARRAY;
-    }
+    },
   },
 
   // Form validations.
@@ -205,9 +205,10 @@ export default {
     offer: {
       title: { required },
       company: { required },
-      location: { required }
-    }
-  }
+      location: { required },
+      contract: { required },
+    },
+  },
 };
 </script>
 
