@@ -1,7 +1,7 @@
 <template
   ><mdb-container id="main-page">
     <!-- ENTRY CONTENT -->
-    <mdb-row>
+    <mdb-row class="mb-4">
       <mdb-col col="12"
         ><h1>Nethackers</h1>
         <h5 class="my-3">

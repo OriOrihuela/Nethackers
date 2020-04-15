@@ -58,6 +58,7 @@ export default {
 
 <style lang="scss" scoped>
 #footer {
+  margin-top: 75px;
   .flex-center {
     justify-content: space-evenly;
   }

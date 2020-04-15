@@ -1,42 +1,66 @@
 <template>
   <mdb-container id="offer">
-    <mdb-row>
-      <mdb-col col="12"
-        ><h1>{{ offer.title }}</h1></mdb-col
-      >
-    </mdb-row>
-    <hr />
-    <mdb-row>
-      <mdb-col col="6" sm="3">
-        <p>Empresa</p>
-        <p>{{ offer.company }}</p>
-      </mdb-col>
-      <mdb-col col="6" sm="3">
-        <p>Ubicación</p>
-        <p>{{ offer.location }}</p>
-      </mdb-col>
-      <mdb-col col="6" sm="3">
-        <p>Contrato</p>
-        <p>{{ offer.contract }}</p>
-      </mdb-col>
-      <mdb-col col="6" sm="3">
-        <p>Salario</p>
-        <p>{{ offer.salary }}</p>
-      </mdb-col>
-    </mdb-row>
-    <hr />
-    <mdb-row>
-      <mdb-col col="6"
-        ><h2>Descripción del puesto</h2>
-        <div v-html="offer.description"></div
-      ></mdb-col>
-      <mdb-col col="6">
-        <h2>Skills necesarias</h2>
-        <ul>
-          <li v-for="skill in offer.skills" :key="skill">{{ skill }}</li>
-        </ul>
-      </mdb-col>
-    </mdb-row>
+    <div v-if="offer">
+      <!-- OFFER TITLE -->
+      <mdb-row class="mb-5">
+        <mdb-col col="12"
+          ><h1 id="title">{{ offer.title }}</h1></mdb-col
+        >
+      </mdb-row>
+      <hr />
+      <mdb-row>
+        <!-- OFFER COMPANY -->
+        <mdb-col col="6" sm="3">
+          <p class="tag">Empresa</p>
+          <p>{{ offer.company }}</p>
+        </mdb-col>
+        <!-- OFFER LOCATION -->
+        <mdb-col col="6" sm="3">
+          <p class="tag">Ubicación</p>
+          <p>{{ offer.location }}</p>
+        </mdb-col>
+        <!-- OFFER CONTRACT TYPE -->
+        <mdb-col col="6" sm="3">
+          <p class="tag">Contrato</p>
+          <p>{{ offer.contract }}</p>
+        </mdb-col>
+        <!-- OFFER SALARY -->
+        <mdb-col col="6" sm="3">
+          <p class="tag">Salario</p>
+          <p>{{ offer.salary }}</p>
+        </mdb-col>
+      </mdb-row>
+      <hr class="mb-5" />
+      <mdb-row>
+        <!-- OFFER DESCRIPTION -->
+        <mdb-col col="12" sm="6"
+          ><h4 class="tag mb-3">Descripción del puesto</h4>
+          <div id="description" v-html="offer.description"></div
+        ></mdb-col>
+        <!-- OFFER REQUIRED SKILLS -->
+        <mdb-col id="skills-col" col="12" sm="6">
+          <h4 class="tag mb-3">Skills necesarias</h4>
+          <ul id="skills">
+            <li v-for="skill in offer.skills" :key="skill">{{ skill }}</li>
+          </ul>
+        </mdb-col>
+      </mdb-row>
+      <!-- EDIT OFFER BUTTONS -->
+      <mdb-row> </mdb-row>
+    </div>
+    <div v-else class="text-center">
+      <!-- LOADING CONTENT -->
+      <mdb-row>
+        <mdb-col col="12 mb-5">
+          <div class="spinner-grow text-dark" role="status"></div>
+        </mdb-col>
+        <mdb-col>
+          <h4>
+            Cargando...
+          </h4></mdb-col
+        >
+      </mdb-row>
+    </div>
   </mdb-container>
 </template>
 
@@ -48,29 +72,65 @@ export default {
   components: {
     mdbContainer,
     mdbRow,
-    mdbCol
+    mdbCol,
     // mdbBtn
   },
   data() {
     return {
-      offer: null
+      offer: null,
     };
   },
   // Whenever the component is built...
-  mounted() {
+  created() {
     const OFFER_URL = this.$route.params.url;
     this.getOffer(OFFER_URL);
   },
   methods: {
     getOffer(offerUrl) {
-      axios.get("/api/offers/" + offerUrl).then(response => {
+      axios.get("/api/offers/" + offerUrl).then((response) => {
         if (response.data.status === "success") {
           this.offer = response.data.offer;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#offer {
+  .row {
+    text-align: center;
+    #title {
+      font-weight: bold;
+    }
+    .col-6 {
+      .tag {
+        font-weight: bolder;
+        font-family: "Verdana";
+      }
+      p {
+        margin-top: 1rem;
+      }
+    }
+    #description {
+      word-wrap: break-word;
+      text-align: justify !important;
+    }
+    #skills {
+      padding-left: 0;
+      list-style: none;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  #offer {
+    .row {
+      #skills-col {
+        margin-top: 20px;
+      }
+    }
+  }
+}
+</style>

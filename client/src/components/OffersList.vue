@@ -2,34 +2,49 @@
   <div id="offers-list">
     <!-- MAIN TITLE -->
     <h2 class="text-center">Lista de ofertas</h2>
-    <mdb-row
-      class="my-5 text-center"
-      v-for="(offer, index) in offers"
-      :key="offer._id"
-      :class="{ oddOffer: index % 2 === 0 }"
-    >
-      <!-- COMPANY AND JOB -->
-      <mdb-col col="12" sm="3">
-        <h3>{{ offer.company }}</h3>
-        <p id="offer-title" class="tag">{{ offer.title }}</p>
-      </mdb-col>
-      <!-- JOB LOCATION -->
-      <mdb-col col="12" sm="3">
-        <p class="tag">Ubicación</p>
-        <p class="location-type">{{ offer.location }}</p>
-      </mdb-col>
-      <!-- CONTRACT TYPE -->
-      <mdb-col col="12" sm="3">
-        <p class="tag">Contrato</p>
-        <p class="name">{{ offer.contract }}</p>
-      </mdb-col>
-      <!-- MORE INFO ABOUT THE OFFER -->
-      <mdb-col col="12" sm="3">
-        <mdb-btn color="info" @click="getOfferInfo(offer.url)"
-          >Más info</mdb-btn
+    <div v-if="offers">
+      <mdb-row
+        class="my-5 text-center"
+        v-for="(offer, index) in offers"
+        :key="offer._id"
+        :class="{ oddOffer: index % 2 === 0 }"
+      >
+        <!-- COMPANY AND JOB -->
+        <mdb-col class="mt-3" col="12" sm="3">
+          <h3>{{ offer.company }}</h3>
+          <p id="offer-title">{{ offer.title }}</p>
+        </mdb-col>
+        <!-- JOB LOCATION -->
+        <mdb-col class="mt-3" col="12" sm="3">
+          <p class="tag">Ubicación</p>
+          <p class="location-type">{{ offer.location }}</p>
+        </mdb-col>
+        <!-- CONTRACT TYPE -->
+        <mdb-col class="mt-3" col="12" sm="3">
+          <p class="tag">Contrato</p>
+          <p class="name">{{ offer.contract }}</p>
+        </mdb-col>
+        <!-- MORE INFO ABOUT THE OFFER -->
+        <mdb-col class="mt-2" col="12" sm="3">
+          <mdb-btn color="info" @click="getOfferInfo(offer.url)"
+            >Más info</mdb-btn
+          >
+        </mdb-col>
+      </mdb-row>
+    </div>
+    <div v-else>
+      <!-- LOADING CONTENT -->
+      <mdb-row class="text-center">
+        <mdb-col col="12 mb-5">
+          <div class="spinner-grow text-dark" role="status"></div>
+        </mdb-col>
+        <mdb-col>
+          <h4>
+            Cargando...
+          </h4></mdb-col
         >
-      </mdb-col>
-    </mdb-row>
+      </mdb-row>
+    </div>
   </div>
 </template>
 
@@ -83,7 +98,6 @@ export default {
     #offer-title {
       font-weight: bold;
     }
-
     .tag {
       font-family: "Verdana";
       font-weight: bolder;
