@@ -101,7 +101,7 @@ import VueTrix from "vue-trix";
 import json from "../assets/json/skills";
 import swal from "sweetalert";
 import axios from "axios";
-import { required } from "vuelidate/lib/validators";
+import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
   name: "NewOffer",
@@ -140,7 +140,7 @@ export default {
       if (this.$v.$invalid) {
         swal(
           "Woops! Faltan datos",
-          `Introduzca el titulo, compañía, localización y/o tipo de contrato`,
+          `Rellene los campos restantes de la oferta`,
           "warning",
           {
             button: {
@@ -207,6 +207,8 @@ export default {
       company: { required },
       location: { required },
       contract: { required },
+      description: { required, minLength: minLength(100) },
+      skills: { required, minLength: minLength(2) },
     },
   },
 };

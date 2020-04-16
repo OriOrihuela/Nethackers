@@ -33,26 +33,41 @@
       <hr class="mb-5" />
       <mdb-row>
         <!-- OFFER DESCRIPTION -->
-        <mdb-col col="12" sm="6"
+        <mdb-col col="12"
           ><h4 class="tag mb-3">Descripción del puesto</h4>
           <div id="description" v-html="offer.description"></div
         ></mdb-col>
+      </mdb-row>
+      <mdb-row class="my-5">
         <!-- OFFER REQUIRED SKILLS -->
         <mdb-col id="skills-col" col="12" sm="6">
           <h4 class="tag mb-3">Skills necesarias</h4>
           <ul id="skills">
             <li v-for="skill in offer.skills" :key="skill">{{ skill }}</li>
           </ul>
-        </mdb-col>
-      </mdb-row>
-      <!-- EDIT OFFER BUTTONS -->
-      <mdb-row class="my-5"
-        ><mdb-col col="12" sm="4"
-          ><mdb-btn @click="editOffer(offer.url)"
-            ><mdb-icon icon="fas fa-edit" /> Editar</mdb-btn
+          <!-- EDIT OFFER BUTTONS --> </mdb-col
+        ><mdb-col col="12" sm="6" id="buttons"
+          ><mdb-row>
+            <!-- EDIT  -->
+            <mdb-col col="12">
+              <mdb-btn color="blue darken-2" @click="editOffer(offer.url)"
+                ><mdb-icon icon="edit" /> Editar</mdb-btn
+              >
+            </mdb-col>
+            <mdb-col col="12">
+              <mdb-btn color="green darken-2"
+                ><mdb-icon icon="trash" /> Ya veremos</mdb-btn
+              >
+            </mdb-col>
+            <!-- DELETE  -->
+            <mdb-col col="12">
+              <mdb-btn color="red darken-2"
+                ><mdb-icon icon="trash" /> Borrar</mdb-btn
+              >
+            </mdb-col></mdb-row
           ></mdb-col
-        ><mdb-col col="12" sm="4"></mdb-col><mdb-col col="12" sm="4"></mdb-col
-      ></mdb-row>
+        ></mdb-row
+      >
     </div>
     <div v-else class="text-center">
       <!-- LOADING CONTENT -->
@@ -127,11 +142,14 @@ export default {
     }
     #description {
       word-wrap: break-word;
-      text-align: justify !important;
+      text-align: center !important;
     }
     #skills {
       padding-left: 0;
       list-style: none;
+    }
+    #buttons {
+      display: flex;
     }
   }
 }
@@ -140,6 +158,9 @@ export default {
   #offer {
     .row {
       #skills-col {
+        margin-top: 25px;
+      }
+      #buttons {
         margin-top: 25px;
       }
     }
