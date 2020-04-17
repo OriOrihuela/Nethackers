@@ -24,6 +24,12 @@
               name="title"
               v-model="offer.title"
             />
+            <p
+              class="error mb-5"
+              v-if="formSubmitted && !$v.offer.title.required"
+            >
+              Introduzca el nombre del puesto
+            </p>
             <!-- COMPANY -->
             <mdb-input
               label="Empresa"
@@ -32,6 +38,12 @@
               name="company"
               v-model="offer.company"
             />
+            <p
+              class="error mb-5"
+              v-if="formSubmitted && !$v.offer.company.required"
+            >
+              Introduzca el nombre de la empresa
+            </p>
             <!-- LOCATION -->
             <mdb-input
               label="Ubicación"
@@ -40,6 +52,12 @@
               name="location"
               v-model="offer.location"
             />
+            <p
+              class="error mb-5"
+              v-if="formSubmitted && !$v.offer.location.required"
+            >
+              Introduzca la localización del puesto
+            </p>
             <!-- SALARY -->
             <mdb-input
               label="Salario"
@@ -48,6 +66,12 @@
               name="salary"
               v-model="offer.salary"
             />
+            <p
+              class="error mb-5"
+              v-if="formSubmitted && !$v.offer.salary.required"
+            >
+              Introduzca el salario, indicando su moneda pertinente
+            </p>
             <!-- CONTRACT -->
             <label for="contract">Tipo de contrato</label>
             <div id="select">
@@ -63,6 +87,12 @@
                 <option value="Por Proyecto">Por Proyecto</option>
               </select>
             </div>
+            <p
+              class="error mt-4"
+              v-if="formSubmitted && !$v.offer.contract.required"
+            >
+              Seleccione un tipo de contrato
+            </p>
             <!-- DESCRIPTION -->
             <h4 class="mt-5 mb-3">Descripción del puesto</h4>
             <VueTrix
@@ -70,6 +100,16 @@
               placeholder="Escriba una breve descripción..."
               v-model="offer.description"
             />
+            <p
+              class="error mt-4"
+              v-if="
+                formSubmitted &&
+                  (!$v.offer.description.required ||
+                    !$v.offer.description.minLength)
+              "
+            >
+              Introduzca una descripción de al menos 400 caracteres
+            </p>
             <!-- SKILLS -->
             <h4 class="mt-5">Skills</h4>
             <ul class="skills">
@@ -77,6 +117,15 @@
                 {{ skill }}
               </li>
             </ul>
+            <p
+              class="error"
+              v-if="
+                formSubmitted &&
+                  (!$v.offer.skills.required || !$v.offer.skills.minLength)
+              "
+            >
+              Seleccione al menos 3 habilidades requeridas para el puesto
+            </p>
           </div>
           <!-- SUBMIT -->
           <div class="text-center my-5">
@@ -119,13 +168,13 @@ export default {
       skills: json.skills,
       selectedSkills: new Set(),
       offer: {
-        title: null,
-        company: null,
-        location: null,
-        salary: null,
-        contract: null,
-        description: null,
-        skills: null,
+        title: "",
+        company: "",
+        location: "",
+        salary: "",
+        contract: "",
+        description: "",
+        skills: "",
       },
       formSubmitted: false,
     };
@@ -139,14 +188,9 @@ export default {
       // If the form is invalid...
       if (this.$v.$invalid) {
         swal(
-          "Woops! Faltan datos",
-          `Rellene los campos restantes de la oferta`,
-          "warning",
-          {
-            button: {
-              text: "¡Voy!",
-            },
-          }
+          "Woops!",
+          "Introduzca correctamente los datos de la oferta",
+          "warning"
         );
         // Fails silently.
         return false;
@@ -188,15 +232,14 @@ export default {
         this.selectedSkills.add(event.target.textContent.trim());
         event.target.classList.add("active");
       }
+      // Update the required skills of the offer.
       this.updateSkills();
     },
 
     // Whenever a skill is selected, the total of skills selected must be updated.
     updateSkills() {
-      // Make an array from the Set of selected skills and...
-      const SKILLS_ARRAY = [...this.selectedSkills];
-      // Put it to the value of the input hidden with name "skills".
-      this.offer.skills = SKILLS_ARRAY;
+      // Make an array from the Set of selected skills and put it to the value of the input hidden with name "skills".
+      this.offer.skills = [...this.selectedSkills];
     },
   },
 
@@ -206,9 +249,10 @@ export default {
       title: { required },
       company: { required },
       location: { required },
+      salary: { required },
       contract: { required },
-      description: { required, minLength: minLength(100) },
-      skills: { required, minLength: minLength(2) },
+      description: { required, minLength: minLength(400) },
+      skills: { required, minLength: minLength(3) },
     },
   },
 };
@@ -216,6 +260,12 @@ export default {
 
 <style lang="scss" scoped>
 #new-offer {
+  .error {
+    border: 1px solid red;
+    color: red;
+    text-align: center;
+    padding: 1%;
+  }
   #select {
     display: flex;
     align-items: center;
