@@ -179,7 +179,10 @@ export default {
               );
               // Redirect to home page.
               this.$router.push(`/offers/${this.offer.url}`);
-            } else {
+            }
+          })
+          .catch((error) => {
+            if (error) {
               // Tell the user ERROR.
               swal(
                 "Edición fallida",

@@ -5,6 +5,7 @@ import CreateOffer from "./components/CreateOffer";
 import Offer from "./components/Offer";
 import EditOffer from "./components/EditOffer";
 import CreateAccount from "./components/CreateAccount";
+import Login from "./components/Login";
 
 Vue.use(Router);
 
@@ -35,6 +36,10 @@ export default new Router({
     {
       path: "/create-account",
       component: CreateAccount,
+    },
+    {
+      path: "/login",
+      component: Login,
     },
     // Redirection performed whenever the user enters a wrong URL.
     // { path: "*", component: ErrorComponent },

@@ -1,16 +1,15 @@
 <template>
-  <mdb-container id="create-account"
+  <mdb-container id="login"
     ><!-- ENTRY CONTENT -->
     <mdb-row>
       <mdb-col col="12"
-        ><h1>Nueva cuenta</h1>
+        ><h1>Iniciar sesión</h1>
         <h5>
-          Introduzca sus futuros datos como usuario
+          Introduzca sus datos si ya está registrado en Nethackers
         </h5></mdb-col
       >
     </mdb-row>
     <hr />
-    <!-- USER FORM -->
     <mdb-row>
       <mdb-col col="12" class="mt-5">
         <form @submit.prevent="onSubmit">
@@ -28,7 +27,7 @@
               class="error mb-5"
               v-if="formSubmitted && !$v.user.name.required"
             >
-              Introduzca un nombre de usuario
+              Introduzca su nombre de usuario
             </p>
             <!-- EMAIL -->
             <mdb-input
@@ -45,7 +44,7 @@
                   (!$v.user.email.required || !$v.user.email.email)
               "
             >
-              Introduzca un correo electrónico válido
+              Introduzca su correo electrónico
             </p>
             <!-- PASSWORD -->
             <mdb-input
@@ -62,7 +61,7 @@
                   (!$v.user.password.required || !$v.user.password.minLength)
               "
             >
-              Introduzca una contraseña de 8 caracteres
+              Introduzca su contraseña
             </p>
             <!-- REPEAT PASSWORD -->
             <mdb-input
@@ -84,18 +83,25 @@
             </p>
           </div>
           <mdb-row>
-            <!-- TO LOGIN -->
-            <mdb-col col="12" sm="6" class="mt-5">
+            <!-- TO CREATE ACCOUNT -->
+            <mdb-col col="12" sm="4" class="mt-5">
               <div class="text-center">
-                <mdb-btn outline="primary" type="button" @click="toLogin"
-                  >Iniciar sesión <mdb-icon icon="sign-in-alt" class="ml-1"
+                <mdb-btn outline="primary" type="button" @click="toSignup"
+                  >Crear cuenta <mdb-icon icon="user-plus" class="ml-1"
+                /></mdb-btn></div
+            ></mdb-col>
+            <!-- RESET PASSWORD -->
+            <mdb-col col="12" sm="4" class="mt-5">
+              <div class="text-center">
+                <mdb-btn outline="green" type="button" @click="toResetPassword"
+                  >Restablecer contraseña <mdb-icon icon="key" class="ml-1"
                 /></mdb-btn></div
             ></mdb-col>
             <!-- SUBMIT -->
-            <mdb-col col="12" sm="6" class="mt-5">
+            <mdb-col col="12" sm="4" class="mt-5">
               <div class="text-center">
                 <mdb-btn outline="secondary" type="submit"
-                  >Crear cuenta <mdb-icon icon="user-plus" class="ml-1"
+                  >Iniciar sesión <mdb-icon icon="sign-in-alt" class="ml-1"
                 /></mdb-btn></div></mdb-col
           ></mdb-row></form
       ></mdb-col> </mdb-row
@@ -116,15 +122,8 @@ import axios from "axios";
 import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
 
 export default {
-  name: "CreateAccount",
-  components: {
-    mdbRow,
-    mdbCol,
-    mdbContainer,
-    mdbInput,
-    mdbBtn,
-    mdbIcon,
-  },
+  name: "Login",
+  components: { mdbRow, mdbCol, mdbContainer, mdbInput, mdbBtn, mdbIcon },
   data() {
     return {
       user: {
@@ -146,7 +145,7 @@ export default {
       if (this.$v.$invalid) {
         swal(
           "Woops!",
-          "Introduzca correctamente sus datos personales",
+          "Introduzca correctamente sus credenciales de usuario",
           "warning"
         );
         // Fails silently.
@@ -154,32 +153,25 @@ export default {
       } else {
         // Save the user in DB.
         axios
-          .post("/api/create-account", this.user)
+          .post("/api/login", this.user)
           .then((response) => {
             // If everything works fine...
             if (response.data.status === "success") {
               // Tell the user OK.
               swal(
-                "Cuenta creada",
-                "¡Su cuenta ha sido creada correctamente!",
+                "Sesión iniciada",
+                "¡Bienvenido a Nethackers, Mr. Meeseeks!",
                 "success"
               );
-              // Redirect to log-in page.
-              this.$router.push("/log-in");
+              // Redirect to main page.
+              this.$router.push("/");
             }
           })
           .catch((error) => {
-            if (error.request.status === 422) {
+            if (error) {
               swal(
-                "Datos ya existentes",
-                "El nombre y/o email insertados ya existen en Nethackers",
-                "warning"
-              );
-            } else {
-              // Tell the user ERROR.
-              swal(
-                "Creación fallida",
-                "Su cuenta no ha podido ser creada",
+                "Lo sentimos",
+                "No ha podido iniciar sesión debidamente",
                 "error"
               );
             }
@@ -187,9 +179,14 @@ export default {
       }
     },
 
-    // Redirect the user to login page.
-    toLogin() {
-      this.$router.push("/login");
+    // Redirect the user to sign in page.
+    toSignup() {
+      this.$router.push("/create-account");
+    },
+
+    // Redirect the user to reset password page.
+    toResetPassword() {
+      this.$router.push("/reset-password");
     },
   },
   validations: {
@@ -207,7 +204,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#create-account {
+#login {
   .row {
     form {
       .grey-text {
