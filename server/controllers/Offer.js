@@ -6,15 +6,12 @@ const Offer = require("../models/Offer");
 // Import of the node "validator" library.
 const VALIDATOR = require("validator");
 
-// Make the controller have the same prototype than Object.
-let CONTROLLER = Object.create(Object);
-
 // Define the controller with its own different behaviours.
-CONTROLLER = {
+const CONTROLLER = {
   // Behaviour to retrieve all the offers kept in DB.
   getOffers: (request, response) => {
     Offer.find()
-      .sort("date")
+      .sort("createdAt")
       .exec((error, offers) => {
         // If there is any error...
         if (error) {
@@ -86,7 +83,7 @@ CONTROLLER = {
       return response.status(500).send({
         status: "error",
         message:
-          "There is some missing data. It is necessary to fill the offer at least with a title, company, location or contract",
+          "There is some missing data to fill the offer model.",
       });
     }
     // If the required data exists...
@@ -134,7 +131,7 @@ CONTROLLER = {
       return response.status(500).send({
         status: "error",
         message:
-          "There is some missing data. It is necessary to fill the offer at least with a title, company, location or contract",
+          "There is some missing data to update the offer model.",
       });
     }
     // If the required data exists...

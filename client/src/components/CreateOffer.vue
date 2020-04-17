@@ -81,7 +81,7 @@
           <!-- SUBMIT -->
           <div class="text-center my-5">
             <mdb-btn outline="secondary" type="submit"
-              >Enviar <mdb-icon far icon="paper-plane" class="ml-1"
+              >Crear oferta <mdb-icon far icon="paper-plane" class="ml-1"
             /></mdb-btn>
           </div></form
       ></mdb-col> </mdb-row
@@ -104,7 +104,7 @@ import axios from "axios";
 import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
-  name: "NewOffer",
+  name: "CreateOffer",
   components: {
     mdbRow,
     mdbCol,
@@ -144,7 +144,7 @@ export default {
           "warning",
           {
             button: {
-              text: "¡Vooy!",
+              text: "¡Voy!",
             },
           }
         );

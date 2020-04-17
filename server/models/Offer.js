@@ -6,40 +6,44 @@ const SLUG = require("slug");
 const SCHEMA = MONGOOSE.Schema;
 
 // The Offers schema.
-let OfferSchema = SCHEMA(
+const OfferSchema = SCHEMA(
   {
     title: {
       type: String,
-      required: "The name of the offer is required",
+      required: true,
       trim: true,
     },
     company: {
       type: String,
+      required: true,
       trim: true,
     },
     location: {
       type: String,
-      required: "The location is required",
+      required: true,
       trim: true,
     },
     salary: {
       type: String,
       default: 0,
+      required: true,
       trim: true,
     },
     contract: {
       type: String,
       trim: true,
+      required: true,
     },
     description: {
       type: String,
       trim: true,
+      required: true,
     },
     url: {
       type: String,
       lowercase: true,
     },
-    skills: [String],
+    skills: { type: [String], required: true },
     candidates: [
       {
         name: String,
@@ -47,13 +51,12 @@ let OfferSchema = SCHEMA(
         cv: String,
       },
     ],
-    date: {
-      type: Date,
-      default: Date.now,
-    },
   },
-  // With this option, we avoid the property "__v" that MongoDB sets to every document by default.
   {
+    // Dates.
+    timestamps: { createdAt: true, updatedAt: true },
+
+    // With this option, we avoid the property "__v" that MongoDB sets to every document by default.
     versionKey: false,
   }
 );
@@ -67,7 +70,7 @@ OfferSchema.pre("save", function (next) {
 
 /**
  * Exporting the model.
- * - In the Node.js environment, we will use "Article" as singular.
- * - In the DB, the collection will be named "articles".
+ * - In the Node.js environment, we will use "Offer" as singular.
+ * - In the DB, the collection will be named "offers".
  */
 module.exports = MONGOOSE.model("Offer", OfferSchema);

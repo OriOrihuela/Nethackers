@@ -2,7 +2,6 @@
 
 // Import mongoose.
 const MONGOOSE = require("mongoose");
-const REQUIRE_DIR = require("require-dir");
 
 // Importing the "variables.env" file.
 require("dotenv").config({

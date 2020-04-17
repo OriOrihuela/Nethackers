@@ -62,6 +62,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Add prefixes to the routes (if necessary).
 APP.use("/api", ROUTES.Offer);
+APP.use("/api", ROUTES.User);
 
 // Export of this modules to be used in "index.js".
 module.exports = APP;
