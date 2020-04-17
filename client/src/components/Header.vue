@@ -36,7 +36,7 @@ import {
   mdbNavbarNav,
   mdbNavItem,
   mdbInput,
-  mdbIcon,
+  mdbIcon
 } from "mdbvue";
 
 export default {
@@ -48,8 +48,8 @@ export default {
     mdbNavbarNav,
     mdbNavItem,
     mdbInput,
-    mdbIcon,
-  },
+    mdbIcon
+  }
 };
 </script>
 

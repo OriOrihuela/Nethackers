@@ -4,11 +4,17 @@ import "mdbvue/lib/css/mdb.min.css";
 
 import Vue from "vue";
 import App from "./App.vue";
+
+// Our custom router.
 import router from "./router";
+
+// Package to validate forms.
+import Vuelidate from "vuelidate";
+Vue.use(Vuelidate);
 
 Vue.config.productionTip = false;
 
 new Vue({
   router,
-  render: (h) => h(App),
+  render: h => h(App)
 }).$mount("#app");
