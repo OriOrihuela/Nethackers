@@ -143,31 +143,46 @@ export default {
       this.$v.$touch();
       // If the form is invalid...
       if (this.$v.$invalid) {
-        swal("Woops!", "Introduzca correctamente sus datos personales", "warning");
+        swal(
+          "Woops!",
+          "Introduzca correctamente sus datos personales",
+          "warning"
+        );
         // Fails silently.
         return false;
       } else {
         // Save the user in DB.
-        axios.post("/api/create-account", this.user).then((response) => {
-          // If everything works fine...
-          if (response.data.status === "success") {
-            // Tell the user OK.
-            swal(
-              "Cuenta creada",
-              "¡Su cuenta ha sido creada correctamente!",
-              "success"
-            );
-            // Redirect to log-in page.
-            this.$router.push("/log-in");
-          } else {
-            // Tell the user ERROR.
-            swal(
-              "Creación fallida",
-              "Su cuenta no ha podido ser creada",
-              "error"
-            );
-          }
-        });
+        axios
+          .post("/api/create-account", this.user)
+          .then((response) => {
+            // If everything works fine...
+            if (response.data.status === "success") {
+              // Tell the user OK.
+              swal(
+                "Cuenta creada",
+                "¡Su cuenta ha sido creada correctamente!",
+                "success"
+              );
+              // Redirect to log-in page.
+              this.$router.push("/log-in");
+            } else {
+              // Tell the user ERROR.
+              swal(
+                "Creación fallida",
+                "Su cuenta no ha podido ser creada",
+                "error"
+              );
+            }
+          })
+          .catch((error) => {
+            if (error.request.status === 422) {
+              swal(
+                "Datos ya existentes",
+                "El nombre y/o email insertados ya existen en Nethackers",
+                "warning"
+              );
+            }
+          });
       }
     },
   },

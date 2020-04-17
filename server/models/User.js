@@ -8,7 +8,7 @@ const SCHEMA = MONGOOSE.Schema;
 // The Offers schema.
 const UserSchema = SCHEMA(
   {
-    name: { type: String, required: true, trim: true },
+    name: { type: String, unique: true, required: true, trim: true },
     email: {
       type: String,
       unique: true,

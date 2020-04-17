@@ -160,12 +160,7 @@ export default {
         swal(
           "Woops! Faltan datos",
           `Introduzca el titulo, compañía, localización y/o tipo de contrato`,
-          "warning",
-          {
-            button: {
-              text: "¡Vooy!",
-            },
-          }
+          "warning"
         );
         // Fails silently.
         return false;

@@ -8,6 +8,7 @@ const VALIDATOR = require("validator");
 
 // Define the controller with its own different behaviours.
 const CONTROLLER = {
+  
   // Behaviour to retrieve all the offers kept in DB.
   getOffers: (request, response) => {
     Offer.find()
@@ -17,7 +18,7 @@ const CONTROLLER = {
         if (error) {
           return response.status(500).send({
             status: "error",
-            message: "Error when retrieving the offers.",
+            message: `${error}`,
           });
           // Or there are not stored offers in the DB...
         } else if (!offers) {
@@ -37,10 +38,8 @@ const CONTROLLER = {
 
   // Behaviour to get a single offer.
   getOffer: (request, response) => {
-    // Take the url from the request.
-    const OFFER_URL = request.params.url;
     // Check if exists.
-    if (!OFFER_URL || OFFER_URL === null) {
+    if (!request.params.url || request.params.url === null) {
       return response.status(404).send({
         status: "not found",
         message: "An url is required to search for an offer!",
@@ -52,7 +51,7 @@ const CONTROLLER = {
       if (error) {
         return response.status(500).send({
           status: "error",
-          message: "Error when retrieving an offer with that url",
+          message: `${error}`,
         });
         // If there is not any offer with that url...
       } else if (!offer) {
@@ -82,8 +81,7 @@ const CONTROLLER = {
       // If there is not all the needed data...
       return response.status(500).send({
         status: "error",
-        message:
-          "There is some missing data to fill the offer model.",
+        message: "There is some missing data to fill the offer model.",
       });
     }
     // If the required data exists...
@@ -99,8 +97,7 @@ const CONTROLLER = {
         if (error || !offerStored) {
           return response.status(500).send({
             status: "error",
-            message:
-              "The offer has not been saved, something is wrong when saving it!",
+            message: `The offer has not been saved because of ${error}`,
           });
           // Otherwise, save the offer and send a 200 response.
         } else {
@@ -130,8 +127,7 @@ const CONTROLLER = {
       // If there is not all the needed data...
       return response.status(500).send({
         status: "error",
-        message:
-          "There is some missing data to update the offer model.",
+        message: "There is some missing data to update the offer model.",
       });
     }
     // If the required data exists...
@@ -155,7 +151,7 @@ const CONTROLLER = {
             return response.status(500).send({
               status: "error",
               message:
-                "The offer has not been updated, something is wrong when updating it!",
+              `The offer has not been updated because of ${error}`,
             });
             // Otherwise, update the offer and send a 200 response.
           } else {
