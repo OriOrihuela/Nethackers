@@ -24,14 +24,29 @@
               name="name"
               v-model="user.name"
             />
+            <p
+              class="error mb-5"
+              v-if="formSubmitted && !$v.user.name.required"
+            >
+              Introduzca un nombre
+            </p>
             <!-- EMAIL -->
             <mdb-input
               label="Email"
               icon="envelope-open"
-              type="email"
+              type="text"
               name="email"
               v-model="user.email"
             />
+            <p
+              class="error mb-5"
+              v-if="
+                formSubmitted &&
+                  (!$v.user.email.required || !$v.user.email.email)
+              "
+            >
+              Introduzca un correo electrónico válido
+            </p>
             <!-- PASSWORD -->
             <mdb-input
               label="Contraseña"
@@ -40,13 +55,33 @@
               name="password"
               v-model="user.password"
             />
+            <p
+              class="error mb-5"
+              v-if="
+                formSubmitted &&
+                  (!$v.user.password.required || !$v.user.password.minLength)
+              "
+            >
+              Introduzca una contraseña de 8 caracteres
+            </p>
             <!-- REPEAT PASSWORD -->
             <mdb-input
               label="Repita su contraseña"
               icon="redo"
               type="password"
               name="confirm"
+              v-model="user.confirmPassword"
             />
+            <p
+              class="error"
+              v-if="
+                formSubmitted &&
+                  (!$v.user.confirmPassword.required ||
+                    !$v.user.confirmPassword.sameAsPassword)
+              "
+            >
+              La contraseña introducida no coincide con la anterior
+            </p>
           </div>
           <mdb-row
             ><mdb-col col="12" sm="6" class="mt-5"
@@ -77,7 +112,7 @@ import {
 } from "mdbvue";
 import swal from "sweetalert";
 import axios from "axios";
-import { required, minLength } from "vuelidate/lib/validators";
+import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
 
 export default {
   name: "CreateAccount",
@@ -92,9 +127,10 @@ export default {
   data() {
     return {
       user: {
-        name: null,
-        email: null,
-        password: null,
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       },
       formSubmitted: false,
     };
@@ -107,11 +143,7 @@ export default {
       this.$v.$touch();
       // If the form is invalid...
       if (this.$v.$invalid) {
-        swal("Woops!", `Introduzca correctamente sus datos`, "warning", {
-          button: {
-            text: "Entendido",
-          },
-        });
+        swal("Woops!", "Introduzca correctamente sus datos personales", "warning");
         // Fails silently.
         return false;
       } else {
@@ -142,8 +174,12 @@ export default {
   validations: {
     user: {
       name: { required },
-      email: { required },
+      email: { required, email },
       password: { required, minLength: minLength(8) },
+      confirmPassword: {
+        required,
+        sameAsPassword: sameAs("password"),
+      },
     },
   },
 };
@@ -151,5 +187,17 @@ export default {
 
 <style lang="scss" scoped>
 #create-account {
+  .row {
+    form {
+      .grey-text {
+        .error {
+          border: 1px solid red;
+          color: red;
+          text-align: center;
+          padding: 1%;
+        }
+      }
+    }
+  }
 }
 </style>
