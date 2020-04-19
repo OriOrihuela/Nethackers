@@ -36,7 +36,7 @@ PASSPORT.use(
           return done(
             null,
             false,
-            request.flash("message", "Incorrect username")
+            request.flash("loginMessage", "Incorrect username")
           );
         }
         // If the user's password doesn't match with the introduced password...
@@ -44,7 +44,7 @@ PASSPORT.use(
           return done(
             null,
             false,
-            request.flash("message", "Incorrect password")
+            request.flash("loginMessage", "Incorrect password")
           );
         }
         // If the credentials are valid, the verify callback invokes done to supply Passport with the user that authenticated.

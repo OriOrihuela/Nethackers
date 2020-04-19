@@ -6,6 +6,7 @@ import Offer from "./components/Offer";
 import EditOffer from "./components/EditOffer";
 import CreateAccount from "./components/CreateAccount";
 import Login from "./components/Login";
+import ConfigPanel from "./components/ConfigPanel";
 
 Vue.use(Router);
 
@@ -40,6 +41,10 @@ export default new Router({
     {
       path: "/login",
       component: Login,
+    },
+    {
+      path: "/config-panel",
+      component: ConfigPanel,
     },
     // Redirection performed whenever the user enters a wrong URL.
     // { path: "*", component: ErrorComponent },

@@ -16,7 +16,7 @@ const CONTROLLER = {
       } else if (!user) {
         return response.status(400).send({
           status: "bad request",
-          message: `${request.flash("message")}`,
+          message: `${request.flash("loginMessage")}`,
         });
       } else {
         request.login(user, (error) => {
