@@ -6,7 +6,7 @@ const SLUG = require("slug");
 const SCHEMA = MONGOOSE.Schema;
 
 // The Offers schema.
-const OfferSchema = SCHEMA(
+const OFFER_SCHEMA = SCHEMA(
   {
     title: {
       type: String,
@@ -62,7 +62,7 @@ const OfferSchema = SCHEMA(
 );
 
 // Using a Middleware before the model gets saved...
-OfferSchema.pre("save", function (next) {
+OFFER_SCHEMA.pre("save", function (next) {
   // We create the URL of the offer.
   this.url = `${SLUG(this.title)}-${this._id}`; // offer-title-12333243...
   next();
@@ -73,4 +73,4 @@ OfferSchema.pre("save", function (next) {
  * - In the Node.js environment, we will use "Offer" as singular.
  * - In the DB, the collection will be named "offers".
  */
-module.exports = MONGOOSE.model("Offer", OfferSchema);
+module.exports = MONGOOSE.model("Offer", OFFER_SCHEMA);

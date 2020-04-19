@@ -6,9 +6,9 @@ const BCRYPT = require("bcrypt");
 const SCHEMA = MONGOOSE.Schema;
 
 // The Offers schema.
-const UserSchema = SCHEMA(
+const USER_SCHEMA = SCHEMA(
   {
-    name: { type: String, unique: true, required: true, trim: true },
+    username: { type: String, unique: true, required: true, trim: true },
     email: {
       type: String,
       unique: true,
@@ -30,7 +30,7 @@ const UserSchema = SCHEMA(
 );
 
 // Using a Middleware before the model gets saved...
-UserSchema.pre("save", function (next) {
+USER_SCHEMA.pre("save", function (next) {
   // If password is already hashed...
   if (!this.isModified("password")) {
     return next();
@@ -39,9 +39,16 @@ UserSchema.pre("save", function (next) {
   next();
 });
 
+// Auth users.
+USER_SCHEMA.methods = {
+  verifyPassword: function (password) {
+    return BCRYPT.compareSync(password, this.password);
+  },
+};
+
 /**
  * Exporting the model.
  * - In the Node.js environment, we will use "User" as singular.
  * - In the DB, the collection will be named "users".
  */
-module.exports = MONGOOSE.model("User", UserSchema);
+module.exports = MONGOOSE.model("User", USER_SCHEMA);

@@ -1,6 +1,6 @@
 "use strict";
 
-// Import of the Offer model.
+// Import of the User model.
 const User = require("../models/User");
 
 // Import of the node "validator" library.
@@ -8,12 +8,11 @@ const VALIDATOR = require("validator");
 
 // Define the controller with its own different behaviours.
 const CONTROLLER = {
-
   // Behaviour to create a recruiter in DB.
   createUser: (request, response) => {
     // We validate the data received by the request.
     try {
-      var VALIDATE_NAME = !VALIDATOR.isEmpty(request.body.name);
+      var VALIDATE_USERNAME = !VALIDATOR.isEmpty(request.body.username);
       var VALIDATE_EMAIL = !VALIDATOR.isEmpty(request.body.email);
       var VALIDATE_PASSWORD = !VALIDATOR.isEmpty(request.body.password);
     } catch (error) {
@@ -24,11 +23,11 @@ const CONTROLLER = {
       });
     }
     // If the required data exists...
-    if (VALIDATE_NAME && VALIDATE_EMAIL && VALIDATE_PASSWORD) {
+    if (VALIDATE_USERNAME && VALIDATE_EMAIL && VALIDATE_PASSWORD) {
       // Save the object from the "request.body" property.
       User.create(request.body, (error, createdUser) => {
         // If the username or password already exist in DB...
-        if (error.name === "MongoError" && error.code === 11000) {
+        if (error && error.name === "MongoError" && error.code === 11000) {
           return response.status(422).send({
             status: "duplicated",
             message: "Username or password already exists.",

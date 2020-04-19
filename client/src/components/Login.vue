@@ -21,30 +21,13 @@
               icon="user"
               type="text"
               name="name"
-              v-model="user.name"
+              v-model="user.username"
             />
             <p
               class="error mb-5"
-              v-if="formSubmitted && !$v.user.name.required"
+              v-if="formSubmitted && !$v.user.username.required"
             >
               Introduzca su nombre de usuario
-            </p>
-            <!-- EMAIL -->
-            <mdb-input
-              label="Email"
-              icon="envelope-open"
-              type="text"
-              name="email"
-              v-model="user.email"
-            />
-            <p
-              class="error mb-5"
-              v-if="
-                formSubmitted &&
-                  (!$v.user.email.required || !$v.user.email.email)
-              "
-            >
-              Introduzca su correo electrónico
             </p>
             <!-- PASSWORD -->
             <mdb-input
@@ -119,7 +102,7 @@ import {
 } from "mdbvue";
 import swal from "sweetalert";
 import axios from "axios";
-import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
+import { required, minLength, sameAs } from "vuelidate/lib/validators";
 
 export default {
   name: "Login",
@@ -127,8 +110,7 @@ export default {
   data() {
     return {
       user: {
-        name: "",
-        email: "",
+        username: "",
         password: "",
         confirmPassword: "",
       },
@@ -160,7 +142,7 @@ export default {
               // Tell the user OK.
               swal(
                 "Sesión iniciada",
-                "¡Bienvenido a Nethackers, Mr. Meeseeks!",
+                `¡Bienvenido a Nethackers, ${this.user.username}!`,
                 "success"
               );
               // Redirect to main page.
@@ -168,7 +150,19 @@ export default {
             }
           })
           .catch((error) => {
-            if (error) {
+            if (error.response.data.message === "Incorrect username") {
+              swal(
+                "Lo sentimos",
+                "El nombre de usuario introducido es incorrecto",
+                "warning"
+              );
+            } else if (error.response.data.message === "Incorrect password") {
+              swal(
+                "Lo sentimos",
+                "La contraseña introducida es incorrecta",
+                "warning"
+              );
+            } else {
               swal(
                 "Lo sentimos",
                 "No ha podido iniciar sesión debidamente",
@@ -191,8 +185,7 @@ export default {
   },
   validations: {
     user: {
-      name: { required },
-      email: { required, email },
+      username: { required },
       password: { required, minLength: minLength(8) },
       confirmPassword: {
         required,

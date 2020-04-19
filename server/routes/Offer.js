@@ -3,7 +3,7 @@
 // Import express package.
 const EXPRESS = require("express");
 
-// Import the "Article" controller.
+// Import the Offer controller.
 const OFFER_CONTROLLER = require("../controllers/Offer");
 
 // Create the router.

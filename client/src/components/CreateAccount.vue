@@ -16,17 +16,17 @@
         <form @submit.prevent="onSubmit">
           <p class="h4 text-center mb-4">Datos a completar</p>
           <div class="grey-text">
-            <!-- NAME -->
+            <!-- USERNAME -->
             <mdb-input
               label="Nombre"
               icon="user"
               type="text"
               name="name"
-              v-model="user.name"
+              v-model="user.username"
             />
             <p
               class="error mb-5"
-              v-if="formSubmitted && !$v.user.name.required"
+              v-if="formSubmitted && !$v.user.username.required"
             >
               Introduzca un nombre de usuario
             </p>
@@ -128,7 +128,7 @@ export default {
   data() {
     return {
       user: {
-        name: "",
+        username: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -165,18 +165,19 @@ export default {
                 "success"
               );
               // Redirect to log-in page.
-              this.$router.push("/log-in");
+              this.$router.push("/login");
             }
           })
           .catch((error) => {
+            console.table(error);
             if (error.request.status === 422) {
+              console.table(error);
               swal(
                 "Datos ya existentes",
                 "El nombre y/o email insertados ya existen en Nethackers",
                 "warning"
               );
             } else {
-              // Tell the user ERROR.
               swal(
                 "Creación fallida",
                 "Su cuenta no ha podido ser creada",
@@ -194,7 +195,7 @@ export default {
   },
   validations: {
     user: {
-      name: { required },
+      username: { required },
       email: { required, email },
       password: { required, minLength: minLength(8) },
       confirmPassword: {

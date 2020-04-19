@@ -9,6 +9,8 @@ const SESSION = require("express-session");
 const MONGOOSE = require("mongoose");
 const REQUIRE_DIR = require("require-dir");
 const MongoStore = require("connect-mongo")(SESSION); // Passing the SESSION variable to the package.
+const PASSPORT = require("./config/passport");
+const FLASH = require("connect-flash");
 
 // Importing the "variables.env" file.
 require("dotenv").config({
@@ -49,6 +51,13 @@ APP.use(
     }),
   })
 );
+
+// Initialize Passport.
+APP.use(PASSPORT.initialize());
+APP.use(PASSPORT.session());
+
+// Alerts and flash messages.
+APP.use(FLASH());
 
 // Handle production.
 if (process.env.NODE_ENV === "production") {
