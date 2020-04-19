@@ -5,7 +5,7 @@ const PASSPORT = require("passport");
 
 // Define the controller with its own different behaviours.
 const CONTROLLER = {
-  // Behaviour to create a recruiter in DB.
+  // Behaviour to authenticate an existent user of the DB.
   authUser: (request, response) => {
     PASSPORT.authenticate("local", (error, user) => {
       if (error) {
@@ -22,7 +22,7 @@ const CONTROLLER = {
         request.login(user, (error) => {
           response.status(200).send({
             status: "success",
-            user,
+            cookieValue: request.session.passport.user._id,
           });
         });
       }

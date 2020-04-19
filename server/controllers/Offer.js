@@ -8,7 +8,6 @@ const VALIDATOR = require("validator");
 
 // Define the controller with its own different behaviours.
 const CONTROLLER = {
-  
   // Behaviour to retrieve all the offers kept in DB.
   getOffers: (request, response) => {
     Offer.find()
@@ -46,7 +45,7 @@ const CONTROLLER = {
       });
     }
     // Look for the offer.
-    Offer.findOne({ url: OFFER_URL }, (error, offer) => {
+    Offer.findOne({ url: request.params.url }, (error, offer) => {
       // If there is any error retrieving the offer from the DB...
       if (error) {
         return response.status(500).send({
@@ -150,8 +149,7 @@ const CONTROLLER = {
           if (error || !offerUpdated) {
             return response.status(500).send({
               status: "error",
-              message:
-              `The offer has not been updated because of ${error}`,
+              message: `The offer has not been updated because of ${error}`,
             });
             // Otherwise, update the offer and send a 200 response.
           } else {

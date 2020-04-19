@@ -12,9 +12,13 @@ import router from "./router";
 import Vuelidate from "vuelidate";
 Vue.use(Vuelidate);
 
+// Using cookies.
+import VueCookies from "vue-cookies";
+Vue.use(VueCookies);
+
 Vue.config.productionTip = false;
 
 new Vue({
   router,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

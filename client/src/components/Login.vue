@@ -139,12 +139,13 @@ export default {
           .then((response) => {
             // If everything works fine...
             if (response.data.status === "success") {
-              // Tell the user OK.
               swal(
                 "Sesión iniciada",
                 `¡Bienvenido a Nethackers, ${this.user.username}!`,
                 "success"
               );
+              // Set the cookie for the front-end router.
+              this.$cookies.set("front", `${response.data.cookieValue}`, 0);
               // Redirect to main page.
               this.$router.push("/");
             }

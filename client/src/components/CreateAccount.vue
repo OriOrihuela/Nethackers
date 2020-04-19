@@ -169,9 +169,7 @@ export default {
             }
           })
           .catch((error) => {
-            console.table(error);
             if (error.request.status === 422) {
-              console.table(error);
               swal(
                 "Datos ya existentes",
                 "El nombre y/o email insertados ya existen en Nethackers",

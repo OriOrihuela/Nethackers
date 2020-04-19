@@ -56,8 +56,22 @@ PASSPORT.use(
   )
 );
 
+/**
+ * serializeUser determines which data of the user object should be stored in the session. 
+ * The result of the serializeUser method is attached to the session as req.session.passport.user = {}. 
+ * Here for instance, it would be (as we provide the user id as the key) req.session.passport.user = {id: 'xyz'}
+ */
 PASSPORT.serializeUser((user, done) => done(null, user._id));
 
+/**
+ * The first argument of deserializeUser corresponds to the key of the user object that 
+ * was given to the serializeUser done function. 
+ * 
+ * So your whole object is retrieved with help of that key. That key here is the user id. 
+ * 
+ * In deserializeUser that key is matched with the in memory array / database or any data resource.
+ * The fetched object is attached to the request object as req.user
+ */
 PASSPORT.deserializeUser((id, done) => {
   return done(null, User.findById(id));
 });
