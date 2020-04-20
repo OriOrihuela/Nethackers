@@ -3,6 +3,11 @@
 // Import passport.
 const PASSPORT = require("passport");
 
+// Importing the "variables.env" file.
+require("dotenv").config({
+  path: "variables.env",
+});
+
 // Define the controller with its own different behaviours.
 const CONTROLLER = {
   // Behaviour to authenticate an existent user of the DB.
@@ -22,7 +27,10 @@ const CONTROLLER = {
         request.login(user, (error) => {
           response.status(200).send({
             status: "success",
-            cookieValue: request.session.passport.user._id,
+            cookie: {
+              key: process.env.VUE_APP_ROUTER_COOKIE_KEY,
+              value: process.env.VUE_APP_ROUTER_COOKIE_VALUE,
+            },
           });
         });
       }

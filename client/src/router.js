@@ -13,13 +13,12 @@ import ConfigPanel from "./components/ConfigPanel";
 Vue.use(Router);
 
 function isLoggedIn(to, from, next) {
-  if (Vue.$cookies.get("front") === null) {
-    // user doesn't have access token, redirect to login
-    next({ name: "Login" });
-  } else {
-    // user has access token, user can open the page
-    next();
-  }
+  !(
+    Vue.$cookies.get(process.env.VUE_APP_ROUTER_COOKIE_KEY) ===
+    process.env.VUE_APP_ROUTER_COOKIE_VALUE
+  )
+    ? next({ name: "Login" })
+    : next();
 }
 
 export default new Router({

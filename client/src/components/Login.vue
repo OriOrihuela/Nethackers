@@ -145,7 +145,11 @@ export default {
                 "success"
               );
               // Set the cookie for the front-end router.
-              this.$cookies.set("front", `${response.data.cookieValue}`, 0);
+              this.$cookies.set(
+                `${response.data.cookie.key}`,
+                `${response.data.cookie.value}`,
+                0
+              );
               // Redirect to main page.
               this.$router.push("/");
             }

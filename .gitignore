@@ -6,8 +6,9 @@ package-lock.json
 .DS_Store
 /dist
 
-# local env files
-./variables.env
+# local env or config files
+variables.env
+client/.env
 .env.local
 .env.*.local
 
