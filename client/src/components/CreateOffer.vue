@@ -196,26 +196,31 @@ export default {
         return false;
       } else {
         // Save the offer in DB.
-        axios.post("/api/offers/new", this.offer).then((response) => {
-          // If everything works fine...
-          if (response.data.status === "success") {
-            // Tell the user OK.
-            swal(
-              "Oferta creada",
-              "¡La oferta se ha creado correctamente!",
-              "success"
-            );
-            // Redirect to home page.
-            this.$router.push("/");
-          } else {
-            // Tell the user ERROR.
-            swal(
-              "Creación fallida",
-              "La oferta no se ha guardado bien",
-              "error"
-            );
-          }
-        });
+        axios
+          .post("/api/offers/new", this.offer)
+          .then((response) => {
+            // If everything works fine...
+            if (response.data.status === "success") {
+              // Tell the user OK.
+              swal(
+                "Oferta creada",
+                "¡La oferta se ha creado correctamente!",
+                "success"
+              );
+              // Redirect to home page.
+              this.$router.push("/");
+            }
+          })
+          .catch((error) => {
+            if (error) {
+              // Tell the user ERROR.
+              swal(
+                "Creación fallida",
+                "La oferta no se ha guardado bien",
+                "error"
+              );
+            }
+          });
       }
     },
 

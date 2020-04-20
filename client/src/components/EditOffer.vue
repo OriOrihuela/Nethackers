@@ -160,12 +160,7 @@ export default {
         swal(
           "Woops! Faltan datos",
           `Introduzca el titulo, compañía, localización y/o tipo de contrato`,
-          "warning",
-          {
-            button: {
-              text: "¡Vooy!",
-            },
-          }
+          "warning"
         );
         // Fails silently.
         return false;
@@ -184,7 +179,10 @@ export default {
               );
               // Redirect to home page.
               this.$router.push(`/offers/${this.offer.url}`);
-            } else {
+            }
+          })
+          .catch((error) => {
+            if (error) {
               // Tell the user ERROR.
               swal(
                 "Edición fallida",
