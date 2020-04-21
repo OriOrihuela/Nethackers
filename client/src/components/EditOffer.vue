@@ -25,6 +25,12 @@
                 name="title"
                 v-model="offer.title"
               />
+              <p
+                class="error mb-5"
+                v-if="formSubmitted && !$v.offer.title.required"
+              >
+                Introduzca el nombre del puesto
+              </p>
               <!-- COMPANY -->
               <mdb-input
                 label="Empresa"
@@ -33,6 +39,12 @@
                 name="company"
                 v-model="offer.company"
               />
+              <p
+                class="error mb-5"
+                v-if="formSubmitted && !$v.offer.company.required"
+              >
+                Introduzca el nombre de la empresa
+              </p>
               <!-- LOCATION -->
               <mdb-input
                 label="Ubicación"
@@ -41,6 +53,12 @@
                 name="location"
                 v-model="offer.location"
               />
+              <p
+                class="error mb-5"
+                v-if="formSubmitted && !$v.offer.location.required"
+              >
+                Introduzca la localización del puesto
+              </p>
               <!-- SALARY -->
               <mdb-input
                 label="Salario"
@@ -49,6 +67,12 @@
                 name="salary"
                 v-model="offer.salary"
               />
+              <p
+                class="error mb-5"
+                v-if="formSubmitted && !$v.offer.salary.required"
+              >
+                Introduzca el salario, indicando su moneda pertinente
+              </p>
               <!-- CONTRACT -->
               <label for="contract">Tipo de contrato</label>
               <div id="select">
@@ -64,6 +88,12 @@
                   <option value="Por Proyecto">Por Proyecto</option>
                 </select>
               </div>
+              <p
+                class="error mt-4"
+                v-if="formSubmitted && !$v.offer.contract.required"
+              >
+                Seleccione un tipo de contrato
+              </p>
               <!-- DESCRIPTION -->
               <h4 class="mt-5 mb-3">Descripción del puesto</h4>
               <VueTrix
@@ -71,6 +101,16 @@
                 placeholder="Escriba una breve descripción..."
                 v-model="offer.description"
               />
+              <p
+                class="error mt-4"
+                v-if="
+                  formSubmitted &&
+                    (!$v.offer.description.required ||
+                      !$v.offer.description.minLength)
+                "
+              >
+                Introduzca una descripción de al menos 400 caracteres
+              </p>
               <!-- SKILLS -->
               <h4 class="mt-5">Skills</h4>
               <ul class="skills">
@@ -83,11 +123,20 @@
                   {{ skill }}
                 </li>
               </ul>
+              <p
+                class="error"
+                v-if="
+                  formSubmitted &&
+                    (!$v.offer.skills.required || !$v.offer.skills.minLength)
+                "
+              >
+                Seleccione al menos 3 habilidades requeridas para el puesto
+              </p>
             </div>
             <!-- SUBMIT -->
             <div class="text-center my-5">
               <mdb-btn outline="secondary" type="submit"
-                >Enviar <mdb-icon far icon="paper-plane" class="ml-1"
+                >Actualizar <mdb-icon far icon="paper-plane" class="ml-1"
               /></mdb-btn>
             </div></form
         ></mdb-col>
@@ -122,7 +171,7 @@ import VueTrix from "vue-trix";
 import json from "../assets/json/skills";
 import swal from "sweetalert";
 import axios from "axios";
-import { required } from "vuelidate/lib/validators";
+import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
   name: "EditOffer",
@@ -140,6 +189,7 @@ export default {
       offer: null,
       skills: json.skills,
       selectedSkills: null,
+      formSubmitted: false,
     };
   },
   // Whenever the component is built...
@@ -158,8 +208,8 @@ export default {
       // If the form is invalid...
       if (this.$v.$invalid) {
         swal(
-          "Woops! Faltan datos",
-          `Introduzca el titulo, compañía, localización y/o tipo de contrato`,
+          "Woops!",
+          "Introduzca correctamente los datos de la oferta",
           "warning"
         );
         // Fails silently.
@@ -250,7 +300,10 @@ export default {
       title: { required },
       company: { required },
       location: { required },
+      salary: { required },
       contract: { required },
+      description: { required, minLength: minLength(400) },
+      skills: { required, minLength: minLength(3) },
     },
   },
 };
@@ -258,6 +311,12 @@ export default {
 
 <style lang="scss" scoped>
 #edit-offer {
+  .error {
+    border: 1px solid red;
+    color: red;
+    text-align: center;
+    padding: 1%;
+  }
   #select {
     display: flex;
     align-items: center;
@@ -303,10 +362,10 @@ export default {
 }
 
 @media (max-width: 475px) {
-  #new-offer {
+  #edit-offer {
     .skills {
       li {
-        flex: 0 0 calc(35% - 1rem);
+        flex: 0 0 calc(35% - 1rem) !important;
       }
     }
   }

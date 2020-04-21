@@ -51,6 +51,11 @@ const OFFER_SCHEMA = SCHEMA(
         cv: String,
       },
     ],
+    recruiter: {
+      type: MONGOOSE.Schema.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     // Dates.
