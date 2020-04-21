@@ -144,11 +144,10 @@ export default {
                 `¡Bienvenido a Nethackers, ${this.user.username}!`,
                 "success"
               );
-              // Set the cookie for the front-end router.
-              this.$cookies.set(
-                `${response.data.cookie.key}`,
-                `${response.data.cookie.value}`,
-                0
+              // Set the auth for the front-end router.
+              localStorage.setItem(
+                `${response.data.localStorage.key}`,
+                `${response.data.localStorage.value}`
               );
               // Redirect to main page.
               this.$router.push("/");

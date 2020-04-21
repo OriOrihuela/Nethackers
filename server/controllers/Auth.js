@@ -27,9 +27,9 @@ const CONTROLLER = {
         request.login(user, (error) => {
           response.status(200).send({
             status: "success",
-            cookie: {
-              key: process.env.VUE_APP_ROUTER_COOKIE_KEY,
-              value: process.env.VUE_APP_ROUTER_COOKIE_VALUE,
+            localStorage: {
+              key: process.env.VUE_APP_ROUTER_STORAGE_KEY,
+              value: process.env.VUE_APP_ROUTER_STORAGE_VALUE,
             },
           });
         });
