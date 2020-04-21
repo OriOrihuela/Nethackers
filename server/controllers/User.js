@@ -3,9 +3,6 @@
 // Import of the User model.
 const User = require("../models/User");
 
-// Import of the node "validator" library.
-const VALIDATOR = require("validator");
-
 // Define the controller with its own different behaviours.
 const CONTROLLER = {
   // Behaviour to create a recruiter in DB.

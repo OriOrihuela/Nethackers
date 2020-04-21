@@ -77,6 +77,7 @@ export default {
         }
       });
     },
+    
     // Redirect to the view of a single offer.
     getOfferInfo(url) {
       this.$router.push(`/offers/${url}`);

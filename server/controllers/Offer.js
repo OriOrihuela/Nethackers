@@ -3,9 +3,6 @@
 // Import of the Offer model.
 const Offer = require("../models/Offer");
 
-// Import of the node "validator" library.
-const VALIDATOR = require("validator");
-
 // Define the controller with its own different behaviours.
 const CONTROLLER = {
   // Behaviour to retrieve all the offers kept in DB.
@@ -24,6 +21,33 @@ const CONTROLLER = {
           return response.status(404).send({
             status: "not found",
             message: "There aren't offers in the DB.",
+          });
+          // Return all the offers.
+        } else {
+          return response.status(200).send({
+            status: "success",
+            offers,
+          });
+        }
+      });
+  },
+
+  // Behaviour to retrieve all the offers by the recruiter ID.
+  getOffersByRecruiter: (request, response) => {
+    Offer.find({ recruiter: request.user._conditions._id })
+      .sort("createdAt")
+      .exec((error, offers) => {
+        // If there is any error...
+        if (error) {
+          return response.status(500).send({
+            status: "error",
+            message: `${error}`,
+          });
+          // Or there are not stored offers in the DB...
+        } else if (!offers) {
+          return response.status(404).send({
+            status: "not found",
+            message: "There aren't offers in the DB created by that recruiter.",
           });
           // Return all the offers.
         } else {
@@ -70,26 +94,24 @@ const CONTROLLER = {
 
   // Behaviour to save any offer.
   createOffer: (request, response) => {
-    {
-      // Add the recruiter to the offer info.
-      request.body.recruiter = request.user._conditions._id;
-      // Save the object from the "request.body" property.
-      Offer.create(request.body, (error, offerStored) => {
-        // If there is any error when saving the offer...
-        if (error || !offerStored) {
-          return response.status(500).send({
-            status: "error",
-            message: `The offer has not been saved because of ${error}`,
-          });
-          // Otherwise, save the offer and send a 200 response.
-        } else {
-          return response.status(200).send({
-            status: "success",
-            offerStored,
-          });
-        }
-      });
-    }
+    // Add the recruiter to the offer info.
+    request.body.recruiter = request.user._conditions._id;
+    // Save the object from the "request.body" property.
+    Offer.create(request.body, (error, offerStored) => {
+      // If there is any error when saving the offer...
+      if (error || !offerStored) {
+        return response.status(500).send({
+          status: "error",
+          message: `The offer has not been saved because of ${error}`,
+        });
+        // Otherwise, save the offer and send a 200 response.
+      } else {
+        return response.status(200).send({
+          status: "success",
+          offerStored,
+        });
+      }
+    });
   },
 
   // Behaviour to update an existent offer.

@@ -217,7 +217,9 @@ export default {
       } else {
         // Save the offer in DB.
         axios
-          .put("/api/offers/edit/" + this.offer.url, this.offer)
+          .put("/api/offers/edit/" + this.offer.url, this.offer, {
+            withCredentials: true,
+          })
           .then((response) => {
             // If everything works fine...
             if (response.data.status === "success") {
