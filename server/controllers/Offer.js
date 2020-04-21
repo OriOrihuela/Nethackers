@@ -70,26 +70,9 @@ const CONTROLLER = {
 
   // Behaviour to save any offer.
   createOffer: (request, response) => {
-    // We validate the data received by the request.
-    try {
-      var VALIDATE_TITLE = !VALIDATOR.isEmpty(request.body.title);
-      var VALIDATE_COMPANY = !VALIDATOR.isEmpty(request.body.company);
-      var VALIDATE_LOCATION = !VALIDATOR.isEmpty(request.body.location);
-      var VALIDATE_CONTRACT = !VALIDATOR.isEmpty(request.body.contract);
-    } catch (error) {
-      // If there is not all the needed data...
-      return response.status(500).send({
-        status: "error",
-        message: "There is some missing data to fill the offer model.",
-      });
-    }
-    // If the required data exists...
-    if (
-      VALIDATE_TITLE &&
-      VALIDATE_COMPANY &&
-      VALIDATE_LOCATION &&
-      VALIDATE_CONTRACT
-    ) {
+    {
+      // Add the recruiter to the offer info.
+      request.body.recruiter = request.user._conditions._id;
       // Save the object from the "request.body" property.
       Offer.create(request.body, (error, offerStored) => {
         // If there is any error when saving the offer...
@@ -106,66 +89,35 @@ const CONTROLLER = {
           });
         }
       });
-    } else {
-      return response.status(500).send({
-        status: "error",
-        message: "Data is not valid.",
-      });
     }
   },
 
   // Behaviour to update an existent offer.
   updateOffer: (request, response) => {
-    // We validate the data received by the request.
-    try {
-      var VALIDATE_TITLE = !VALIDATOR.isEmpty(request.body.title);
-      var VALIDATE_COMPANY = !VALIDATOR.isEmpty(request.body.company);
-      var VALIDATE_LOCATION = !VALIDATOR.isEmpty(request.body.location);
-      var VALIDATE_CONTRACT = !VALIDATOR.isEmpty(request.body.contract);
-    } catch (error) {
-      // If there is not all the needed data...
-      return response.status(500).send({
-        status: "error",
-        message: "There is some missing data to update the offer model.",
-      });
-    }
-    // If the required data exists...
-    if (
-      VALIDATE_TITLE &&
-      VALIDATE_COMPANY &&
-      VALIDATE_LOCATION &&
-      VALIDATE_CONTRACT
-    ) {
-      /**
-       * Update the document filtering by the "url" property of the model.
-       * Then, pass the object to be saved through "request.body".
-       */
-      Offer.findOneAndUpdate(
-        { url: request.params.url },
-        request.body,
-        { new: true, runValidators: true },
-        (error, offerUpdated) => {
-          // If there is any error when updating the offer...
-          if (error || !offerUpdated) {
-            return response.status(500).send({
-              status: "error",
-              message: `The offer has not been updated because of ${error}`,
-            });
-            // Otherwise, update the offer and send a 200 response.
-          } else {
-            return response.status(200).send({
-              status: "success",
-              offerUpdated,
-            });
-          }
+    /**
+     * Update the document filtering by the "url" property of the model.
+     * Then, pass the object to be saved through "request.body".
+     */
+    Offer.findOneAndUpdate(
+      { url: request.params.url },
+      request.body,
+      { new: true, runValidators: true },
+      (error, offerUpdated) => {
+        // If there is any error when updating the offer...
+        if (error || !offerUpdated) {
+          return response.status(500).send({
+            status: "error",
+            message: `The offer has not been updated because of ${error}`,
+          });
+          // Otherwise, update the offer and send a 200 response.
+        } else {
+          return response.status(200).send({
+            status: "success",
+            offerUpdated,
+          });
         }
-      );
-    } else {
-      return response.status(500).send({
-        status: "error",
-        message: "Data is not valid.",
-      });
-    }
+      }
+    );
   },
 };
 

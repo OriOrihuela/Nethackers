@@ -128,6 +128,7 @@ export default {
 #offer {
   .row {
     text-align: center;
+    word-wrap: break-word;
     #title {
       font-weight: bold;
     }

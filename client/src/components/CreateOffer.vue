@@ -207,8 +207,24 @@ export default {
                 "¡La oferta se ha creado correctamente!",
                 "success"
               );
-              // Redirect to home page.
-              this.$router.push("/");
+              // Redirect to offer page.
+              axios
+                .get("/api/offers/" + response.data.offerStored.url)
+                .then((response) => {
+                  if (response.data.status === "success") {
+                    this.$router.push(`/offers/${response.data.offer.url}`);
+                  }
+                })
+                .catch((error) => {
+                  if (error) {
+                    // Tell the user ERROR.
+                    swal(
+                      "Redirección fallida",
+                      "No ha sido posible dirigirle a su oferta",
+                      "error"
+                    );
+                  }
+                });
             }
           })
           .catch((error) => {
