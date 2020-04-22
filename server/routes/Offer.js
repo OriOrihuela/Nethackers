@@ -17,7 +17,7 @@ const ROUTER = EXPRESS.Router();
  */
 ROUTER.get("/", OFFER_CONTROLLER.getOffers);
 ROUTER.get("/offers/:url", OFFER_CONTROLLER.getOffer);
-ROUTER.get("/config-panel/", OFFER_CONTROLLER.getOffersByRecruiter);
+ROUTER.get("/config-panel", OFFER_CONTROLLER.getOffersByRecruiter);
 
 /**
  * POST routes.

@@ -133,7 +133,7 @@ export default {
   },
   mounted() {
     axios
-      .get("/api/config-panel/", { withCredentials: true })
+      .get("/api/config-panel", { withCredentials: true })
       .then((response) => {
         if (response.data.status === "success") {
           this.offers = response.data.offers;

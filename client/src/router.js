@@ -9,6 +9,7 @@ import EditOffer from "./components/EditOffer";
 import CreateAccount from "./components/CreateAccount";
 import Login from "./components/Login";
 import ConfigPanel from "./components/ConfigPanel";
+import EditProfile from "./components/EditProfile";
 
 Vue.use(Router);
 
@@ -59,6 +60,11 @@ export default new Router({
     {
       path: "/config-panel",
       component: ConfigPanel,
+      beforeEnter: isLoggedIn,
+    },
+    {
+      path: "/edit-profile",
+      component: EditProfile,
       beforeEnter: isLoggedIn,
     },
     // Redirection performed whenever the user enters a wrong URL.
