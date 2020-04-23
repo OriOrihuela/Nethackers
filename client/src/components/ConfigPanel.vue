@@ -26,8 +26,8 @@
           /></mdb-btn></div></mdb-col
     ></mdb-row>
     <hr />
-    <h2 class="my-5 text-center">Tus ofertas</h2>
-    <div v-if="offers">
+    <div v-if="offers && offers.length >= 1">
+      <h2 class="my-5 text-center">Tus ofertas</h2>
       <mdb-row
         class="my-5 text-center"
         v-for="(offer, index) in offers"
@@ -68,6 +68,14 @@
               /></mdb-btn>
             </mdb-col> </mdb-row
         ></mdb-col>
+      </mdb-row>
+    </div>
+    <div v-else-if="offers && offers.length < 1" class="text-center">
+      <!-- LOADING CONTENT -->
+      <mdb-row>
+        <mdb-col col="12 my-5">
+          <h2>No hay ofertas que mostrar</h2>
+        </mdb-col>
       </mdb-row>
     </div>
     <div v-else class="text-center">
@@ -149,7 +157,7 @@ export default {
                 // Reload the page.
                 setTimeout(() => {
                   location.reload();
-                }, 2500);
+                }, 2000);
               }
             });
           }

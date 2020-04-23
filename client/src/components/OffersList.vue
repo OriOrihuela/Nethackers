@@ -1,8 +1,8 @@
 <template>
   <div id="offers-list">
     <!-- MAIN TITLE -->
-    <h2 class="text-center">Lista de ofertas</h2>
-    <div v-if="offers">
+    <div v-if="offers && offers.length >= 1">
+      <h2 class="text-center">Lista de ofertas</h2>
       <mdb-row
         class="my-5 text-center"
         v-for="(offer, index) in offers"
@@ -32,6 +32,14 @@
         </mdb-col>
       </mdb-row>
     </div>
+    <div v-else-if="offers && offers.length < 1" class="text-center">
+      <!-- LOADING CONTENT -->
+      <mdb-row>
+        <mdb-col col="12 my-5">
+          <h2>No hay ofertas que mostrar</h2>
+        </mdb-col>
+      </mdb-row>
+    </div>
     <div v-else>
       <!-- LOADING CONTENT -->
       <mdb-row class="text-center">
@@ -57,11 +65,11 @@ export default {
   components: {
     mdbBtn,
     mdbRow,
-    mdbCol
+    mdbCol,
   },
   data() {
     return {
-      offers: null
+      offers: null,
     };
   },
   // Whenever the component is built...
@@ -71,18 +79,18 @@ export default {
   methods: {
     // Retrieve all the offers from DB.
     getOffers() {
-      axios.get("/api").then(response => {
+      axios.get("/api").then((response) => {
         if (response.data.status === "success") {
           this.offers = response.data.offers;
         }
       });
     },
-    
+
     // Redirect to the view of a single offer.
     getOfferInfo(url) {
       this.$router.push(`/offers/${url}`);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -148,21 +148,24 @@ const CONTROLLER = {
      * Update the document filtering by the "url" property of the model.
      * Then, pass the object to be saved through "request.body".
      */
-    Offer.findOneAndDelete({ _id: request.params.id }, (error, offerDeleted) => {
-      // If there is any error when deleting the offer...
-      if (error || !offerDeleted) {
-        return response.status(500).send({
-          status: "error",
-          message: `The offer has not been deleted because of ${error}`,
-        });
-        // Otherwise, delete the offer and send a 200 response.
-      } else {
-        return response.status(200).send({
-          status: "success",
-          offerDeleted,
-        });
+    Offer.findOneAndDelete(
+      { _id: request.params.id, recruiter: request.user._conditions._id },
+      (error, offerDeleted) => {
+        // If there is any error when deleting the offer...
+        if (error || !offerDeleted) {
+          return response.status(500).send({
+            status: "error",
+            message: `The offer has not been deleted because of ${error}`,
+          });
+          // Otherwise, delete the offer and send a 200 response.
+        } else {
+          return response.status(200).send({
+            status: "success",
+            offerDeleted,
+          });
+        }
       }
-    });
+    );
   },
 };
 

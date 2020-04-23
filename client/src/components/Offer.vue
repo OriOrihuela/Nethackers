@@ -69,6 +69,14 @@
         ></mdb-row
       >
     </div>
+    <div v-else-if="!offer" class="text-center">
+      <!-- LOADING CONTENT -->
+      <mdb-row>
+        <mdb-col col="12 my-5">
+          <h2>La oferta no existe</h2>
+        </mdb-col>
+      </mdb-row>
+    </div>
     <div v-else class="text-center">
       <!-- LOADING CONTENT -->
       <mdb-row>
