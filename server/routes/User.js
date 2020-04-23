@@ -26,6 +26,7 @@ ROUTER.get(
  */
 ROUTER.post("/create-account", USER_CONTROLLER.createUser);
 ROUTER.post("/login", USER_CONTROLLER.authUser);
+ROUTER.post("/logout", AUTH_MIDDLEWARE.verifyUser, USER_CONTROLLER.logoutUser);
 
 /**
  * PUT routes.

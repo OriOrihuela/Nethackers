@@ -15,7 +15,7 @@ Vue.use(Router);
 
 function isLoggedIn(to, from, next) {
   !(
-    localStorage.getItem(process.env.VUE_APP_ROUTER_STORAGE_KEY) ===
+    Vue.$cookies.get(process.env.VUE_APP_ROUTER_STORAGE_KEY) ===
     process.env.VUE_APP_ROUTER_STORAGE_VALUE
   )
     ? next({ name: "Login" })

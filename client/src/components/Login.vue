@@ -102,6 +102,7 @@ import {
 } from "mdbvue";
 import swal from "sweetalert";
 import axios from "axios";
+import { EventBus } from "../main";
 import { required, minLength, sameAs } from "vuelidate/lib/validators";
 
 export default {
@@ -145,10 +146,13 @@ export default {
                 "success"
               );
               // Set the auth for the front-end router.
-              localStorage.setItem(
+              this.$cookies.set(
                 `${response.data.localStorage.key}`,
-                `${response.data.localStorage.value}`
+                `${response.data.localStorage.value}`,
+                { expires: "8760h" }
               );
+              // Emit the logged user event to the entire App.
+              EventBus.$emit("user-logged", true);
               // Redirect to main page.
               this.$router.push("/");
             }

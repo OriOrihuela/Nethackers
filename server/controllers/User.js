@@ -122,6 +122,26 @@ const CONTROLLER = {
       }
     })(request, response);
   },
+
+  // Behaviour to logout the user.
+  logoutUser: (request, response) => {
+    if (request.session) {
+      request.session.destroy((error) => {
+        if (error) {
+          return response.status(500).send({
+            status: "error",
+            message: `${error}`,
+          });
+        } else {
+          response.clearCookie(`${process.env.KEY}`);
+          return response.status(200).send({
+            status: "success",
+            message: "La sesión ha finalizado",
+          });
+        }
+      });
+    }
+  },
 };
 
 // Here we export the controller.
