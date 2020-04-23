@@ -147,8 +147,8 @@ export default {
               );
               // Set the auth for the front-end router.
               this.$cookies.set(
-                `${response.data.localStorage.key}`,
-                `${response.data.localStorage.value}`,
+                `${response.data.cookie.key}`,
+                `${response.data.cookie.value}`,
                 { expires: "8760h" }
               );
               // Emit the logged user event to the entire App.

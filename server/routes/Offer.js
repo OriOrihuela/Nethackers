@@ -40,6 +40,11 @@ ROUTER.put(
 /**
  * DELETE routes.
  */
+ROUTER.delete(
+  "/offers/delete/:id",
+  AUTH_MIDDLEWARE.verifyUser,
+  OFFER_CONTROLLER.deleteOffer
+);
 
 // Here we export the module.
 module.exports = ROUTER;

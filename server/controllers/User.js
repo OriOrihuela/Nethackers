@@ -113,7 +113,7 @@ const CONTROLLER = {
         request.login(user, (error) => {
           response.status(200).send({
             status: "success",
-            localStorage: {
+            cookie: {
               key: process.env.VUE_APP_ROUTER_STORAGE_KEY,
               value: process.env.VUE_APP_ROUTER_STORAGE_VALUE,
             },

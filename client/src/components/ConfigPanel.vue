@@ -128,7 +128,41 @@ export default {
 
     // Remove the offer.
     removeOffer(id) {
-      console.log(id);
+      swal({
+        title: "¿Está seguro de querer borrar la oferta?",
+        text: "Una vez borrada, será irrecuperable",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+        .then((willDelete) => {
+          if (willDelete) {
+            axios.delete("/api/offers/delete/" + id).then((response) => {
+              if (response.data.status === "success") {
+                // Tell the user the offer has been deleted.
+                swal(
+                  "Oferta borrada",
+                  "La oferta se ha borrado correctamente",
+                  "success",
+                  { button: false }
+                );
+                // Reload the page.
+                setTimeout(() => {
+                  location.reload();
+                }, 2500);
+              }
+            });
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            swal(
+              "Oferta no borrada",
+              "La oferta no se ha borrado correctamente",
+              "error"
+            );
+          }
+        });
     },
   },
   mounted() {
