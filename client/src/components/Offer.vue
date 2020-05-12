@@ -46,28 +46,12 @@
             <li v-for="skill in offer.skills" :key="skill">{{ skill }}</li>
           </ul>
           <!-- EDIT OFFER BUTTONS --> </mdb-col
-        ><mdb-col col="12" sm="6" id="buttons"
-          ><mdb-row>
-            <!-- EDIT  -->
-            <mdb-col col="12">
-              <mdb-btn color="blue darken-2" @click="editOffer(offer.url)"
-                ><mdb-icon icon="edit" /> Editar</mdb-btn
-              >
-            </mdb-col>
-            <mdb-col col="12">
-              <mdb-btn color="green darken-2"
-                ><mdb-icon icon="trash" /> Ya veremos</mdb-btn
-              >
-            </mdb-col>
-            <!-- DELETE  -->
-            <mdb-col col="12">
-              <mdb-btn color="red darken-2"
-                ><mdb-icon icon="trash" /> Borrar</mdb-btn
-              >
-            </mdb-col></mdb-row
-          ></mdb-col
-        ></mdb-row
-      >
+        ><mdb-col col="12" sm="6" id="button">
+          <!-- EDIT  -->
+          <mdb-btn color="info" @click="contactRecruiter(offer.url)"
+            >Contactar <mdb-icon icon="headset"
+          /></mdb-btn> </mdb-col
+      ></mdb-row>
     </div>
     <div v-else-if="!offer" class="text-center">
       <!-- LOADING CONTENT -->
@@ -96,6 +80,7 @@
 <script>
 import { mdbContainer, mdbRow, mdbCol, mdbBtn, mdbIcon } from "mdbvue";
 import axios from "axios";
+
 export default {
   name: "Offer",
   components: {
@@ -125,8 +110,9 @@ export default {
     },
 
     // Behaviour to redirect to the edit mode of an offer.
-    editOffer(url) {
-      this.$router.push(`/offers/edit/${url}`);
+    contactRecruiter(url) {
+      // Redirect to contact recruiter page
+      this.$router.push(`/offers/contact/${url}`);
     },
   },
 };
@@ -157,8 +143,8 @@ export default {
       padding-left: 0;
       list-style: none;
     }
-    #buttons {
-      display: flex;
+    #button {
+      align-self: center;
     }
   }
 }
@@ -169,7 +155,7 @@ export default {
       #skills-col {
         margin-top: 25px;
       }
-      #buttons {
+      #button {
         margin-top: 25px;
       }
     }

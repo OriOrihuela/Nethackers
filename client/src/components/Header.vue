@@ -108,16 +108,32 @@ export default {
   methods: {
     // Behaviours to log out the user.
     onLogOut() {
-      axios.post("/api/logout", { withCredentials: true }).then((response) => {
-        if (response.data.status === "success") {
-          // Tell to the header that user is logged out.
-          this.isUserLogged = false;
-          // Remove the localStorage router key.
-          this.$cookies.remove(`${process.env.VUE_APP_ROUTER_STORAGE_KEY}`);
-          // Tell the user session is finished.
-          swal("Sesión finalizada", "¡Esperamos volver a verte pronto!", "success");
-          // Redirect to login page.
-          this.$router.push("/login");
+      swal({
+        title: "¿Está seguro de querer cerrar sesión?",
+        icon: "warning",
+        buttons: true,
+      }).then((logout) => {
+        if (logout) {
+          axios
+            .post("/api/logout", { withCredentials: true })
+            .then((response) => {
+              if (response.data.status === "success") {
+                // Tell to the header that user is logged out.
+                this.isUserLogged = false;
+                // Remove the localStorage router key.
+                this.$cookies.remove(
+                  `${process.env.VUE_APP_ROUTER_STORAGE_KEY}`
+                );
+                // Tell the user session is finished.
+                swal(
+                  "Sesión finalizada",
+                  "¡Esperamos volver a verte pronto!",
+                  "success"
+                );
+                // Redirect to login page.
+                this.$router.push("/login");
+              }
+            });
         }
       });
     },

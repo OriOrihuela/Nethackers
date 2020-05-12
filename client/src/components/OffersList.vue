@@ -27,7 +27,7 @@
         <!-- MORE INFO ABOUT THE OFFER -->
         <mdb-col class="mt-2" col="12" sm="3">
           <mdb-btn color="info" @click="getOfferInfo(offer.url)"
-            >Más info</mdb-btn
+            ><mdb-icon icon="plus"/> info</mdb-btn
           >
         </mdb-col>
       </mdb-row>
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mdbBtn, mdbRow, mdbCol } from "mdbvue";
+import { mdbBtn, mdbRow, mdbCol, mdbIcon } from "mdbvue";
 import axios from "axios";
 
 export default {
@@ -66,6 +66,7 @@ export default {
     mdbBtn,
     mdbRow,
     mdbCol,
+    mdbIcon
   },
   data() {
     return {

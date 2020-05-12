@@ -3,6 +3,10 @@
 // Import of the Offer model.
 const Offer = require("../models/Offer");
 
+// Import the multer cv middleware to upload pdf's.
+const MULTER = require("multer");
+const UPLOAD = require("../config/multer");
+
 // Define the controller with its own different behaviours.
 const CONTROLLER = {
   // Behaviour to retrieve all the offers kept in DB.
@@ -166,6 +170,62 @@ const CONTROLLER = {
         }
       }
     );
+  },
+
+  uploadCV: (request, response, next) => {
+    UPLOAD(request, response, (error) => {
+      if (error) {
+        if (error.code === "LIMIT_FILE_SIZE") {
+          return response.status(422).send({
+            status: "error",
+            message: "File too large. Max size is 1MB.",
+          });
+        } else if (error.code === "NOT_PDF_FILE") {
+          return response.status(422).send({
+            status: "error",
+            message: "Only PDF's are allowed.",
+          });
+        } else {
+          return response.status(500).send({
+            status: "error",
+            message: `${error}`,
+          });
+        }
+      } else {
+        return response.status(200).send({
+          status: "success",
+          cv: request.file,
+        });
+      }
+    });
+  },
+
+  // Behaviour to save the candidate info in the offer.
+  saveOfferApplicant: async (request, response, next) => {
+
+    let offer = await Offer.findOne({ url: request.params.url });
+
+    if (!offer) {
+      return response.status(404).send({
+        status: "error",
+        message: "There's no offer with that url in DB.",
+      });
+    }
+
+    const newApplicant = {
+      name: request.body.name,
+      email: request.body.email,
+      cv: request.body.cv,
+    };
+
+    offer.candidates.push(newApplicant);
+    
+    if (await offer.save()) {
+      return response.status(200).send({
+        status: "success",
+        message: "CV saved properly.",
+      });
+    }
   },
 };
 

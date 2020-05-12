@@ -27,6 +27,10 @@ ROUTER.post(
   AUTH_MIDDLEWARE.verifyUser,
   OFFER_CONTROLLER.createOffer
 );
+ROUTER.post(
+  "/offers/contact/:url",
+  OFFER_CONTROLLER.uploadCV
+);
 
 /**
  * PUT routes.
@@ -35,6 +39,10 @@ ROUTER.put(
   "/offers/edit/:url",
   AUTH_MIDDLEWARE.verifyUser,
   OFFER_CONTROLLER.updateOffer
+);
+ROUTER.put(
+  "/offers/contact/:url",
+  OFFER_CONTROLLER.saveOfferApplicant
 );
 
 /**

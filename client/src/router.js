@@ -10,6 +10,7 @@ import CreateAccount from "./components/CreateAccount";
 import Login from "./components/Login";
 import ConfigPanel from "./components/ConfigPanel";
 import EditProfile from "./components/EditProfile";
+import ContactRecruiter from "./components/ContactRecruiter";
 
 Vue.use(Router);
 
@@ -67,6 +68,12 @@ export default new Router({
       component: EditProfile,
       beforeEnter: isLoggedIn,
     },
+    {
+      path: "/offers/contact/:url",
+      component: ContactRecruiter,
+    },
+
+    
     // Redirection performed whenever the user enters a wrong URL.
     // { path: "*", component: ErrorComponent },
   ],

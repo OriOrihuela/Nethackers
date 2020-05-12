@@ -71,7 +71,7 @@ const CONTROLLER = {
     User.findOneAndUpdate(
       { _id: request.user._conditions._id },
       request.body,
-      { new: true },
+      { new: true, runValidators: true },
       (error, updatedUser) => {
         // If there is any error...
         if (error) {
