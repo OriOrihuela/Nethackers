@@ -4,8 +4,10 @@
 const Offer = require("../models/Offer");
 
 // Import the multer cv middleware to upload pdf's.
-const MULTER = require("multer");
 const UPLOAD = require("../config/multer");
+const FS = require("fs");
+const PUPPETEER = require("puppeteer");
+const PATH = require("path");
 
 // Define the controller with its own different behaviours.
 const CONTROLLER = {
@@ -153,7 +155,7 @@ const CONTROLLER = {
      * Then, pass the object to be saved through "request.body".
      */
     Offer.findOneAndDelete(
-      { _id: request.params.id, recruiter: request.user._conditions._id },
+      { url: request.params.url, recruiter: request.user._conditions._id },
       (error, offerDeleted) => {
         // If there is any error when deleting the offer...
         if (error || !offerDeleted) {
@@ -172,7 +174,28 @@ const CONTROLLER = {
     );
   },
 
-  uploadCV: (request, response, next) => {
+  getCV: (request, response) => {
+    FS.readFile("server/uploads/cv/" + request.params.cv, (error, cv) => {
+      if (error) {
+        return response.status(500).send({
+          status: "error",
+          message: `The CV has not been retrieved because of ${error}`,
+        });
+      } else if (!cv) {
+        return response.status(500).send({
+          status: "error",
+          message: "There's no such a CV with that name",
+        });
+      } else {
+        response.writeHead(200, {
+          "Content-type": "application/pdf",
+        });
+        response.end(cv, "binary");
+      }
+    });
+  },
+
+  uploadCV: (request, response) => {
     UPLOAD(request, response, (error) => {
       if (error) {
         if (error.code === "LIMIT_FILE_SIZE") {
@@ -201,8 +224,7 @@ const CONTROLLER = {
   },
 
   // Behaviour to save the candidate info in the offer.
-  saveOfferApplicant: async (request, response, next) => {
-
+  saveOfferCandidate: async (request, response, next) => {
     let offer = await Offer.findOne({ url: request.params.url });
 
     if (!offer) {
@@ -219,7 +241,7 @@ const CONTROLLER = {
     };
 
     offer.candidates.push(newApplicant);
-    
+
     if (await offer.save()) {
       return response.status(200).send({
         status: "success",

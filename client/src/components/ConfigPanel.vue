@@ -32,12 +32,16 @@
         class="my-5 text-center"
         v-for="(offer, index) in offers"
         :key="offer._id"
-        :class="{ oddOffer: index % 2 === 0 }"
+        :class="{ evenOffer: index % 2 === 0 }"
       >
         <!-- COMPANY AND JOB -->
         <mdb-col class="mt-3" col="12" sm="3">
           <h3>{{ offer.company }}</h3>
           <p id="offer-title">{{ offer.title }}</p>
+          <p v-if="offer.candidates.length > 1">
+            {{ offer.candidates.length }} Candidat@s
+          </p>
+          <p v-else-if="offer.candidates.length === 1">1 Candidat@</p>
         </mdb-col>
         <!-- JOB LOCATION -->
         <mdb-col class="mt-3" col="12" sm="3">
@@ -58,12 +62,12 @@
               /></mdb-btn>
             </mdb-col>
             <mdb-col class="mt-2" col="12">
-              <mdb-btn color="default" @click="getCandidates(offer._id)"
+              <mdb-btn color="default" @click="getCandidates(offer.url)"
                 >Candidatos <mdb-icon icon="user"
               /></mdb-btn>
             </mdb-col>
             <mdb-col class="mt-2" col="12">
-              <mdb-btn color="danger" @click="removeOffer(offer._id)"
+              <mdb-btn color="danger" @click="removeOffer(offer.url)"
                 >Borrar <mdb-icon icon="trash"
               /></mdb-btn>
             </mdb-col> </mdb-row
@@ -130,12 +134,12 @@ export default {
     },
 
     // Redirect to the view of all the candidates who applied the offer.
-    getCandidates(id) {
-      this.$router.push(`/candidates/${id}`);
+    getCandidates(url) {
+      this.$router.push(`/candidates/${url}`);
     },
 
     // Remove the offer.
-    removeOffer(id) {
+    removeOffer(url) {
       swal({
         title: "¿Está seguro de querer borrar la oferta?",
         text: "Una vez borrada, será irrecuperable",
@@ -145,7 +149,7 @@ export default {
       })
         .then((willDelete) => {
           if (willDelete) {
-            axios.delete("/api/offers/delete/" + id).then((response) => {
+            axios.delete("/api/offers/delete/" + url).then((response) => {
               if (response.data.status === "success") {
                 // Tell the user the offer has been deleted.
                 swal(
@@ -205,7 +209,7 @@ export default {
       font-weight: bolder;
     }
   }
-  .oddOffer {
+  .evenOffer {
     background-color: rgb(245, 245, 245);
     border-radius: 15px;
   }

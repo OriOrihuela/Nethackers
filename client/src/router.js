@@ -11,6 +11,7 @@ import Login from "./components/Login";
 import ConfigPanel from "./components/ConfigPanel";
 import EditProfile from "./components/EditProfile";
 import ContactRecruiter from "./components/ContactRecruiter";
+import Candidates from "./components/Candidates";
 
 Vue.use(Router);
 
@@ -66,6 +67,11 @@ export default new Router({
     {
       path: "/edit-profile",
       component: EditProfile,
+      beforeEnter: isLoggedIn,
+    },
+    {
+      path: "/candidates/:url",
+      component: Candidates,
       beforeEnter: isLoggedIn,
     },
     {

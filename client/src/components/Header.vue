@@ -14,6 +14,13 @@
               ><mdb-icon icon="home"
             /></mdb-nav-item>
           </mdb-tooltip>
+          <!-- HOME ICON -->
+          <mdb-tooltip trigger="hover" v-if="!isUserLogged" :options="{ placement: 'bottom' }">
+            <span slot="tip">Login</span>
+            <mdb-nav-item slot="reference" to="/login" active
+              ><mdb-icon icon="user"
+            /></mdb-nav-item>
+          </mdb-tooltip>
           <!-- CLOSE SESSION -->
           <mdb-tooltip
             v-if="isUserLogged"

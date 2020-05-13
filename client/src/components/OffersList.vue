@@ -7,7 +7,7 @@
         class="my-5 text-center"
         v-for="(offer, index) in offers"
         :key="offer._id"
-        :class="{ oddOffer: index % 2 === 0 }"
+        :class="{ evenOffer: index % 2 === 0 }"
       >
         <!-- COMPANY AND JOB -->
         <mdb-col class="mt-3" col="12" sm="3">
@@ -113,7 +113,7 @@ export default {
       font-weight: bolder;
     }
   }
-  .oddOffer {
+  .evenOffer {
     background-color: rgb(245, 245, 245);
     border-radius: 15px;
   }
