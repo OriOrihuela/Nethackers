@@ -58,6 +58,7 @@
 <script>
 import { mdbContainer, mdbRow, mdbCol, mdbBtn, mdbIcon } from "mdbvue";
 import axios from "axios";
+import swal from "sweetalert";
 
 export default {
   name: "Candidates",
@@ -82,11 +83,35 @@ export default {
   },
   methods: {
     getCV(cv) {
-      axios.get("/api/offers/cv/" + cv).then((response) => {
-        if (response.data.status === "success") {
-          console.log("CV encontrado");
-        }
-      });
+      axios({
+        url: `/api/offers/cv/${cv}`,
+        method: "GET",
+        responseType: "blob", // IMPORTANT
+      })
+        .then((response) => {
+          if (response.data) {
+            var fileLink = document.createElement("a");
+
+            fileLink.href = window.URL.createObjectURL(
+              new Blob([response.data])
+            );
+            
+            fileLink.setAttribute("download", cv);
+
+            document.body.appendChild(fileLink);
+            fileLink.click();
+            document.body.removeChild(fileLink);
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            swal(
+              "Descarga fallida",
+              "No se ha podido descargar el CV adecuadamente",
+              "error"
+            );
+          }
+        });
     },
   },
 };

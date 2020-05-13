@@ -6,8 +6,6 @@ const Offer = require("../models/Offer");
 // Import the multer cv middleware to upload pdf's.
 const UPLOAD = require("../config/multer");
 const FS = require("fs");
-const PUPPETEER = require("puppeteer");
-const PATH = require("path");
 
 // Define the controller with its own different behaviours.
 const CONTROLLER = {
@@ -182,7 +180,7 @@ const CONTROLLER = {
           message: `The CV has not been retrieved because of ${error}`,
         });
       } else if (!cv) {
-        return response.status(500).send({
+        return response.status(404).send({
           status: "error",
           message: "There's no such a CV with that name",
         });
