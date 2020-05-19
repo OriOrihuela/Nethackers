@@ -1,6 +1,6 @@
 <template>
   <mdb-container id="candidates">
-    <div v-if="offer">
+    <div v-if="offer" class="text-center">
       <mdb-row>
         <mdb-col col="12"
           ><h1>Candidatos para {{ offer.title }}</h1></mdb-col
@@ -30,10 +30,7 @@
           >
         </mdb-col>
       </mdb-row>
-    </div>
-    <div v-else-if="!offer" class="text-center">
-      <!-- NOT APPLICANTS TO SHOW -->
-      <mdb-row>
+      <mdb-row v-if="offer.candidates.length < 1" class="text-center">
         <mdb-col col="12 my-5">
           <h2>No hay candidatos que mostrar</h2>
         </mdb-col>
@@ -95,7 +92,7 @@ export default {
             fileLink.href = window.URL.createObjectURL(
               new Blob([response.data])
             );
-            
+
             fileLink.setAttribute("download", cv);
 
             document.body.appendChild(fileLink);
