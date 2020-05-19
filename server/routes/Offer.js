@@ -42,6 +42,7 @@ ROUTER.post(
   OFFER_CONTROLLER.createOffer
 );
 ROUTER.post("/offers/contact/:url", OFFER_CONTROLLER.uploadCV);
+ROUTER.post("/filter", OFFER_CONTROLLER.getFilteredOffers);
 
 /**
  * PUT routes.

@@ -27,7 +27,7 @@
         <!-- MORE INFO ABOUT THE OFFER -->
         <mdb-col class="mt-2" col="12" sm="3">
           <mdb-btn color="info" @click="getOfferInfo(offer.url)"
-            ><mdb-icon icon="plus"/> info</mdb-btn
+            ><mdb-icon icon="plus" /> info</mdb-btn
           >
         </mdb-col>
       </mdb-row>
@@ -58,6 +58,7 @@
 
 <script>
 import { mdbBtn, mdbRow, mdbCol, mdbIcon } from "mdbvue";
+import { EventBus } from "../main";
 import axios from "axios";
 
 export default {
@@ -66,7 +67,7 @@ export default {
     mdbBtn,
     mdbRow,
     mdbCol,
-    mdbIcon
+    mdbIcon,
   },
   data() {
     return {
@@ -75,18 +76,19 @@ export default {
   },
   // Whenever the component is built...
   mounted() {
-    this.getOffers();
+    axios.get("/api").then((response) => {
+      if (response.data.status === "success") {
+        this.offers = response.data.offers;
+      }
+    });
+
+    // When the event "filtered-offers" is fired...
+    EventBus.$on("filtered-offers", (offers) => {
+      // We tell to the header that user is logged in.
+      this.offers = offers;
+    });
   },
   methods: {
-    // Retrieve all the offers from DB.
-    getOffers() {
-      axios.get("/api").then((response) => {
-        if (response.data.status === "success") {
-          this.offers = response.data.offers;
-        }
-      });
-    },
-
     // Redirect to the view of a single offer.
     getOfferInfo(url) {
       this.$router.push(`/offers/${url}`);

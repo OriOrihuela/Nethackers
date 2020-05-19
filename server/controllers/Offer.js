@@ -36,6 +36,38 @@ const CONTROLLER = {
       });
   },
 
+  // Behaviour to retrieve all the offers filtered by the Header.vue form.
+  getFilteredOffers: (request, response) => {
+    Offer.find(
+      {
+        $text: {
+          $search: request.body.value,
+        },
+      },
+      (error, offers) => {
+        // If there is any error...
+        if (error) {
+          return response.status(500).send({
+            status: "error",
+            message: `${error}`,
+          });
+          // Or there are not stored offers in the DB...
+        } else if (!offers) {
+          return response.status(404).send({
+            status: "not found",
+            message: "There aren't offers with that data in the title.",
+          });
+          // Return all the offers.
+        } else {
+          return response.status(200).send({
+            status: "success",
+            offers,
+          });
+        }
+      }
+    );
+  },
+
   // Behaviour to retrieve all the offers by the recruiter ID.
   getOffersByRecruiter: (request, response) => {
     Offer.find({ recruiter: request.user._conditions._id })

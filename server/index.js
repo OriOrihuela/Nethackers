@@ -6,9 +6,9 @@ const APP = require("./app");
 // Import the DB config file.
 require("./config/db");
 
-// Importing the "variables.env" file.
+// Importing the ".env" file.
 require("dotenv").config({
-  path: "variables.env",
+  path: ".env",
 });
 
 // Heroku connection variable.

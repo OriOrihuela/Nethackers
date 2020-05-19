@@ -97,18 +97,13 @@ export default {
   },
   // Whenever the component is built...
   mounted() {
-    this.getOffer(this.$route.params.url);
+    axios.get("/api/offers/" + this.$route.params.url).then((response) => {
+      if (response.data.status === "success") {
+        this.offer = response.data.offer;
+      }
+    });
   },
   methods: {
-    // Behaviour to retrieve a single offer from the DB.
-    getOffer(offerUrl) {
-      axios.get("/api/offers/" + offerUrl).then((response) => {
-        if (response.data.status === "success") {
-          this.offer = response.data.offer;
-        }
-      });
-    },
-
     // Behaviour to redirect to the edit mode of an offer.
     contactRecruiter(url) {
       // Redirect to contact recruiter page

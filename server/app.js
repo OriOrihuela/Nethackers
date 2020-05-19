@@ -12,9 +12,9 @@ const MongoStore = require("connect-mongo")(SESSION); // Passing the SESSION var
 const PASSPORT = require("./config/passport");
 const FLASH = require("connect-flash");
 
-// Importing the "variables.env" file.
+// Importing the ".env" file.
 require("dotenv").config({
-  path: "variables.env",
+  path: ".env",
 });
 
 // Execute express (http).

@@ -15,7 +15,11 @@
             /></mdb-nav-item>
           </mdb-tooltip>
           <!-- HOME ICON -->
-          <mdb-tooltip trigger="hover" v-if="!isUserLogged" :options="{ placement: 'bottom' }">
+          <mdb-tooltip
+            trigger="hover"
+            v-if="!isUserLogged"
+            :options="{ placement: 'bottom' }"
+          >
             <span slot="tip">Login</span>
             <mdb-nav-item slot="reference" to="/login" active
               ><mdb-icon icon="user"
@@ -44,7 +48,7 @@
           </mdb-tooltip>
         </mdb-navbar-nav>
         <!--SEARCH FORM -->
-        <form>
+        <form @submit.prevent="onSubmit">
           <mdb-input
             type="text"
             class="text-white"
@@ -54,6 +58,8 @@
             navInput
             waves
             waves-fixed
+            name="filter"
+            v-model="filter.value"
           />
         </form>
       </mdb-navbar-toggler>
@@ -91,6 +97,9 @@ export default {
 
   data() {
     return {
+      filter: {
+        value: null,
+      },
       isUserLogged: false,
     };
   },
@@ -143,6 +152,26 @@ export default {
             });
         }
       });
+    },
+
+    // Method to filter the offers by name.
+    onSubmit() {
+      axios
+        .post("/api/filter", this.filter)
+        .then((response) => {
+          if (response.data.status === "success") {
+            EventBus.$emit("filtered-offers", response.data.offers);
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            swal(
+              "Error al filtrar",
+              "No ha sido posible filtrar su búsqueda",
+              "error"
+            );
+          }
+        });
     },
   },
 };

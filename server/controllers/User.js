@@ -6,9 +6,9 @@ const User = require("../models/User");
 // Import passport.
 const PASSPORT = require("passport");
 
-// Importing the "variables.env" file.
+// Importing the ".env" file.
 require("dotenv").config({
-  path: "variables.env",
+  path: ".env",
 });
 
 // Define the controller with its own different behaviours.

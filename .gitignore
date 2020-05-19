@@ -7,7 +7,7 @@ package-lock.json
 /dist
 
 # local env or config files
-variables.env
+.env
 client/.env
 .env.local
 .env.*.local
@@ -25,3 +25,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Uploaded CV's
+server/uploads/cv

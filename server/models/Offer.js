@@ -73,6 +73,9 @@ OFFER_SCHEMA.pre("save", function (next) {
   next();
 });
 
+// Creating an index to be applied on filters.
+OFFER_SCHEMA.index({ title: "text" });
+
 /**
  * Exporting the model.
  * - In the Node.js environment, we will use "Offer" as singular.
