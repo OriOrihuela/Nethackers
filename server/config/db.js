@@ -3,9 +3,9 @@
 // Import mongoose.
 const MONGOOSE = require("mongoose");
 
-// Importing the "variables.env" file.
+// Importing the ".env" file.
 require("dotenv").config({
-  path: "variables.env",
+  path: ".env",
 });
 
 // Deactivating old and deprecated behaviours.

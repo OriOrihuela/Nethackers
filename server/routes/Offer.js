@@ -17,6 +17,21 @@ const ROUTER = EXPRESS.Router();
  */
 ROUTER.get("/", OFFER_CONTROLLER.getOffers);
 ROUTER.get("/offers/:url", OFFER_CONTROLLER.getOffer);
+ROUTER.get(
+  "/config-panel",
+  AUTH_MIDDLEWARE.verifyUser,
+  OFFER_CONTROLLER.getOffersByRecruiter
+);
+ROUTER.get(
+  "/candidates/:url",
+  AUTH_MIDDLEWARE.verifyUser,
+  OFFER_CONTROLLER.getOffer
+);
+ROUTER.get(
+  "/offers/cv/:cv",
+  AUTH_MIDDLEWARE.verifyUser,
+  OFFER_CONTROLLER.getCV
+);
 
 /**
  * POST routes.
@@ -26,6 +41,8 @@ ROUTER.post(
   AUTH_MIDDLEWARE.verifyUser,
   OFFER_CONTROLLER.createOffer
 );
+ROUTER.post("/offers/contact/:url", OFFER_CONTROLLER.uploadCV);
+ROUTER.post("/filter", OFFER_CONTROLLER.getFilteredOffers);
 
 /**
  * PUT routes.
@@ -35,10 +52,16 @@ ROUTER.put(
   AUTH_MIDDLEWARE.verifyUser,
   OFFER_CONTROLLER.updateOffer
 );
+ROUTER.put("/offers/contact/:url", OFFER_CONTROLLER.saveOfferCandidate);
 
 /**
  * DELETE routes.
  */
+ROUTER.delete(
+  "/offers/delete/:url",
+  AUTH_MIDDLEWARE.verifyUser,
+  OFFER_CONTROLLER.deleteOffer
+);
 
 // Here we export the module.
 module.exports = ROUTER;

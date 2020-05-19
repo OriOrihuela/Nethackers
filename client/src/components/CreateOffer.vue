@@ -197,7 +197,7 @@ export default {
       } else {
         // Save the offer in DB.
         axios
-          .post("/api/offers/new", this.offer)
+          .post("/api/offers/new", this.offer, { withCredentials: true })
           .then((response) => {
             // If everything works fine...
             if (response.data.status === "success") {

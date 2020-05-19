@@ -12,11 +12,13 @@ import router from "./router";
 import Vuelidate from "vuelidate";
 Vue.use(Vuelidate);
 
-// Using cookies.
+// Package to validate forms.
 import VueCookies from "vue-cookies";
 Vue.use(VueCookies);
 
 Vue.config.productionTip = false;
+
+export const EventBus = new Vue();
 
 new Vue({
   router,

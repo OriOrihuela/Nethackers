@@ -1,13 +1,13 @@
 <template>
   <div id="offers-list">
     <!-- MAIN TITLE -->
-    <h2 class="text-center">Lista de ofertas</h2>
-    <div v-if="offers">
+    <div v-if="offers && offers.length >= 1">
+      <h2 class="text-center">Lista de ofertas</h2>
       <mdb-row
         class="my-5 text-center"
         v-for="(offer, index) in offers"
         :key="offer._id"
-        :class="{ oddOffer: index % 2 === 0 }"
+        :class="{ evenOffer: index % 2 === 0 }"
       >
         <!-- COMPANY AND JOB -->
         <mdb-col class="mt-3" col="12" sm="3">
@@ -27,8 +27,16 @@
         <!-- MORE INFO ABOUT THE OFFER -->
         <mdb-col class="mt-2" col="12" sm="3">
           <mdb-btn color="info" @click="getOfferInfo(offer.url)"
-            >Más info</mdb-btn
+            ><mdb-icon icon="plus" /> info</mdb-btn
           >
+        </mdb-col>
+      </mdb-row>
+    </div>
+    <div v-else-if="offers && offers.length < 1" class="text-center">
+      <!-- LOADING CONTENT -->
+      <mdb-row>
+        <mdb-col col="12 my-5">
+          <h2>No hay ofertas que mostrar</h2>
         </mdb-col>
       </mdb-row>
     </div>
@@ -49,7 +57,8 @@
 </template>
 
 <script>
-import { mdbBtn, mdbRow, mdbCol } from "mdbvue";
+import { mdbBtn, mdbRow, mdbCol, mdbIcon } from "mdbvue";
+import { EventBus } from "../main";
 import axios from "axios";
 
 export default {
@@ -57,31 +66,34 @@ export default {
   components: {
     mdbBtn,
     mdbRow,
-    mdbCol
+    mdbCol,
+    mdbIcon,
   },
   data() {
     return {
-      offers: null
+      offers: null,
     };
   },
   // Whenever the component is built...
   mounted() {
-    this.getOffers();
+    axios.get("/api").then((response) => {
+      if (response.data.status === "success") {
+        this.offers = response.data.offers;
+      }
+    });
+
+    // When the event "filtered-offers" is fired...
+    EventBus.$on("filtered-offers", (offers) => {
+      // We tell to the header that user is logged in.
+      this.offers = offers;
+    });
   },
   methods: {
-    // Retrieve all the offers from DB.
-    getOffers() {
-      axios.get("/api").then(response => {
-        if (response.data.status === "success") {
-          this.offers = response.data.offers;
-        }
-      });
-    },
     // Redirect to the view of a single offer.
     getOfferInfo(url) {
       this.$router.push(`/offers/${url}`);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -103,7 +115,7 @@ export default {
       font-weight: bolder;
     }
   }
-  .oddOffer {
+  .evenOffer {
     background-color: rgb(245, 245, 245);
     border-radius: 15px;
   }

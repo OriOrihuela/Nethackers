@@ -67,21 +67,14 @@
           </div>
           <mdb-row>
             <!-- TO CREATE ACCOUNT -->
-            <mdb-col col="12" sm="4" class="mt-5">
+            <mdb-col col="12" sm="6" class="mt-5">
               <div class="text-center">
                 <mdb-btn outline="primary" type="button" @click="toSignup"
                   >Crear cuenta <mdb-icon icon="user-plus" class="ml-1"
                 /></mdb-btn></div
             ></mdb-col>
-            <!-- RESET PASSWORD -->
-            <mdb-col col="12" sm="4" class="mt-5">
-              <div class="text-center">
-                <mdb-btn outline="green" type="button" @click="toResetPassword"
-                  >Restablecer contraseña <mdb-icon icon="key" class="ml-1"
-                /></mdb-btn></div
-            ></mdb-col>
             <!-- SUBMIT -->
-            <mdb-col col="12" sm="4" class="mt-5">
+            <mdb-col col="12" sm="6" class="mt-5">
               <div class="text-center">
                 <mdb-btn outline="secondary" type="submit"
                   >Iniciar sesión <mdb-icon icon="sign-in-alt" class="ml-1"
@@ -102,6 +95,7 @@ import {
 } from "mdbvue";
 import swal from "sweetalert";
 import axios from "axios";
+import { EventBus } from "../main";
 import { required, minLength, sameAs } from "vuelidate/lib/validators";
 
 export default {
@@ -144,12 +138,14 @@ export default {
                 `¡Bienvenido a Nethackers, ${this.user.username}!`,
                 "success"
               );
-              // Set the cookie for the front-end router.
+              // Set the auth for the front-end router.
               this.$cookies.set(
                 `${response.data.cookie.key}`,
                 `${response.data.cookie.value}`,
-                0
+                { expires: "8760h" }
               );
+              // Emit the logged user event to the entire App.
+              EventBus.$emit("user-logged", true);
               // Redirect to main page.
               this.$router.push("/");
             }
@@ -181,11 +177,6 @@ export default {
     // Redirect the user to sign in page.
     toSignup() {
       this.$router.push("/create-account");
-    },
-
-    // Redirect the user to reset password page.
-    toResetPassword() {
-      this.$router.push("/reset-password");
     },
   },
   validations: {

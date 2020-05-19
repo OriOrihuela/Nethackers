@@ -9,13 +9,16 @@ import EditOffer from "./components/EditOffer";
 import CreateAccount from "./components/CreateAccount";
 import Login from "./components/Login";
 import ConfigPanel from "./components/ConfigPanel";
+import EditProfile from "./components/EditProfile";
+import ContactRecruiter from "./components/ContactRecruiter";
+import Candidates from "./components/Candidates";
 
 Vue.use(Router);
 
 function isLoggedIn(to, from, next) {
   !(
-    Vue.$cookies.get(process.env.VUE_APP_ROUTER_COOKIE_KEY) ===
-    process.env.VUE_APP_ROUTER_COOKIE_VALUE
+    Vue.$cookies.get(process.env.VUE_APP_ROUTER_STORAGE_KEY) ===
+    process.env.VUE_APP_ROUTER_STORAGE_VALUE
   )
     ? next({ name: "Login" })
     : next();
@@ -61,6 +64,22 @@ export default new Router({
       component: ConfigPanel,
       beforeEnter: isLoggedIn,
     },
+    {
+      path: "/edit-profile",
+      component: EditProfile,
+      beforeEnter: isLoggedIn,
+    },
+    {
+      path: "/candidates/:url",
+      component: Candidates,
+      beforeEnter: isLoggedIn,
+    },
+    {
+      path: "/offers/contact/:url",
+      component: ContactRecruiter,
+    },
+
+    
     // Redirection performed whenever the user enters a wrong URL.
     // { path: "*", component: ErrorComponent },
   ],

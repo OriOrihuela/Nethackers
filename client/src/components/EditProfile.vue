@@ -1,20 +1,20 @@
 <template>
-  <mdb-container id="create-account"
+  <mdb-container id="edit-profile"
     ><!-- ENTRY CONTENT -->
     <mdb-row>
       <mdb-col col="12"
-        ><h1>Nueva cuenta</h1>
+        ><h1>Editar perfil</h1>
         <h5>
-          Introduzca sus futuros datos como usuario
+          Actualice su información como reclutador
         </h5></mdb-col
       >
     </mdb-row>
     <hr />
     <!-- USER FORM -->
-    <mdb-row>
+    <mdb-row v-if="user">
       <mdb-col col="12" class="mt-5">
         <form @submit.prevent="onSubmit">
-          <p class="h4 text-center mb-4">Datos a completar</p>
+          <p class="h4 text-center mb-4">Datos a editar</p>
           <div class="grey-text">
             <!-- USERNAME -->
             <mdb-input
@@ -49,57 +49,64 @@
             </p>
             <!-- PASSWORD -->
             <mdb-input
-              label="Contraseña"
+              label="Nueva contraseña"
               icon="key"
               type="password"
               name="password"
-              v-model="user.password"
+              v-model="newPassword"
             />
             <p
               class="error mb-5"
               v-if="
                 formSubmitted &&
-                  (!$v.user.password.required || !$v.user.password.minLength)
+                  (!$v.newPassword.required || !$v.newPassword.minLength)
               "
             >
               Introduzca una contraseña de 8 caracteres
             </p>
             <!-- REPEAT PASSWORD -->
             <mdb-input
-              label="Repita su contraseña"
+              label="Repita su nueva contraseña"
               icon="redo"
               type="password"
               name="confirm"
-              v-model="user.confirmPassword"
+              v-model="confirmPassword"
             />
             <p
               class="error"
               v-if="
                 formSubmitted &&
-                  (!$v.user.confirmPassword.required ||
-                    !$v.user.confirmPassword.sameAsPassword)
+                  (!$v.confirmPassword.required ||
+                    !$v.confirmPassword.sameAsPassword)
               "
             >
               Las contraseñas no coinciden
             </p>
           </div>
           <mdb-row>
-            <!-- TO LOGIN -->
-            <mdb-col col="12" sm="6" class="mt-5">
-              <div class="text-center">
-                <mdb-btn outline="primary" type="button" @click="toLogin"
-                  >Iniciar sesión <mdb-icon icon="sign-in-alt" class="ml-1"
-                /></mdb-btn></div
-            ></mdb-col>
             <!-- SUBMIT -->
-            <mdb-col col="12" sm="6" class="mt-5">
+            <mdb-col col="12" class="mt-5">
               <div class="text-center">
                 <mdb-btn outline="secondary" type="submit"
-                  >Crear cuenta <mdb-icon icon="user-plus" class="ml-1"
+                  >Actualizar <mdb-icon icon="paper-plane" class="ml-1"
                 /></mdb-btn></div></mdb-col
           ></mdb-row></form
-      ></mdb-col> </mdb-row
-  ></mdb-container>
+      ></mdb-col>
+    </mdb-row>
+    <div v-else class="text-center">
+      <!-- LOADING CONTENT -->
+      <mdb-row>
+        <mdb-col col="12 mb-5">
+          <div class="spinner-grow text-dark" role="status"></div>
+        </mdb-col>
+        <mdb-col>
+          <h4>
+            Cargando...
+          </h4></mdb-col
+        >
+      </mdb-row>
+    </div></mdb-container
+  >
 </template>
 
 <script>
@@ -107,106 +114,101 @@ import {
   mdbRow,
   mdbCol,
   mdbContainer,
-  mdbInput,
   mdbBtn,
   mdbIcon,
+  mdbInput,
 } from "mdbvue";
-import swal from "sweetalert";
 import axios from "axios";
 import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
+import swal from "sweetalert";
 
 export default {
-  name: "CreateAccount",
+  name: "EditProfile",
   components: {
     mdbRow,
     mdbCol,
     mdbContainer,
-    mdbInput,
     mdbBtn,
     mdbIcon,
+    mdbInput,
   },
+
   data() {
     return {
-      user: {
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      },
+      user: null,
+      newPassword: "",
+      confirmPassword: "",
       formSubmitted: false,
     };
   },
+
   methods: {
-    // Whenever the form is submitted.
     onSubmit() {
       this.formSubmitted = true;
       // The validations have been touched...
       this.$v.$touch();
       // If the form is invalid...
       if (this.$v.$invalid) {
-        swal(
-          "Woops!",
-          "Introduzca correctamente sus credenciales",
-          "warning"
-        );
+        swal("Woops!", "Introduzca correctamente sus credenciales", "warning");
         // Fails silently.
         return false;
       } else {
-        // Save the user in DB.
+        // Update the user in DB.
         axios
-          .post("/api/create-account", this.user)
+          .put("/api/edit-profile", this.user, { withCredentials: true })
           .then((response) => {
             // If everything works fine...
             if (response.data.status === "success") {
               // Tell the user OK.
               swal(
-                "Cuenta creada",
-                "¡Su cuenta ha sido creada correctamente!",
+                "Cuenta actualizada",
+                "¡Su cuenta ha sido actualizada correctamente!",
                 "success"
               );
               // Redirect to log-in page.
-              this.$router.push("/login");
+              this.$router.push("/config-panel");
             }
           })
           .catch((error) => {
-            if (error.request.status === 422) {
+            if (error) {
               swal(
-                "Datos ya existentes",
-                "El nombre y/o email insertados ya existen en Nethackers",
-                "warning"
-              );
-            } else {
-              swal(
-                "Creación fallida",
-                "Su cuenta no ha podido ser creada",
+                "Actualización fallida",
+                "Su cuenta no ha podido ser actualizada",
                 "error"
               );
             }
           });
       }
     },
-
-    // Redirect the user to login page.
-    toLogin() {
-      this.$router.push("/login");
-    },
   },
+
+  mounted() {
+    axios
+      .get("/api/edit-profile", { withCredentials: true })
+      .then((response) => {
+        if (response.data.status === "success") {
+          this.user = response.data.user;
+        }
+      });
+  },
+
+  // Form validations.
   validations: {
     user: {
       username: { required },
       email: { required, email },
-      password: { required, minLength: minLength(8) },
-      confirmPassword: {
-        required,
-        sameAsPassword: sameAs("password"),
-      },
+    },
+    newPassword: { required, minLength: minLength(8) },
+    confirmPassword: {
+      required,
+      sameAsPassword: sameAs("newPassword"),
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-#create-account {
+#edit-profile {
   .row {
     form {
       .grey-text {

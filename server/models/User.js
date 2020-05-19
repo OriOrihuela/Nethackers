@@ -17,8 +17,6 @@ const USER_SCHEMA = SCHEMA(
       required: true,
     },
     password: { type: String, required: true, trim: true },
-    token: String,
-    expiresAt: Date,
   },
   {
     // Dates.
