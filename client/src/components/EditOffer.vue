@@ -194,7 +194,13 @@ export default {
   },
   // Whenever the component is built...
   mounted() {
-    this.getOffer(this.$route.params.url);
+    axios.get("/api/offers/" + this.$route.params.url).then((response) => {
+        if (response.data.status === "success") {
+          // Populate the data.
+          this.offer = response.data.offer;
+        }
+      });
+
     setTimeout(() => {
       this.markSkills();
     }, 500);
@@ -244,17 +250,6 @@ export default {
             }
           });
       }
-    },
-
-    // Behaviour to retrieve a single offer from the DB.
-    getOffer(offerUrl) {
-      // Make the request.
-      axios.get("/api/offers/" + offerUrl).then((response) => {
-        if (response.data.status === "success") {
-          // Populate the data.
-          this.offer = response.data.offer;
-        }
-      });
     },
 
     // Behaviour to check the skills of the form through the selected skills of the offer.
