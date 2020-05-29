@@ -81,7 +81,7 @@ export default {
   methods: {
     getCV(cv) {
       axios({
-        url: `/api/offers/cv/${cv}`,
+        url: `/api/candidates/${this.offer.url}/${cv}`,
         method: "GET",
         responseType: "blob", // IMPORTANT
       })

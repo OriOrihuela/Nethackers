@@ -7,7 +7,6 @@ const CORS = require("cors");
 const COOKIE_PARSER = require("cookie-parser");
 const SESSION = require("express-session");
 const MONGOOSE = require("mongoose");
-const REQUIRE_DIR = require("require-dir");
 const MongoStore = require("connect-mongo")(SESSION); // Passing the SESSION variable to the package.
 const PASSPORT = require("./config/passport");
 const FLASH = require("connect-flash");
@@ -21,7 +20,8 @@ require("dotenv").config({
 const APP = EXPRESS();
 
 // Upload route files.
-const ROUTES = REQUIRE_DIR("./routes");
+const OFFER_ROUTES = require("./routes/Offer");
+const USER_ROUTES = require("./routes/User");
 
 // Middlewares to process certain information before uploading some routes.
 APP.use(BODY_PARSER.urlencoded({ extended: true }));
@@ -70,8 +70,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Add prefixes to the routes (if necessary).
-APP.use("/api", ROUTES.Offer);
-APP.use("/api", ROUTES.User);
+APP.use("/api", OFFER_ROUTES);
+APP.use("/api", USER_ROUTES);
 
 // Export of this modules to be used in "index.js".
 module.exports = APP;

@@ -1,0 +1,45 @@
+[
+  {
+    "_id": "5ecc240e8b88e110cc5d26fe",
+    "salary": "1500€",
+    "skills": ["HTML5", "CSS3", "CSSGrid"],
+    "title": "Node.js Developer",
+    "company": "Facebook",
+    "location": "Palma de Mallorca, Spain",
+    "contract": "Freelance",
+    "description": "Mock description 1",
+    "recruiter": "5ec3d61d8c66531a38136942",
+    "candidates": [],
+    "createdAt": "2020-05-19T16:21:29.793Z",
+    "updatedAt": "2020-05-19T16:21:29.793Z",
+    "url": "nodejs-developer-5ecc240e8b88e110cc5d26fe"
+  },
+  {
+    "_id": "5e240e8b88e11002cc5d26fe",
+    "salary": "2500€",
+    "skills": ["HTML5", "CSS3", "React", "React Native", "Firebase"],
+    "title": "React Developer",
+    "company": "Google",
+    "location": "New Hampshire, England",
+    "contract": "Part time",
+    "description": "Mock description 2",
+    "recruiter": "5ec3d61d8c66531a38136942",
+    "candidates": [
+      {
+        "_id": "5ec42b62a1b8643f9c44e66a",
+        "name": "Eduardo Orihuela Verdugo",
+        "email": "eduardo.orihuela.4e@gmail.com",
+        "cv": "1RNzOVAgg.pdf"
+      },
+      {
+        "_id": "5ec42e7e8d98d944b039b642",
+        "name": "Pepito Palotes",
+        "email": "pepito@hotmail.com",
+        "cv": "HfaYBthYn.pdf"
+      }
+    ],
+    "createdAt": "2020-05-19T16:21:29.793Z",
+    "updatedAt": "2020-05-19T16:21:29.793Z",
+    "url": "react-developer-5e240e8b88e11002cc5d26fe"
+  }
+]

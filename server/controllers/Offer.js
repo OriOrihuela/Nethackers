@@ -247,7 +247,8 @@ const CONTROLLER = {
       } else {
         return response.status(200).send({
           status: "success",
-          cv: request.file,
+          cv: request.files[0],
+          // cv: request.file
         });
       }
     });
