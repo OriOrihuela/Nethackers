@@ -15,27 +15,19 @@ const ROUTER = EXPRESS.Router();
 /**
  * GET routes.
  */
-ROUTER.get(
-  "/edit-profile",
-  AUTH_MIDDLEWARE.verifyUser,
-  USER_CONTROLLER.getUser
-);
+ROUTER.get("/edit-profile", AUTH_MIDDLEWARE, USER_CONTROLLER.getUser);
 
 /**
  * POST routes.
  */
 ROUTER.post("/create-account", USER_CONTROLLER.createUser);
 ROUTER.post("/login", USER_CONTROLLER.authUser);
-ROUTER.post("/logout", AUTH_MIDDLEWARE.verifyUser, USER_CONTROLLER.logoutUser);
+ROUTER.post("/logout", AUTH_MIDDLEWARE, USER_CONTROLLER.logoutUser);
 
 /**
  * PUT routes.
  */
-ROUTER.put(
-  "/edit-profile",
-  AUTH_MIDDLEWARE.verifyUser,
-  USER_CONTROLLER.updateUser
-);
+ROUTER.put("/edit-profile", AUTH_MIDDLEWARE, USER_CONTROLLER.updateUser);
 
 /**
  * DELETE routes.

@@ -27,10 +27,7 @@ const CONFIG = {
   },
 };
 
-// const CONFIG = {
-//   dest: "server/uploads/cv",
-// };
-
-const UPLOAD = MULTER(CONFIG).single("cv");
+const UPLOAD = MULTER(CONFIG).any();
+// const Upload = MULTER(CONFIG).single("cv")
 
 module.exports = UPLOAD;
