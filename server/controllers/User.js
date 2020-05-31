@@ -1,7 +1,8 @@
 "use strict";
 
-// Import of the User model.
+// Import of the User & Offer models.
 const User = require("../models/User");
+const Offer = require("../models/Offer");
 
 // Import passport.
 const PASSPORT = require("passport");
@@ -141,6 +142,43 @@ const CONTROLLER = {
         }
       });
     }
+  },
+
+  // Behaviour to delete an user.
+  deleteUser: async (request, response) => {
+    // Get the user._id from the request.
+    const USER_ID = request.user._conditions._id;
+    // Delete all the offers related to that user.
+    Offer.deleteMany(
+      {
+        recruiter: USER_ID,
+      },
+      (error, offersDeleted) => {
+        // If there is any error when deleting the offers...
+        if (error || !offersDeleted) {
+          return response.status(500).send({
+            status: "error",
+            message: `The offers have not been deleted because of ${error}`,
+          });
+          // Otherwise, delete the user account.
+        } else {
+          User.deleteOne({ _id: USER_ID }, (error, userDeleted) => {
+            // If there is any error when deleting the user account...
+            if (error || !userDeleted) {
+              return response.status(500).send({
+                status: "error",
+                message: `Couldn't delete account because of ${error}`,
+              });
+            } else {
+              return response.status(200).send({
+                status: "success",
+                userDeleted,
+              });
+            }
+          });
+        }
+      }
+    );
   },
 };
 

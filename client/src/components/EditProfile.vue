@@ -84,11 +84,18 @@
             </p>
           </div>
           <mdb-row>
-            <!-- SUBMIT -->
-            <mdb-col col="12" class="mt-5">
+            <!-- UPDATE PROFILE -->
+            <mdb-col col="12" sm="6" class="mt-5">
               <div class="text-center">
                 <mdb-btn outline="secondary" type="submit"
                   >Actualizar <mdb-icon icon="paper-plane" class="ml-1"
+                /></mdb-btn></div
+            ></mdb-col>
+            <!-- DELETE PROFILE -->
+            <mdb-col col="12" sm="6" class="mt-5">
+              <div class="text-center">
+                <mdb-btn outline="danger" type="button" @click="onDelete"
+                  >Eliminar <mdb-icon icon="trash" class="ml-1"
                 /></mdb-btn></div></mdb-col
           ></mdb-row></form
       ></mdb-col>
@@ -121,6 +128,7 @@ import {
 import axios from "axios";
 import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
 import swal from "sweetalert";
+import { EventBus } from "../main";
 
 export default {
   name: "EditProfile",
@@ -143,6 +151,7 @@ export default {
   },
 
   methods: {
+    // Whenever the user submits the form...
     onSubmit() {
       this.formSubmitted = true;
       // The validations have been touched...
@@ -179,6 +188,62 @@ export default {
             }
           });
       }
+    },
+
+    // Whenever the user wants to delete its own account.
+    onDelete() {
+      // Pre-delete alert to ensure the process by the user.
+      swal({
+        title: "¿Está seguro de querer borrar su cuenta?",
+        text: "Una vez borrada, sus datos y ofertas serán irrecuperables",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          // Get the current username.e
+          const USERNAME = this.user.username;
+          // Delete the user account.
+          axios
+            .delete("/api/edit-profile", { withCredentials: true })
+            .then((response) => {
+              if (response.data.status === "success") {
+                // Whenever the user account is deleted, close the session.
+                axios
+                  .post("/api/logout", { withCredentials: true })
+                  .then((response) => {
+                    if (response.data.status === "success") {
+                      // Emit the "user-logout" event to be caught by Header.vue.
+                      EventBus.$emit("user-logout", false);
+                      // Alert the user his account has been removed.
+                      swal(
+                        `¡Esperamos volverle a ver, ${USERNAME}`,
+                        "Su cuenta ha sido borrada",
+                        "success",
+                        { button: false }
+                      );
+                      // Redirect.
+                      this.$router.push("/login");
+                      // Remove the front-end navigation cookie.
+                      this.$cookies.remove(
+                        `${process.env.VUE_APP_ROUTER_STORAGE_KEY}`
+                      );
+                    }
+                  })
+                  .catch((error) => {
+                    if (error) {
+                      // Alert the user that something was wrong.
+                      swal(
+                        "Cuenta no borrada",
+                        "Su cuenta no se ha borrado correctamente",
+                        "error"
+                      );
+                    }
+                  });
+              }
+            });
+        }
+      });
     },
   },
 
