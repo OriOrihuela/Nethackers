@@ -10,6 +10,7 @@ const MONGOOSE = require("mongoose");
 const MongoStore = require("connect-mongo")(SESSION); // Passing the SESSION variable to the package.
 const PASSPORT = require("./config/passport");
 const FLASH = require("connect-flash");
+const PATH = require("path");
 
 // Importing the ".env" file.
 require("dotenv").config({
