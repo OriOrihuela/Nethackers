@@ -10,6 +10,7 @@ const MONGOOSE = require("mongoose");
 const MongoStore = require("connect-mongo")(SESSION); // Passing the SESSION variable to the package.
 const PASSPORT = require("./config/passport");
 const FLASH = require("connect-flash");
+const HISTORY = require("connect-history-api-fallback")
 
 // Importing the ".env" file.
 require("dotenv").config({
@@ -29,6 +30,9 @@ APP.use(BODY_PARSER.json());
 
 // CORS (crossing access between domains -> allow HTTP / AJAX / Asynchronous requests).
 APP.use(CORS());
+
+// Middleware to proxy requests through a specified index page (/server/public/index.html).
+APP.use(HISTORY());
 
 /**
  * With this we will have the variable "req.session" available in our controllers,
