@@ -12,6 +12,7 @@ import ConfigPanel from "./components/ConfigPanel";
 import EditProfile from "./components/EditProfile";
 import ContactRecruiter from "./components/ContactRecruiter";
 import Candidates from "./components/Candidates";
+import PageNotFound from "./components/PageNotFound";
 
 Vue.use(Router);
 
@@ -79,8 +80,7 @@ export default new Router({
       component: ContactRecruiter,
     },
 
-    
     // Redirection performed whenever the user enters a wrong URL.
-    // { path: "*", component: ErrorComponent },
+    { path: "*", component: PageNotFound },
   ],
 });

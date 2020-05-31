@@ -201,17 +201,17 @@ it("creates a new Offer", async (done) => {
   done();
 });
 
-// it("save a PDF file (CV)", async (done) => {
-//   const RESPONSE = await REQUEST.post("/api/offers/contact/url-123123").attach(
-//     "files",
-//     "server/uploads/cv/dummy.pdf"
-//   );
+it("save a PDF file (CV)", async (done) => {
+  const RESPONSE = await REQUEST.post("/api/offers/contact/url-123123").attach(
+    "files",
+    "server/uploads/cv/dummy.pdf" // Custom origin of the PDF folder.
+  );
 
-//   expect(RESPONSE.status).toBe(200);
-//   expect(RESPONSE.body.cv).toBeTruthy();
+  expect(RESPONSE.status).toBe(200);
+  expect(RESPONSE.body.cv).toBeTruthy();
 
-//   done();
-// });
+  done();
+});
 
 it("filter and retrieves the offers which their title match with the data passed in the request", async (done) => {
   const RESPONSE = await REQUEST.post("/api/filter").send({

@@ -13,7 +13,7 @@
         :key="candidate._id"
         :class="{ evenCandidate: index % 2 === 0 }"
       >
-        <!--  -->
+        <!-- CANDIDATE NAME -->
         <mdb-col class="mt-3" col="12" sm="4">
           <h4>Nombre</h4>
           <p id="candidate-name">{{ candidate.name }}</p>
