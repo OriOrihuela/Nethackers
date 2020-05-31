@@ -10,7 +10,6 @@ const MONGOOSE = require("mongoose");
 const MongoStore = require("connect-mongo")(SESSION); // Passing the SESSION variable to the package.
 const PASSPORT = require("./config/passport");
 const FLASH = require("connect-flash");
-const PATH = require("path");
 
 // Importing the ".env" file.
 require("dotenv").config({
@@ -65,8 +64,8 @@ if (process.env.NODE_ENV === "production") {
   // Static folder.
   APP.use(EXPRESS.static(__dirname + "/public/"));
   // Handle SPA.
-  APP.get("*", (request, response) => {
-    response.sendFile(PATH.join(__dirname + "/public/index.html"));
+  APP.get("/*", (request, response) => {
+    response.sendFile(__dirname + "/public/index.html");
   });
 }
 
