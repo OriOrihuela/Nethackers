@@ -64,7 +64,7 @@ if (process.env.NODE_ENV === "production") {
   // Static folder.
   APP.use(EXPRESS.static(__dirname + "/public/"));
   // Handle SPA.
-  APP.get("/*", (request, response) => {
+  APP.get("/", (request, response) => {
     response.sendFile(__dirname + "/public/index.html");
   });
 }
