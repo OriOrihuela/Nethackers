@@ -111,6 +111,12 @@ export default {
       this.isUserLogged = boolean;
     });
 
+    // When the event "user-logout" is fired...
+    EventBus.$on("user-logout", (boolean) => {
+      // We tell to the header that user is logged in.
+      this.isUserLogged = boolean;
+    });
+
     // If localStorage has the credentials to use the vue router...
     if (
       this.$cookies.get(process.env.VUE_APP_ROUTER_STORAGE_KEY) ===
@@ -136,7 +142,7 @@ export default {
               if (response.data.status === "success") {
                 // Tell to the header that user is logged out.
                 this.isUserLogged = false;
-                // Remove the localStorage router key.
+                // Remove the front-end navigation cookie.
                 this.$cookies.remove(
                   `${process.env.VUE_APP_ROUTER_STORAGE_KEY}`
                 );

@@ -326,7 +326,6 @@ it("deletes an Offer from DB", async (done) => {
  * AUTH MIDDLEWARE CALLING TIMES
  */
 it("confirms the times that AUTH_MIDDLEWARE has benn called", async (done) => {
-
   expect(AUTH_MIDDLEWARE).toHaveBeenCalledTimes(3);
 
   done();

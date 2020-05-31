@@ -154,3 +154,12 @@ it("updates an existing user", async (done) => {
 
   done();
 });
+
+/**
+ * AUTH MIDDLEWARE CALLING TIMES
+ */
+it("confirms the times that AUTH_MIDDLEWARE has benn called", async (done) => {
+  expect(AUTH_MIDDLEWARE).toHaveBeenCalledTimes(1);
+
+  done();
+});

@@ -180,10 +180,6 @@ const CONTROLLER = {
 
   // Behaviour to delete an existent offer.
   deleteOffer: (request, response) => {
-    /**
-     * Update the document filtering by the "url" property of the model.
-     * Then, pass the object to be saved through "request.body".
-     */
     Offer.findOneAndDelete(
       { url: request.params.url, recruiter: request.user._conditions._id },
       (error, offerDeleted) => {

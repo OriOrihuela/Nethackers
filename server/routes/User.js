@@ -32,6 +32,7 @@ ROUTER.put("/edit-profile", AUTH_MIDDLEWARE, USER_CONTROLLER.updateUser);
 /**
  * DELETE routes.
  */
+ROUTER.delete("/edit-profile", AUTH_MIDDLEWARE, USER_CONTROLLER.deleteUser);
 
 // Here we export the module.
 module.exports = ROUTER;
