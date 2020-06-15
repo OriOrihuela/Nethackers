@@ -99,6 +99,7 @@ const CONTROLLER = {
 
   // Behaviour to authenticate an existent user of the DB.
   authUser: (request, response) => {
+    // Call the authenticate behaviour of Passport defined in "config" folder.
     PASSPORT.authenticate("local", (error, user) => {
       if (error) {
         return response.status(500).send({
@@ -111,6 +112,7 @@ const CONTROLLER = {
           message: `${request.flash("loginMessage")}`,
         });
       } else {
+        // Passport exposes a login() function on req that can be used to establish a login session.
         request.login(user, (error) => {
           response.status(200).send({
             status: "success",
@@ -126,7 +128,9 @@ const CONTROLLER = {
 
   // Behaviour to logout the user.
   logoutUser: (request, response) => {
+    // If the request has a session instance...
     if (request.session) {
+      // Call the destroy method to end it.
       request.session.destroy((error) => {
         if (error) {
           return response.status(500).send({
@@ -134,6 +138,7 @@ const CONTROLLER = {
             message: `${error}`,
           });
         } else {
+          // Remove the back-end cookie.
           response.clearCookie(`${process.env.KEY}`);
           return response.status(200).send({
             status: "success",

@@ -1,6 +1,6 @@
 <template>
   <div id="offers-list">
-    <!-- MAIN TITLE -->
+    <!-- OFFERS TITLE -->
     <div v-if="offers && offers.length >= 1">
       <h2 class="text-center">Lista de ofertas</h2>
       <mdb-row
@@ -33,7 +33,7 @@
       </mdb-row>
     </div>
     <div v-else-if="offers && offers.length < 1" class="text-center">
-      <!-- LOADING CONTENT -->
+      <!-- NO OFFERS TO SHOW -->
       <mdb-row>
         <mdb-col col="12 my-5">
           <h2>No hay ofertas que mostrar</h2>
@@ -57,27 +57,37 @@
 </template>
 
 <script>
+// Required imports.
 import { mdbBtn, mdbRow, mdbCol, mdbIcon } from "mdbvue";
 import { EventBus } from "../main";
 import axios from "axios";
 
 export default {
+  // Name of the component.
   name: "OffersList",
+
+  // Registered components within this one.
   components: {
     mdbBtn,
     mdbRow,
     mdbCol,
     mdbIcon,
   },
+
+  // Properties of this component.
   data() {
     return {
       offers: null,
     };
   },
+
   // Whenever the component is built...
   mounted() {
+    // Retrieve all offers from DB.
     axios.get("/api").then((response) => {
+      // If response's status is ok...
       if (response.data.status === "success") {
+        // Populate the component offers property.
         this.offers = response.data.offers;
       }
     });
@@ -88,6 +98,8 @@ export default {
       this.offers = offers;
     });
   },
+
+  // Custom methods of this component.
   methods: {
     // Redirect to the view of a single offer.
     getOfferInfo(url) {

@@ -2,7 +2,7 @@
 
 // Behaviour to verify if a user has logged in.
 module.exports = (request, response, next) => {
-  // Check if the user is authenticated or not.
+  // Check if the user is authenticated or not through Passport.
   if (request.isAuthenticated()) {
     return next();
   } else {

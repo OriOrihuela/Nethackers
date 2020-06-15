@@ -12,9 +12,14 @@ import ConfigPanel from "./components/ConfigPanel";
 import EditProfile from "./components/EditProfile";
 import ContactRecruiter from "./components/ContactRecruiter";
 import Candidates from "./components/Candidates";
+import PageNotFound from "./components/PageNotFound";
 
 Vue.use(Router);
 
+/**
+ * If the browser cannot get certain cookie with certain value, redirect to login.
+ * Else, proceed to access to that route.
+ */
 function isLoggedIn(to, from, next) {
   !(
     Vue.$cookies.get(process.env.VUE_APP_ROUTER_STORAGE_KEY) ===
@@ -79,8 +84,7 @@ export default new Router({
       component: ContactRecruiter,
     },
 
-    
     // Redirection performed whenever the user enters a wrong URL.
-    // { path: "*", component: ErrorComponent },
+    { path: "*", component: PageNotFound },
   ],
 });

@@ -10,7 +10,7 @@
       >
     </mdb-row>
     <hr />
-    <!-- INTERESTED FORM -->
+    <!-- INTERESTED PERSON FORM -->
     <mdb-row>
       <mdb-col col="12" class="mt-5">
         <form @submit.prevent="onSubmit" enctype="multipart/form-data">
@@ -77,7 +77,7 @@
             </p>
           </div>
           <mdb-row>
-            <!-- SUBMIT -->
+            <!-- SUBMIT BUTTON -->
             <mdb-col col="12" class="mt-5">
               <div class="text-center">
                 <mdb-btn outline="secondary" type="submit"
@@ -89,6 +89,7 @@
 </template>
 
 <script>
+// Required imports
 import {
   mdbContainer,
   mdbInput,
@@ -102,7 +103,10 @@ import axios from "axios";
 import swal from "sweetalert";
 
 export default {
+  // Name of the component.
   name: "ContactRecruiter",
+
+  // Registered components within this one.
   components: {
     mdbContainer,
     mdbRow,
@@ -112,6 +116,7 @@ export default {
     mdbInput,
   },
 
+  // Properties of this component.
   data() {
     return {
       interested: {
@@ -123,7 +128,9 @@ export default {
     };
   },
 
+  // Custom methods of this component.
   methods: {
+    // Whenever the user submits the form...
     onSubmit() {
       this.formSubmitted = true;
       // The validations have been touched...
@@ -137,19 +144,22 @@ export default {
         // Put the CV as a FormData JS Object.
         let FORM_DATA = new FormData();
         FORM_DATA.append("cv", this.interested.cv);
-        // Save the CV in the server.
+        // Save the CV in the server through AJAX request with axios.
         axios
           .post("/api/offers/contact/" + this.$route.params.url, FORM_DATA)
           .then((response) => {
             // If everything works fine...
             if (response.data.status === "success") {
+              // Update the name of the interested person CV (crypted).
               this.interested.cv = response.data.cv.filename;
+              // Update the array of candidates within the offer.
               axios
                 .put(
                   "/api/offers/contact/" + this.$route.params.url,
                   this.interested
                 )
                 .then((response) => {
+                  // If everything went fine...
                   if (response.data.status === "success") {
                     // Tell the user OK.
                     swal(
@@ -157,14 +167,15 @@ export default {
                       "¡Su CV ha sido enviado correctamente!",
                       "success"
                     );
+                    // Redirect to the main page.
                     this.$router.push("/");
                   }
                 });
             }
           })
           .catch((error) => {
+            // If there's any error...
             if (error.response.data.message === "Only PDF's are allowed.") {
-              // Tell the user ERROR.
               swal(
                 "Formato incompatible",
                 "Sólo se permiten archivos PDF",
@@ -183,10 +194,12 @@ export default {
 
     // Behaviour to be triggered whenever an user selects a file.
     selectFile() {
+      // Takes the file from the input file and assign it to the component property.
       this.interested.cv = this.$refs.cv.files[0];
     },
   },
 
+  // Form validations.
   validations: {
     interested: {
       name: { required },

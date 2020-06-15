@@ -8,6 +8,7 @@ const MONGOOSE = require("mongoose");
 
 // Database, model, controller and seed.
 const DATA_BASE_NAME = "nethackers-test";
+const Offer = require("../../models/Offer");
 const User = require("../../models/User");
 const SEED = require("./seed");
 const USER_CONTROLLER = require("../../controllers/User");
@@ -124,7 +125,7 @@ it("logouts the current user", async (done) => {
 });
 
 /**
- * POST ENDPOINT TESTS
+ * PUT ENDPOINT TESTS
  */
 it("updates an existing user", async (done) => {
   const USER_UPDATED = {
@@ -151,6 +152,30 @@ it("updates an existing user", async (done) => {
 
   expect(RESPONSE.status).toStrictEqual("success");
   expect(RESPONSE.updatedUser).toBeTruthy();
+
+  done();
+});
+
+/**
+ * DELETE ENDPOINT TESTS
+ */
+it("deletes an User from DB", async (done) => {
+  USER_CONTROLLER.deleteUser = jest.fn().mockImplementation(() => {
+    return new Promise(async (resolve, reject) => {
+      await Offer.deleteMany({
+        recruiter: "5ec3d61d8c66531a38136942",
+      });
+      resolve({
+        status: "success",
+        userDeleted: await User.deleteOne({ _id: "5ec3d61d8c66531a38136942" }),
+      });
+    });
+  });
+
+  const RESPONSE = await USER_CONTROLLER.deleteUser();
+
+  expect(RESPONSE.status).toStrictEqual("success");
+  expect(RESPONSE.userDeleted).toBeTruthy();
 
   done();
 });

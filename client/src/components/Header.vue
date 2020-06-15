@@ -14,7 +14,7 @@
               ><mdb-icon icon="home"
             /></mdb-nav-item>
           </mdb-tooltip>
-          <!-- HOME ICON -->
+          <!-- LOGIN ICON -->
           <mdb-tooltip
             trigger="hover"
             v-if="!isUserLogged"
@@ -25,7 +25,7 @@
               ><mdb-icon icon="user"
             /></mdb-nav-item>
           </mdb-tooltip>
-          <!-- CLOSE SESSION -->
+          <!-- CONFIG PANEL ICON -->
           <mdb-tooltip
             v-if="isUserLogged"
             trigger="hover"
@@ -36,6 +36,7 @@
               ><mdb-icon icon="hammer"
             /></mdb-nav-item>
           </mdb-tooltip>
+          <!-- CLOSE SESSION ICON -->
           <mdb-tooltip
             v-if="isUserLogged"
             trigger="hover"
@@ -68,6 +69,7 @@
 </template>
 
 <script>
+// Required imports
 import {
   mdbNavbar,
   mdbNavbarBrand,
@@ -83,7 +85,10 @@ import axios from "axios";
 import swal from "sweetalert";
 
 export default {
+  // Name of the component.
   name: "Header",
+
+  // Registered components within this one.
   components: {
     mdbNavbar,
     mdbNavbarBrand,
@@ -95,6 +100,7 @@ export default {
     mdbTooltip,
   },
 
+  // Properties of this component.
   data() {
     return {
       filter: {
@@ -104,6 +110,7 @@ export default {
     };
   },
 
+  // Whenever the component is built...
   mounted() {
     // When the event "user-logged" is fired...
     EventBus.$on("user-logged", (boolean) => {
@@ -117,7 +124,7 @@ export default {
       this.isUserLogged = boolean;
     });
 
-    // If localStorage has the credentials to use the vue router...
+    // If browser cookies has the credentials to use the vue router...
     if (
       this.$cookies.get(process.env.VUE_APP_ROUTER_STORAGE_KEY) ===
       process.env.VUE_APP_ROUTER_STORAGE_VALUE
@@ -127,18 +134,23 @@ export default {
     }
   },
 
+  // Custom methods of this component.
   methods: {
-    // Behaviours to log out the user.
+    // Behaviour to log out the user.
     onLogOut() {
+      // Alert the user about the next operation.
       swal({
         title: "¿Está seguro de querer cerrar sesión?",
         icon: "warning",
         buttons: true,
       }).then((logout) => {
+        // If user agrees to logout...
         if (logout) {
+          // Logout through AJAX request using axios.
           axios
             .post("/api/logout", { withCredentials: true })
             .then((response) => {
+              // If everything works fine...
               if (response.data.status === "success") {
                 // Tell to the header that user is logged out.
                 this.isUserLogged = false;
@@ -146,7 +158,7 @@ export default {
                 this.$cookies.remove(
                   `${process.env.VUE_APP_ROUTER_STORAGE_KEY}`
                 );
-                // Tell the user session is finished.
+                // Tell to the user that his session is finished.
                 swal(
                   "Sesión finalizada",
                   "¡Esperamos volver a verte pronto!",
@@ -162,14 +174,18 @@ export default {
 
     // Method to filter the offers by name.
     onSubmit() {
+      // Filter using the data retrieved from the navbar input text.
       axios
         .post("/api/filter", this.filter)
         .then((response) => {
+          // If everything is cool...
           if (response.data.status === "success") {
+            // Emit the filtered offers to OfferList.vue component.
             EventBus.$emit("filtered-offers", response.data.offers);
           }
         })
         .catch((error) => {
+          // If there's any error...
           if (error) {
             swal(
               "Error al filtrar",

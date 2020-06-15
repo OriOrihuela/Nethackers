@@ -10,7 +10,9 @@
               <a
                 class="fb-ic"
                 href="https://www.facebook.com/eduardo.orihuela.56"
-                ><i class="fab fa-facebook fa-lg white-text mr-md-5 mr-3 fa-2x">
+                ><i
+                  class="fab link fa-facebook fa-lg white-text mr-md-5 mr-3 fa-2x"
+                >
                 </i
               ></a>
               <!-- LINKEDIN -->
@@ -18,14 +20,14 @@
                 class="li-ic"
                 href="https://www.linkedin.com/in/eduardo-orihuela-verdugo-7616a7167/"
                 ><i
-                  class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"
+                  class="fab link fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"
                 >
                 </i
               ></a>
               <!-- INSTAGRAM -->
               <a class="ins-ic" href="https://www.instagram.com/oriorihuela/"
                 ><i
-                  class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"
+                  class="fab link fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"
                 >
                 </i
               ></a>
@@ -36,7 +38,9 @@
       <div class="footer-copyright text-center py-3">
         <mdb-container fluid>
           &copy; 2020 Copyright:
-          <a href="https://github.com/OriOrihuela"> OriOrihuela </a>
+          <a href="https://github.com/OriOrihuela" class="link">
+            OriOrihuela
+          </a>
         </mdb-container>
       </div>
     </mdb-footer>
@@ -61,6 +65,10 @@ export default {
   margin-top: 75px;
   .flex-center {
     justify-content: space-evenly;
+  }
+  .link:hover {
+    color: #b3bfc0 !important;
+    transition: color 0.2s linear;
   }
 }
 </style>

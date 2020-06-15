@@ -54,7 +54,7 @@
       ></mdb-row>
     </div>
     <div v-else-if="!offer" class="text-center">
-      <!-- LOADING CONTENT -->
+      <!-- NO OFFER -->
       <mdb-row>
         <mdb-col col="12 my-5">
           <h2>La oferta no existe</h2>
@@ -78,11 +78,15 @@
 </template>
 
 <script>
+// Required imports
 import { mdbContainer, mdbRow, mdbCol, mdbBtn, mdbIcon } from "mdbvue";
 import axios from "axios";
 
 export default {
+  // Name of the component.
   name: "Offer",
+
+  // Registered components within this one.
   components: {
     mdbContainer,
     mdbRow,
@@ -90,19 +94,27 @@ export default {
     mdbBtn,
     mdbIcon,
   },
+
+  // Properties of this component.
   data() {
     return {
       offer: null,
     };
   },
+
   // Whenever the component is built...
   mounted() {
+    // Retrieve an offer from DB using its url property.
     axios.get("/api/offers/" + this.$route.params.url).then((response) => {
+      // If everything worked fine...
       if (response.data.status === "success") {
+        // Get the offer from response and assign it to the component offer property.
         this.offer = response.data.offer;
       }
     });
   },
+
+  // Custom methods of this component.
   methods: {
     // Behaviour to redirect to the edit mode of an offer.
     contactRecruiter(url) {

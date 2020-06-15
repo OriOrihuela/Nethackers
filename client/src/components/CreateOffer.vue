@@ -10,7 +10,7 @@
       >
     </mdb-row>
     <hr />
-    <!-- OFFERS LIST -->
+    <!-- OFFERS FORM -->
     <mdb-row>
       <mdb-col col="12" class="mt-5">
         <form @submit.prevent="onSubmit">
@@ -127,7 +127,7 @@
               Seleccione al menos 3 habilidades requeridas para el puesto
             </p>
           </div>
-          <!-- SUBMIT -->
+          <!-- SUBMIT BUTTON -->
           <div class="text-center my-5">
             <mdb-btn outline="secondary" type="submit"
               >Crear oferta <mdb-icon far icon="paper-plane" class="ml-1"
@@ -138,6 +138,7 @@
 </template>
 
 <script>
+// Required imports
 import {
   mdbRow,
   mdbCol,
@@ -153,7 +154,10 @@ import axios from "axios";
 import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
+  // Name of the component.
   name: "CreateOffer",
+
+  // Registered components within this one.
   components: {
     mdbRow,
     mdbCol,
@@ -163,6 +167,8 @@ export default {
     mdbIcon,
     VueTrix,
   },
+
+  // Properties of this component.
   data() {
     return {
       skills: json.skills,
@@ -179,6 +185,8 @@ export default {
       formSubmitted: false,
     };
   },
+
+  // Custom methods of this component.
   methods: {
     // Whenever the form is submitted...
     onSubmit() {
@@ -195,7 +203,7 @@ export default {
         // Fails silently.
         return false;
       } else {
-        // Save the offer in DB.
+        // Save the offer in DB through AJAX request using axios.
         axios
           .post("/api/offers/new", this.offer, { withCredentials: true })
           .then((response) => {
@@ -207,17 +215,19 @@ export default {
                 "¡La oferta se ha creado correctamente!",
                 "success"
               );
-              // Redirect to offer page.
+              // Redirect to offer page first retrieving the offer using axios.
               axios
                 .get("/api/offers/" + response.data.offerStored.url)
                 .then((response) => {
+                  // If everything is fine...
                   if (response.data.status === "success") {
+                    // Redirect the user to the offer page passing the offer url as param.
                     this.$router.push(`/offers/${response.data.offer.url}`);
                   }
                 })
                 .catch((error) => {
+                  // If there's any error...
                   if (error) {
-                    // Tell the user ERROR.
                     swal(
                       "Redirección fallida",
                       "No ha sido posible dirigirle a su oferta",
@@ -228,8 +238,8 @@ export default {
             }
           })
           .catch((error) => {
+            // If there's any error...
             if (error) {
-              // Tell the user ERROR.
               swal(
                 "Creación fallida",
                 "La oferta no se ha guardado bien",
@@ -259,7 +269,10 @@ export default {
 
     // Whenever a skill is selected, the total of skills selected must be updated.
     updateSkills() {
-      // Make an array from the Set of selected skills and put it to the value of the input hidden with name "skills".
+      /**
+       * Make an array from the Set of selected skills and put it to the value
+       * of the input hidden with name "skills"
+       */
       this.offer.skills = [...this.selectedSkills];
     },
   },

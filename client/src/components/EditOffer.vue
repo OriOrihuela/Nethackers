@@ -11,7 +11,7 @@
         >
       </mdb-row>
       <hr />
-      <!-- OFFERS LIST -->
+      <!-- OFFER EDIT FORM -->
       <mdb-row>
         <mdb-col col="12" class="mt-5">
           <form @submit.prevent="onSubmit">
@@ -159,6 +159,7 @@
 </template>
 
 <script>
+// Required imports
 import {
   mdbRow,
   mdbCol,
@@ -174,7 +175,10 @@ import axios from "axios";
 import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
+  // Name of the component.
   name: "EditOffer",
+
+  // Registered components within this one.
   components: {
     mdbRow,
     mdbCol,
@@ -184,6 +188,8 @@ export default {
     mdbIcon,
     VueTrix,
   },
+
+  // Properties of this component.
   data() {
     return {
       offer: null,
@@ -194,13 +200,15 @@ export default {
   },
   // Whenever the component is built...
   mounted() {
+    // Retrieve an offer using its url property passed as params in Vue routing.
     axios.get("/api/offers/" + this.$route.params.url).then((response) => {
-        if (response.data.status === "success") {
-          // Populate the data.
-          this.offer = response.data.offer;
-        }
-      });
-
+      // If everything is fine...
+      if (response.data.status === "success") {
+        // Populate the component offer property.
+        this.offer = response.data.offer;
+      }
+    });
+    // Call markSkills() function.
     setTimeout(() => {
       this.markSkills();
     }, 500);
