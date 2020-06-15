@@ -10,7 +10,7 @@
       >
     </mdb-row>
     <hr />
-    <!-- USER FORM -->
+    <!-- USER EDIT PROFILE FORM -->
     <mdb-row v-if="user">
       <mdb-col col="12" class="mt-5">
         <form @submit.prevent="onSubmit">
@@ -84,14 +84,14 @@
             </p>
           </div>
           <mdb-row>
-            <!-- UPDATE PROFILE -->
+            <!-- SUBMIT BUTTON -->
             <mdb-col col="12" sm="6" class="mt-5">
               <div class="text-center">
                 <mdb-btn outline="secondary" type="submit"
                   >Actualizar <mdb-icon icon="paper-plane" class="ml-1"
                 /></mdb-btn></div
             ></mdb-col>
-            <!-- DELETE PROFILE -->
+            <!-- DELETE PROFILE BUTTON -->
             <mdb-col col="12" sm="6" class="mt-5">
               <div class="text-center">
                 <mdb-btn outline="danger" type="button" @click="onDelete"
@@ -117,6 +117,7 @@
 </template>
 
 <script>
+// Required imports
 import {
   mdbRow,
   mdbCol,
@@ -131,7 +132,10 @@ import swal from "sweetalert";
 import { EventBus } from "../main";
 
 export default {
+  // Name of the component.
   name: "EditProfile",
+
+  // Registered components within this one.
   components: {
     mdbRow,
     mdbCol,
@@ -141,6 +145,7 @@ export default {
     mdbInput,
   },
 
+  // Properties of this component.
   data() {
     return {
       user: null,
@@ -150,6 +155,7 @@ export default {
     };
   },
 
+  // Custom methods of this component.
   methods: {
     // Whenever the user submits the form...
     onSubmit() {
@@ -162,7 +168,7 @@ export default {
         // Fails silently.
         return false;
       } else {
-        // Update the user in DB.
+        // Update the user in DB through AJAX request using axios.
         axios
           .put("/api/edit-profile", this.user, { withCredentials: true })
           .then((response) => {
@@ -179,6 +185,7 @@ export default {
             }
           })
           .catch((error) => {
+            // If there's any error...
             if (error) {
               swal(
                 "Actualización fallida",
@@ -231,8 +238,8 @@ export default {
                     }
                   })
                   .catch((error) => {
+                    // If there's any error...
                     if (error) {
-                      // Alert the user that something was wrong.
                       swal(
                         "Cuenta no borrada",
                         "Su cuenta no se ha borrado correctamente",
@@ -247,11 +254,15 @@ export default {
     },
   },
 
+  // Whenever the component is built...
   mounted() {
+    // Retrieve the current user data from DB using axios.
     axios
       .get("/api/edit-profile", { withCredentials: true })
       .then((response) => {
+        // If everything works fine...
         if (response.data.status === "success") {
+          // Populate the component user property.
           this.user = response.data.user;
         }
       });

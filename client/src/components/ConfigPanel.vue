@@ -11,14 +11,14 @@
     </mdb-row>
     <hr />
     <mdb-row>
-      <!-- EDIT PROFILE -->
+      <!-- EDIT PROFILE BUTTON -->
       <mdb-col col="12" sm="6" class="my-5">
         <div class="text-center">
           <mdb-btn outline="primary" type="button" @click="toEditProfile"
             >Editar perfil <mdb-icon icon="user-alt" class="ml-1"
           /></mdb-btn></div
       ></mdb-col>
-      <!-- CREATE NEW OFFER -->
+      <!-- CREATE NEW OFFER BUTTON -->
       <mdb-col col="12" sm="6" class="my-5">
         <div class="text-center">
           <mdb-btn outline="secondary" type="button" @click="toCreateOffer"
@@ -26,6 +26,7 @@
           /></mdb-btn></div></mdb-col
     ></mdb-row>
     <hr />
+    <!-- EACH OFFER MADE BY THE RECRUITER ITSELF -->
     <div v-if="offers && offers.length >= 1">
       <h2 class="my-5 text-center">Tus ofertas</h2>
       <mdb-row
@@ -53,7 +54,7 @@
           <p class="tag">Contrato</p>
           <p class="name">{{ offer.contract }}</p>
         </mdb-col>
-        <!-- OFFER MENU -->
+        <!-- OFFER MENU BUTTONS -->
         <mdb-col class="mt-3" col="12" sm="3"
           ><mdb-row>
             <mdb-col class="mt-2" col="12">
@@ -75,7 +76,7 @@
       </mdb-row>
     </div>
     <div v-else-if="offers && offers.length < 1" class="text-center">
-      <!-- LOADING CONTENT -->
+      <!-- NO OFFERS -->
       <mdb-row>
         <mdb-col col="12 my-5">
           <h2>No hay ofertas que mostrar</h2>
@@ -99,12 +100,16 @@
 </template>
 
 <script>
+// Required imports.
 import { mdbRow, mdbCol, mdbContainer, mdbBtn, mdbIcon } from "mdbvue";
 import axios from "axios";
 import swal from "sweetalert";
 
 export default {
+  // Name of the component.
   name: "ConfigPanel",
+
+  // Registered components within this one.
   components: {
     mdbRow,
     mdbCol,
@@ -112,11 +117,15 @@ export default {
     mdbBtn,
     mdbIcon,
   },
+
+  // Properties of this component.
   data() {
     return {
       offers: null,
     };
   },
+
+  // Custom methods of this component.
   methods: {
     // Redirect the user to create offer page.
     toCreateOffer() {
@@ -138,8 +147,9 @@ export default {
       this.$router.push(`/candidates/${url}`);
     },
 
-    // Remove the offer.
+    // Remove the offer made by the recruiter itself.
     removeOffer(url) {
+      // Alert the user about the next operation.
       swal({
         title: "¿Está seguro de querer borrar la oferta?",
         text: "Una vez borrada, será irrecuperable",
@@ -148,13 +158,16 @@ export default {
         dangerMode: true,
       })
         .then((willDelete) => {
+          // If user accepts to delete the offer...
           if (willDelete) {
+            // Make an AJAX request using axios and pass the url of the current offer.
             axios.delete("/api/offers/delete/" + url).then((response) => {
+              // If everything went fine...
               if (response.data.status === "success") {
                 // Tell the user the offer has been deleted.
                 swal(
                   "Oferta borrada",
-                  "La oferta se ha borrado correctamente",
+                  "La oferta se ha borrado correctamente. Redirigiendo...",
                   "success",
                   { button: false }
                 );
@@ -167,6 +180,7 @@ export default {
           }
         })
         .catch((error) => {
+          // If there's any error...
           if (error) {
             swal(
               "Oferta no borrada",
@@ -178,14 +192,18 @@ export default {
     },
   },
   mounted() {
+    // Make an AJAX request using axios to retrieve all the offer of the current recruiter.
     axios
       .get("/api/config-panel", { withCredentials: true })
       .then((response) => {
+        // If everything went fine...
         if (response.data.status === "success") {
+          // Populate the offers.
           this.offers = response.data.offers;
         }
       })
       .catch((error) => {
+        // If there's any error...
         if (error) {
           swal("Error", "No hay ofertas creadas por ti", "error");
         }

@@ -65,7 +65,7 @@
               Las contraseñas no coinciden
             </p>
           </div>
-          <mdb-row>
+          <mdb-row class="mb-4">
             <!-- TO CREATE ACCOUNT -->
             <mdb-col col="12" sm="6" class="mt-5">
               <div class="text-center">
@@ -74,7 +74,7 @@
                 /></mdb-btn></div
             ></mdb-col>
             <!-- SUBMIT -->
-            <mdb-col col="12" sm="6" class="mt-5">
+            <mdb-col col="12" sm="6" class="my-5">
               <div class="text-center">
                 <mdb-btn outline="secondary" type="submit"
                   >Iniciar sesión <mdb-icon icon="sign-in-alt" class="ml-1"
@@ -138,7 +138,7 @@ export default {
                 `¡Bienvenido a Nethackers, ${this.user.username}!`,
                 "success"
               );
-              // Set the auth for the front-end router.
+              // Set the auth cookie for the front-end router.
               this.$cookies.set(
                 `${response.data.cookie.key}`,
                 `${response.data.cookie.value}`,
@@ -150,6 +150,7 @@ export default {
               this.$router.push("/");
             }
           })
+          // Alert some messages to the user depending of the error type.
           .catch((error) => {
             if (error.response.data.message === "Incorrect username") {
               swal(

@@ -2,7 +2,7 @@
   ><mdb-container id="candidates">
     <div class="text-center">
       <mdb-row class="my-5">
-        <!-- INFO -->
+        <!-- DARTH VADER IMAGE -->
         <mdb-col col="12">
           <img
             class="img-fluid"
@@ -12,11 +12,13 @@
         </mdb-col>
       </mdb-row>
       <hr />
+      <!-- RANDOM INFO -->
       <mdb-row class="my-5">
         <mdb-col col="12"
           ><h1 class="my-4">¡Woops!</h1>
           <h3>
-            No moleste a Lord Vader. Por su seguridad, vuelva a la página de inicio.
+            No moleste a Lord Vader. Por su seguridad, vuelva a la página de
+            inicio.
           </h3></mdb-col
         >
       </mdb-row>
@@ -25,10 +27,14 @@
 </template>
 
 <script>
+// Required imports.
 import { mdbContainer, mdbRow, mdbCol } from "mdbvue";
 
 export default {
+  // Name of the component.
   name: "PageNotFound",
+
+  // Registered components within this one.
   components: {
     mdbContainer,
     mdbRow,

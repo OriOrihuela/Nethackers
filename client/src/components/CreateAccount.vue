@@ -10,7 +10,7 @@
       >
     </mdb-row>
     <hr />
-    <!-- USER FORM -->
+    <!-- NEW USER FORM -->
     <mdb-row>
       <mdb-col col="12" class="mt-5">
         <form @submit.prevent="onSubmit">
@@ -84,14 +84,14 @@
             </p>
           </div>
           <mdb-row>
-            <!-- TO LOGIN -->
+            <!-- REDIRECT TO LOGIN -->
             <mdb-col col="12" sm="6" class="mt-5">
               <div class="text-center">
                 <mdb-btn outline="primary" type="button" @click="toLogin"
                   >Iniciar sesión <mdb-icon icon="sign-in-alt" class="ml-1"
                 /></mdb-btn></div
             ></mdb-col>
-            <!-- SUBMIT -->
+            <!-- SUBMIT BUTTON -->
             <mdb-col col="12" sm="6" class="mt-5">
               <div class="text-center">
                 <mdb-btn outline="secondary" type="submit"
@@ -103,6 +103,7 @@
 </template>
 
 <script>
+// Required imports
 import {
   mdbRow,
   mdbCol,
@@ -116,7 +117,10 @@ import axios from "axios";
 import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
 
 export default {
+  // Name of the component.
   name: "CreateAccount",
+
+  // Registered components within this one.
   components: {
     mdbRow,
     mdbCol,
@@ -125,6 +129,8 @@ export default {
     mdbBtn,
     mdbIcon,
   },
+
+  // Properties of this component.
   data() {
     return {
       user: {
@@ -136,6 +142,8 @@ export default {
       formSubmitted: false,
     };
   },
+
+  // Custom methods of this component.
   methods: {
     // Whenever the form is submitted.
     onSubmit() {
@@ -144,15 +152,11 @@ export default {
       this.$v.$touch();
       // If the form is invalid...
       if (this.$v.$invalid) {
-        swal(
-          "Woops!",
-          "Introduzca correctamente sus credenciales",
-          "warning"
-        );
+        swal("Woops!", "Introduzca correctamente sus credenciales", "warning");
         // Fails silently.
         return false;
       } else {
-        // Save the user in DB.
+        // Save the user in DB through AJAX request using axios.
         axios
           .post("/api/create-account", this.user)
           .then((response) => {
@@ -169,6 +173,7 @@ export default {
             }
           })
           .catch((error) => {
+            // If there's any error...
             if (error.request.status === 422) {
               swal(
                 "Datos ya existentes",
@@ -191,6 +196,8 @@ export default {
       this.$router.push("/login");
     },
   },
+
+  // Form validations
   validations: {
     user: {
       username: { required },

@@ -39,6 +39,7 @@ USER_SCHEMA.pre("save", function (next) {
 
 // Auth users.
 USER_SCHEMA.methods = {
+  // Method to compare the password passed by parameter with the real one.
   verifyPassword: function (password) {
     return BCRYPT.compareSync(password, this.password);
   },

@@ -3,7 +3,7 @@
 // Import of the Offer model.
 const Offer = require("../models/Offer");
 
-// Import the multer cv middleware to upload pdf's.
+// Import the multer cv middleware to upload PDF's.
 const UPLOAD = require("../config/multer");
 const FS = require("fs");
 
@@ -38,6 +38,7 @@ const CONTROLLER = {
 
   // Behaviour to retrieve all the offers filtered by the Header.vue form.
   getFilteredOffers: (request, response) => {
+    // Filter the offers through the value given by the request.
     Offer.find(
       {
         $text: {
@@ -200,7 +201,11 @@ const CONTROLLER = {
     );
   },
 
+  // Behaviour to retrieve a single PDF file from the specified folder.
   getCV: (request, response) => {
+    // The fs.readFile() function buffers the entire file through the callback.
+    // The raw buffer is raw binary data. Buffers act somewhat like arrays of integers, 
+    // but aren't resizable and have a whole bunch of methods specifically for binary data
     FS.readFile("server/uploads/cv/" + request.params.cv, (error, cv) => {
       if (error) {
         return response.status(500).send({
@@ -221,7 +226,9 @@ const CONTROLLER = {
     });
   },
 
+  // Behaviour to save a specified PDF file.
   uploadCV: (request, response) => {
+    // Call the Multer upload function imported in the controller.
     UPLOAD(request, response, (error) => {
       if (error) {
         if (error.code === "LIMIT_FILE_SIZE") {
@@ -252,23 +259,24 @@ const CONTROLLER = {
 
   // Behaviour to save the candidate info in the offer.
   saveOfferCandidate: async (request, response, next) => {
+    // Wait for the model to retrieve a document with the desired url property.
     let offer = await Offer.findOne({ url: request.params.url });
-
+    // If there's no document (null)...
     if (!offer) {
       return response.status(404).send({
         status: "error",
         message: "There's no offer with that url in DB.",
       });
     }
-
+    // Create a new candidate JS object.
     const newApplicant = {
       name: request.body.name,
       email: request.body.email,
       cv: request.body.cv,
     };
-
+    // Push it to the candidates array of the offer. 
     offer.candidates.push(newApplicant);
-
+    // If the offer is saved...
     if (await offer.save()) {
       return response.status(200).send({
         status: "success",
