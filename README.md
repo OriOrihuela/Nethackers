@@ -6,15 +6,36 @@ The final project at the end of DUAL Web Applications Development course.
 
 ## Índice
 
-1. [Arquitectura de la aplicación](#id1)
+1. [Historias de usuario](#id-user)
 
-   1.1. [Tecnologías usadas](#id1-1)
+2. [Arquitectura de la aplicación](#id1)
 
-2. [Diagrama de componentes](#id2)
+   2.1. [Tecnologías usadas](#id1-1)
 
-3. [Diagramas de Gantt](#id3)
+3. [Diagrama de componentes](#id2)
 
-4. [Clockify](#id4)
+4. [Diagramas de Gantt](#id3)
+
+5. [Clockify](#id4)
+
+6. [Presupuesto](#id5)
+
+<div id='id-user' />
+
+## Historias de usuario
+
+- Como usuario, quiero poder aplicar a una vacante de empleo sin la necesidad de tener que registrarme en Nethackers.
+
+- Como usuario, quiero poder visualizar el listado de todas las vacantes actuales dentro de la web de Nethackers.
+
+- Como usuario reclutador, quiero poder registrarme en Nethackers y postular nuevas vacantes de empleo.
+
+- Como usuario reclutador, quiero poder editar o eliminar las posibles vacantes que yo haya publicado.
+
+- Como usuario reclutador, quiero poder visualizar el total de aplicantes a una vacante de empleo postulada por mí, junto con los detalles de cada aplicante por separado.
+
+- Como usuario reclutador, me interesa poder disponer de un panel de administración sobre mi perfil en Nethackers para introducir datos personales relevantes.
+
 
 <div id='id1' />
 
@@ -84,7 +105,6 @@ A continuación, se explica cada una de las diferentes capas y sus componentes c
 1. _Vue.js_:
    - Fácil de usar teniendo conocimientos previos en HTML, CSS y Javascript.
    - Alto rendimiento:
-      - DOM virtual increíblemente rápido.
       - Esfuerzos mínimos de optimización y/o configuración.
 
 2. _Material Design for Bootstrap - Vue_: 
@@ -156,6 +176,31 @@ A continuación, se explica cada una de las diferentes capas y sus componentes c
 
 ## Clockify
 
-Véase el apartado `./docs/clockify/`
+Véase el apartado `./docs/clockify/clockify_15-06-2020.pdf`
+
+[_Volver al índice_](#indice)
+
+<div id='id5' />
+
+## Presupuesto
+
+Teniendo en cuenta los siguientes datos, el coste total del desarrollo de Nethackers sería de **2.200,2€**:
+
+- Total de horas imputadas: `98:34:09`
+
+- Total de horas facturables: `73:34:09`
+
+- Coste de desarrollo por hora: `30€/h`
+
+En el caso de que el desarrollo de la aplicación continuase y se quisieran expandir sus funcionalidades, convendría adquirir unos mejores servicios tanto en **MongoDB Atlas** como en **Heroku**. Para ello, considero que:
+
+1. En el caso de obtener mejores clusters en MongoDB Atlas:
+   - Clusters dedicados (_recomendados_) por `57$/mes`.
+     - Para equipos profesionales y de ámbito nacional.
+   - Clusters multi-región por `95$/mes`.
+     - Para desarrollar aplicaciones internacionalmente accesibles.
+
+2. En el caso de obtener mejores dynos en Heroku:
+   - Cabría ir directamente a las opciones *Standard* o *Performance*, las cuales varían en el precio (_`25$-500$` por dyno/mes_)
 
 [_Volver al índice_](#indice)
