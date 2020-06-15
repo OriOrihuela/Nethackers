@@ -154,7 +154,7 @@ A continuación, se explica cada una de las diferentes capas y sus componentes c
 
 ## Diagrama de componentes
 
-![DiagramaDeComponentes](./docs/images/diagramaDeComponentes.png)
+![DiagramaDeComponentes](./docs/images/diagramaDeComponentes.jpg)
 
 [_Volver al índice_](#indice)
 
